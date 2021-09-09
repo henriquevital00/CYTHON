@@ -1,5 +1,5 @@
 from Symbols.Symbol import Symbol
-from Symbols.SymbolsTable.Exceptions.SymbolNotFound import SymbolNotFoundException
+from Symbols.SymbolsTable.Exceptions.SymbolNotFound import SymbolNotFoundException, SymbolAlreadyDeclared
 
 class SymbolsTable:
 
@@ -15,8 +15,14 @@ class SymbolsTable:
             :param symbol: symbol to be stored
             :return:
         """
-        self._storedSymbols[symbol.Name] = symbol
+        try:
+            if symbol.Name not in self._storedSymbols.keys():
+                self._storedSymbols[symbol.Name] = symbol
+            else:
+                raise SymbolAlreadyDeclared(symbol)
 
+        except SymbolAlreadyDeclared as ex:
+            print(ex.message)
 
     def FindSymbolByKey(self, key: str) -> Symbol:
         """
@@ -43,9 +49,7 @@ class SymbolsTable:
 
             :return:
         """
-        for key in self._storedSymbols.keys():
-
-            symbol = self._storedSymbols[key]
+        for symbol in self._storedSymbols.values():
 
             print(symbol, end='  :  ')
             print(symbol.ToString())

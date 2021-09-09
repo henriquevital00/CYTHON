@@ -21,6 +21,9 @@ class SymbolTableInitalTest:
         print("Added Symbols:")
         self._symbolsTable.FindAllSymbols()
 
+        print()
+        self._symbolsTable.StoreSymbol(symbol)
+
 
     def shouldTableFindSymbol(self, key):
 
