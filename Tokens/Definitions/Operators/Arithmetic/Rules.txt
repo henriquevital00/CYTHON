@@ -1,0 +1,10 @@
+#                ARITHMETICAL OPERATIONS TOKENS
+# =============================================================
+#   TOKEN           REGEX               MEANING
+# =============================================================
+#    PLUS             +             PLUS OPERATION
+#   MINUS             -             LESS OPERATION
+#   DIVISION          /             DIVISION OPERATION
+#   MULTIPLY          *             MULTIPLY OPERATION
+#
+#  REGEX  ^+|-|/|*^

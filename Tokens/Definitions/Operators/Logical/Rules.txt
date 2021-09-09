@@ -1,0 +1,9 @@
+#                LOGICAL OPERATORS TOKENS
+# =============================================================
+#   TOKEN            REGEX                  MEANING
+# =============================================================
+#    AND               &              AND logical operator
+#    OR                |              OR  logical operator
+#
+#  TOKEN TYPE: OPERATOR
+#  REGEX  &|\|

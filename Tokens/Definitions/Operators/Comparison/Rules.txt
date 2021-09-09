@@ -1,0 +1,13 @@
+#                COMPARISON OPERATORS TOKENS
+# ========================================================================
+#      TOKEN             REGEX                MEANING
+# ========================================================================
+#     GREATER              >          GREATER THAN comparison operator
+#      LESS                <          LESS THAN comparison operator
+#     EQUALS               ==         EQUALS TO comparison operador
+#  GREATER_EQUALS          >=         GREATER OR EQUALS TO operator
+#   LESS_EQUALS            <=         LESS OR EQUALS TO operator
+#
+#
+#  TOKEN TYPE: OPERATOR
+#  REGEX  >|<|>=|<=|==

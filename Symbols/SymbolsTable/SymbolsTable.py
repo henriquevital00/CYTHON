@@ -1,5 +1,6 @@
 from Symbols.Symbol import Symbol
-from Symbols.SymbolsTable.Exceptions.SymbolNotFound import SymbolNotFoundException, SymbolAlreadyDeclared
+from Symbols.SymbolsTable.Exceptions.SymbolAlreadyDeclared import SymbolAlreadyDeclared
+from Symbols.SymbolsTable.Exceptions.SymbolNotFound import SymbolNotFoundException
 
 class SymbolsTable:
 
@@ -16,7 +17,7 @@ class SymbolsTable:
             :return:
         """
         try:
-            if symbol.Name not in self._storedSymbols.keys():
+            if self._storedSymbols.get(symbol.Name) is not None:
                 self._storedSymbols[symbol.Name] = symbol
             else:
                 raise SymbolAlreadyDeclared(symbol)
@@ -33,7 +34,7 @@ class SymbolsTable:
         """
         try:
 
-            if key not in self._storedSymbols.keys():
+            if self._storedSymbols.get(key) is None:
                 raise SymbolNotFoundException(key)
 
             symbol = self._storedSymbols[key]

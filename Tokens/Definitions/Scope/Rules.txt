@@ -1,0 +1,9 @@
+#                       SCOPE TOKENS
+# =================================================================
+#   TOKEN            REGEX                      MEANING
+# =================================================================
+#    GLOBAL      (NOT DEFINED YET)     GLOBALLY STORED SYMBOL TOKEN
+#    LOCAL       (NOT DEFINED YET)     LOCALLY STORES SYMBOL TOKEN
+#
+#  TOKEN TYPE: SCOPE
+#  REGEX  (NOT DEFINED YET)
