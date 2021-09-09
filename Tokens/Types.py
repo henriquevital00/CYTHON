@@ -23,3 +23,4 @@ class TokenTypes(Enum):
     DELIMITER = 3
     ESCAPE_CHARACTER = 4
     LITERALS_TYPES = 5
+    SCOPE = 6
