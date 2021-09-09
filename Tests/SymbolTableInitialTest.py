@@ -1,6 +1,7 @@
 from core import core
 from Symbols.Symbol import Symbol
 from Tokens.Variables.VarTypes import VariableTypesTokens
+from Tokens.Scope.Scope import ScopeTokens
 
 class SymbolTableInitalTest:
 
@@ -11,8 +12,8 @@ class SymbolTableInitalTest:
 
     def addSymbolsToTableTest(self):
 
-        symbol = Symbol("number1", VariableTypesTokens.NUMBER.value)
-        symbol2 = Symbol("string1", VariableTypesTokens.STRING.value)
+        symbol = Symbol("number1", VariableTypesTokens.NUMBER.value, ScopeTokens.LOCAL.value)
+        symbol2 = Symbol("string1", VariableTypesTokens.STRING.value, ScopeTokens.LOCAL.value)
 
         self._symbolsTable.StoreSymbol(symbol)
         self._symbolsTable.StoreSymbol(symbol2)
