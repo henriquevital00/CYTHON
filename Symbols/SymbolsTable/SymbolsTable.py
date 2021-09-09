@@ -17,7 +17,7 @@ class SymbolsTable:
             :return:
         """
         try:
-            if self._storedSymbols.get(symbol.Name) is not None:
+            if self._storedSymbols.get(symbol.Name) is None:
                 self._storedSymbols[symbol.Name] = symbol
             else:
                 raise SymbolAlreadyDeclared(symbol)
