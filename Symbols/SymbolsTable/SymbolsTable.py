@@ -26,7 +26,7 @@ class SymbolsTable:
 
     def FindSymbolByKey(self, key: str) -> Symbol:
         """
-            Find key according a provided key
+            Find symbol according a provided key
 
             :param key: provided symbol key
             :return: found symbol key
