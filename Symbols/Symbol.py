@@ -1,6 +1,5 @@
 from Tokens import Token
 
-
 class Symbol:
 
     name: str
@@ -22,5 +21,5 @@ class Symbol:
         """
         return hex(id(symbol))
 
-    def ToString(self) -> str:
+    def toString(self) -> str:
         return f"[{self.scope}] <{self.type}: {self.name}> at {self.address}"

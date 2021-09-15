@@ -53,4 +53,4 @@ class SymbolsTable:
         for symbol in self._storedSymbols.values():
 
             print(symbol, end='  :  ')
-            print(symbol.ToString())
+            print(symbol.toString())
