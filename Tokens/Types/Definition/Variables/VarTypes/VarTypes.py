@@ -1,6 +1,4 @@
-from enum import Enum
-
-class VariableTypesTokens(Enum):
+class VariableTypesTokens:
 
     NUMBER = 'NUMBER'
     STRING = 'STRING'
