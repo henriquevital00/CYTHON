@@ -5,10 +5,10 @@ from Tokens.Types.Definition.Operators.Logical.Logical import LogicalOperatorsTo
 
 class OperatorsTokens:
 
-    ARITHMETIC = ArithmeticOperationsTokens
+    Arithmetic = ArithmeticOperationsTokens
 
-    ASSIGNMENT = AssignmentOperatorsTokens
+    Assignment = AssignmentOperatorsTokens
 
-    COMPARISON = ComparisonOperatorsTokens
+    Comparison = ComparisonOperatorsTokens
 
-    LOGICAL = LogicalOperatorsTokens
+    Logical = LogicalOperatorsTokens
