@@ -3,6 +3,6 @@ from Tokens.Types.Definition.Statements.Loops.Loops import LoopTokens
 
 class StatementsTokens:
 
-    CONDITIONALS = ConditionalsTokens
+    Conditional = ConditionalsTokens
 
-    LOOP = LoopTokens
+    Loop = LoopTokens
