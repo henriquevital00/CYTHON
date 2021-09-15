@@ -1,9 +1,8 @@
 from core import core
-import pytest
 from Tokens.Token import Token
 from Utils.Constants.Scope import ScopeConstants
 from Symbols.Symbol import Symbol
-from Tokens.GeneralTypes.TokenTypes import TokenTypes
+from Tokens.Types.General.TokenTypes import TokenTypes
 
 class SymbolTableInitalTest:
 
@@ -14,8 +13,8 @@ class SymbolTableInitalTest:
 
     def addSymbolsToTableTest(self):
 
-        symbol = Symbol(Token(TokenTypes.VARIABLES.IDENTIFIER, "number1"), ScopeConstants.LOCAL)
-        symbol2 = Symbol(Token(TokenTypes.VARIABLES.IDENTIFIER, "string1"), ScopeConstants.LOCAL)
+        symbol = Symbol(Token(TokenTypes.Variables.IDENTIFIER, "number1"), ScopeConstants.LOCAL)
+        symbol2 = Symbol(Token(TokenTypes.Variables.IDENTIFIER, "string1"), ScopeConstants.LOCAL)
 
         self._symbolsTable.storeSymbol(symbol)
         self._symbolsTable.storeSymbol(symbol2)
