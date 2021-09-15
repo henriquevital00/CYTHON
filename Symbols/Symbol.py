@@ -1,18 +1,18 @@
-from enum import Enum
-from Tokens.Token import Token
+from Tokens import Token
+
 
 class Symbol:
 
-    Name: str
-    Type: Token
-    Scope: Token
+    name: str
+    type: str
+    scope: str
     instance: "Symbol"
 
-    def __init__(self, name, type: Enum, scope: Enum):
-        self.Name = name
-        self.Type = type.value
-        self.Scope = scope.value
-        self.Address = self.getSymbolAddress(self)
+    def __init__(self, token: Token, scope: str) -> None:
+        self.name = token.value
+        self.type = token.type
+        self.scope = scope
+        self.address = self.getSymbolAddress(self)
 
     def getSymbolAddress(self, symbol: "Symbol") -> str:
         """
@@ -22,5 +22,5 @@ class Symbol:
         """
         return hex(id(symbol))
 
-    def ToString(self):
-        return f"[{self.Scope.Name}] <{self.Type.Name}: {self.Name}> at {self.Address}"
+    def ToString(self) -> str:
+        return f"[{self.scope}] <{self.type}: {self.name}> at {self.address}"

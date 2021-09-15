@@ -1,10 +1,11 @@
 from enum import Enum
+from typing import Any
 
 class Token:
 
-    Name: str
-    Type: str
+    type: str
+    value: Any
 
-    def __init__(self, name, type: Enum):
-        self.Name = name
-        self.Type = type.value
+    def __init__(self, type: str, value: Any):
+        self.type = type
+        self.value = value

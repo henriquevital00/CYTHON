@@ -9,7 +9,7 @@ class SymbolsTable:
     def __init__(self):
         pass
 
-    def StoreSymbol(self, symbol: Symbol) -> None:
+    def storeSymbol(self, symbol: Symbol) -> None:
         """
             Store a provided symbol in the table
 
@@ -17,15 +17,15 @@ class SymbolsTable:
             :return:
         """
         try:
-            if self._storedSymbols.get(symbol.Name) is None:
-                self._storedSymbols[symbol.Name] = symbol
+            if self._storedSymbols.get(symbol.name) is None:
+                self._storedSymbols[symbol.name] = symbol
             else:
                 raise SymbolAlreadyDeclared(symbol)
 
         except SymbolAlreadyDeclared as ex:
             print(ex.message)
 
-    def FindSymbolByKey(self, key: str) -> Symbol:
+    def findSymbolByKey(self, key: str) -> Symbol:
         """
             Find symbol according a provided key
 
@@ -44,7 +44,7 @@ class SymbolsTable:
             print(ex.message)
 
 
-    def FindAllSymbols(self):
+    def findAllSymbols(self):
         """
             Find and print all table stored symbols
 

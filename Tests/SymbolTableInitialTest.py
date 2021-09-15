@@ -1,7 +1,9 @@
 from core import core
+import pytest
+from Tokens.Token import Token
+from Utils.Constants.Scope import ScopeConstants
 from Symbols.Symbol import Symbol
-from Tokens.Definitions.Variables.VarTypes.VarTypes import VariableTypesTokens
-from Tokens.Definitions.Scope.Scope import ScopeTokens
+from Tokens.GeneralTypes.TokenTypes import TokenTypes
 
 class SymbolTableInitalTest:
 
@@ -12,21 +14,21 @@ class SymbolTableInitalTest:
 
     def addSymbolsToTableTest(self):
 
-        symbol = Symbol("number1", VariableTypesTokens.NUMBER, ScopeTokens.LOCAL)
-        symbol2 = Symbol("string1", VariableTypesTokens.STRING, ScopeTokens.LOCAL)
+        symbol = Symbol(Token(TokenTypes.VARIABLES.IDENTIFIER, "number1"), ScopeConstants.LOCAL)
+        symbol2 = Symbol(Token(TokenTypes.VARIABLES.IDENTIFIER, "string1"), ScopeConstants.LOCAL)
 
-        self._symbolsTable.StoreSymbol(symbol)
-        self._symbolsTable.StoreSymbol(symbol2)
+        self._symbolsTable.storeSymbol(symbol)
+        self._symbolsTable.storeSymbol(symbol2)
 
         print("Added Symbols:")
-        self._symbolsTable.FindAllSymbols()
+        self._symbolsTable.findAllSymbols()
 
         print()
-        self._symbolsTable.StoreSymbol(symbol)
+        self._symbolsTable.storeSymbol(symbol)
 
 
     def shouldTableFindSymbol(self, key):
 
-        symbol = self._symbolsTable.FindSymbolByKey(key)
+        symbol = self._symbolsTable.findSymbolByKey(key)
 
 test = SymbolTableInitalTest()
