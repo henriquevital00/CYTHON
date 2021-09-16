@@ -1,9 +1,9 @@
-from Tokens.Types.Definition.Delimiters.Delimiters import DelimitersTokens
-from Tokens.Types.Definition.Escape.Escape import EscapeCharsTokens
-from Tokens.Types.Definition.Literals.Literals import LiteralsTokens
-from Tokens.Types.Definition.Operators.Operators import OperatorsTokens
-from Tokens.Types.Definition.Statements.Statements import StatementsTokens
-from Tokens.Types.Definition.Variables.Variables import VariablesTokens
+from Tokens.Types.Definitions.Delimiters.Delimiters import DelimitersTokens
+from Tokens.Types.Definitions.Escape.Escape import EscapeCharsTokens
+from Tokens.Types.Definitions.Literals.Literals import LiteralsTokens
+from Tokens.Types.Definitions.Operators.Operators import OperatorsTokens
+from Tokens.Types.Definitions.Statements.Statements import StatementsTokens
+from Tokens.Types.Definitions.Variables.Variables import VariablesTokens
 
 class TokenTypes:
 

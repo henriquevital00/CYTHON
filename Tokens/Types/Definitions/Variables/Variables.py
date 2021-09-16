@@ -1,4 +1,4 @@
-from Tokens.Types.Definition.Variables.VarTypes.VarTypes import VariableTypesTokens
+from Tokens.Types.Definitions.Variables.VarTypes.VarTypes import VariableTypesTokens
 
 class VariablesTokens:
 
