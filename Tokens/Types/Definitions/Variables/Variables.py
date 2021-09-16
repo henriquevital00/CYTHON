@@ -2,6 +2,6 @@ from Tokens.Types.Definitions.Variables.VarTypes.VarTypes import VariableTypesTo
 
 class VariablesTokens:
 
-    IDENTIFIER = 'IDENTIFIER'
+    Identifier = 'IDENTIFIER'
 
-    TYPE = VariableTypesTokens
+    Type = VariableTypesTokens
