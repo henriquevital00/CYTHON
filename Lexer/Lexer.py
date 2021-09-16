@@ -24,10 +24,10 @@ class Lexer:
 
             for validator in validators:
 
-                isValid, Token = validator(word)
+                isValid, token = validator(word)
 
                 if isValid:
-                    self._tokensList.append(Token)
+                    self._tokensList.append(token)
                     return
 
             raise
@@ -35,16 +35,12 @@ class Lexer:
         except:
             pass
 
-
-
-
     def isWhitespace(self, char):
         return char is not None and char.isspace()
 
     def readChars(self, input):
 
         resultWord = ''
-
 
         for idx, char in enumerate(input):
 
