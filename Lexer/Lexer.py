@@ -19,10 +19,10 @@ class Lexer:
     def lookAhead(self):
         idx = self._position + 1
 
-        return '\0' if idx >= len(self._text) else self._text[idx]
+        return '\0' if idx >= len(self._text) else self._text[idx-1]
 
     def curr_char(self):
-        return self._text[self._position]
+        return self._text[self._position-1]
 
     def appendToResultWord(self, char):
         self._resultWord += char
@@ -66,8 +66,6 @@ class Lexer:
                 if self.lookAhead() == '\0':
                     if self.curr_char() != quote:
                         raise InvalidTokenException(self._resultWord, f"String f{self.curr_char()} was not closed")
-                    print("STRING")
-                    return True
 
                 if self.lookAhead() == quote:
                     self.appendToResultWord(quote)
@@ -95,6 +93,7 @@ class Lexer:
                 if self.lookAhead() == '\0':
                     if not isLetterOrNumber(self.curr_char()):
                         raise InvalidTokenException(self._resultWord, f"Unexpected '{self.curr_char()}' at")
+                    self.appendToResultWord(self.curr_char())
                     print("IDENTIFIER")
                     return True
 
@@ -132,7 +131,8 @@ class Lexer:
                 if self.lookAhead() == '\0':
                     if isPoint(self.curr_char()):
                         raise InvalidTokenException(self._resultWord, "Unexpected '.' at")
-                    print("NUMBER")
+                    self.appendToResultWord(self.curr_char())
+                    print("NUMBER", float(self._resultWord))
                     return True
 
                 if isPoint(self.lookAhead()):
@@ -166,16 +166,22 @@ class Lexer:
 
     def readTokens(self):
 
-        for char in self._text:
+        while True:
 
-            isFirstChar = self._position == 0
-            isSpace = self.isWhitespace(char)
-            isDuplicateSpace = self.isWhitespace(self._text[self._position -1])
+            if self._position == len(self._text):
+                break
 
-            if not isSpace:
-                self.appendToResultWord(char)
+            char = self._text[self._position]
 
-            elif isSpace and isDuplicateSpace and not isFirstChar:
+            # isFirstChar = self._position == 0
+            # isSpace = self.isWhitespace(char)
+            # isDuplicateSpace = self.isWhitespace(self._text[self._position -1])
+            #
+            # if not isSpace:
+            #     self.appendToResultWord(char)
+            #
+            # elif isSpace and isDuplicateSpace and not isFirstChar:
+            if self.isWhitespace(char) :
                 self._position += 1
                 continue
 
