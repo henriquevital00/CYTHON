@@ -1,6 +1,8 @@
-class ArithmeticOperationsTokens:
+from enum import Enum
 
-    PLUS = 'PLUS'
-    MINUS = 'MINUS'
-    DIVISION = 'DIVISION'
-    MULTIPLY = 'MULTIPLY'
+class ArithmeticOperationsTokens(Enum):
+
+    PLUS = '+'
+    MINUS = '-'
+    DIVISION = '/'
+    MULTIPLY = '*'

@@ -1,23 +1,38 @@
 import re
 
 from Tokens.Token import Token
-from Tokens.Types.General import TokenTypes
-from Lexer.Validation.Operators import isOperatorToken
 
 class Lexer:
 
-
     _tokensList: list[Token] = []
 
+    _resultWord: list = []
 
-    def validateOperatorsTokens(self, word):
+    _position: int = 0
 
+    _text: str
+
+    _currentChar: str
+
+    def __init__(self, text):
+        self._text = text
+
+    def lookAhead(self):
+        idx = self._position + 1
+
+        return '\0' if idx >= len(self._text) else self._text[idx]
+
+    def curr_char(self):
+        return self._text[self._position]
+
+    def appendToResultWord(self, char):
+        self._resultWord.append(char)
+        self._position += 1
 
     def validateToken(self, word):
 
         validators = [
-            a,
-            b
+        # validadores aqui
         ]
 
         try:
@@ -30,42 +45,66 @@ class Lexer:
                     self._tokensList.append(Token)
                     return
 
-            raise
+            raise ValueError
 
         except:
             pass
 
+    def isString(self, char):
+
+        isQuote = lambda c: re.match("^\"|'$", c)
+
+        if isQuote(char):
+
+            quote = char
+            self.appendToResultWord(char)
+
+            while self.lookAhead() != '\0':
+
+                if self.lookAhead() == quote:
+                    self.appendToResultWord(quote)
+                    break
+
+                self.appendToResultWord(self.curr_char())
 
 
+    def isIdentifier(self, char):
+
+        isLetterOrNumber = lambda c : re.match("^\w$", c)
+
+        if isLetterOrNumber(char):
+
+            self.appendToResultWord(char)
+
+            while self.lookAhead() != '\0':
+
+                if self.isWhitespace(self.lookAhead()):
+                    break
+
+                if isLetterOrNumber(self.lookAhead()):
+                    self.appendToResultWord(self.curr_char())
 
     def isWhitespace(self, char):
         return char is not None and char.isspace()
 
-    def readChars(self, input):
+    def readTokens(self):
 
-        resultWord = ''
+        resultWord = []
 
+        for char in self._text:
 
-        for idx, char in enumerate(input):
-
-            isFirstChar = idx == 0
+            isFirstChar = self._position == 0
             isSpace = self.isWhitespace(char)
-            isDuplicateSpace = self.isWhitespace(input[idx-1])
+            isDuplicateSpace = self.isWhitespace(input[self._position -1])
 
             if not isSpace:
-                resultWord += char
+                self.appendToResultWord(char)
 
             elif isSpace and isDuplicateSpace and not isFirstChar:
+                self._position += 1
                 continue
 
             self.validateToken(resultWord)
 
-
-    def readFile(self):
-
-        with open("program.txt", "r") as input:
-
-            self.readChars(input.read())
-
-
+            self._resultWord.clear()
 
