@@ -1,7 +1,7 @@
 import re
 
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
-from Lexer.Utils.Patterns import isArithmeticOperator, isPoint, isCloseParenthesis, isSeparator, isWhitespace
+from Lexer.Utils.Patterns import *
 from Tokens.Token import Token
 
 class Lexer:
@@ -55,8 +55,6 @@ class Lexer:
 
     def isString(self, char):
 
-        isQuote = lambda c: re.match("^\"|'$", c)
-
         if isQuote(char):
 
             quote = char
@@ -66,9 +64,10 @@ class Lexer:
 
                 if self.lookAhead() == '\0':
                     if self.curr_char() != quote:
-                        raise InvalidTokenException(self._resultWord, f"String f{self.curr_char()} was not closed")
+                        raise InvalidTokenException(f"string {self._resultWord + self.curr_char()} was not closed")
 
                 if self.lookAhead() == quote:
+                    self.appendToResultWord(self.curr_char())
                     self.appendToResultWord(quote)
                     print("STRING", self._resultWord)
                     return True
@@ -78,12 +77,10 @@ class Lexer:
         return False
 
 
-    def isIdentifier(self, char):
+    def isIdentifierOrType(self, char):
 
         if char.isdigit():
             return False
-
-        isLetterOrNumber = lambda c: re.match("^\w$", c)
 
         if isLetterOrNumber(char):
 
@@ -93,22 +90,21 @@ class Lexer:
 
                 if self.lookAhead() == '\0':
                     if not isLetterOrNumber(self.curr_char()):
-                        raise InvalidTokenException(self._resultWord, f"Unexpected '{self.curr_char()}' at")
+                        raise InvalidTokenException(f"Unexpected '{self.curr_char()}' at")
                     self.appendToResultWord(self.curr_char())
-                    print("IDENTIFIER", self._resultWord)
+                    print("IDENTIFIER or TYPE", self._resultWord)
                     return True
 
-                if self.isWhitespace(self.lookAhead()):
+                if isWhitespace(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
-                    print("IDENTIFIER", self._resultWord)
+                    print("IDENTIFIER or TYPE", self._resultWord)
                     return True
 
                 if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
                     self.appendToResultWord(self.curr_char())
                 else:
                     raise InvalidTokenException(
-                        f"{self._resultWord}{self.lookAhead()}",
-                        f"Expected letter or number, but {self.lookAhead()} was found , at: "
+                        f"Expected letter or number, but {self.lookAhead()} was found , at: {self._resultWord + self.lookAhead()}"
                     )
 
         return False
@@ -116,6 +112,9 @@ class Lexer:
     def isNumber(self, char):
 
         hasPoint = False
+
+        defaultUnexpectedPointMessage = \
+            lambda : f"Expected number but '.' was found at {self._resultWord}{self.curr_char()}{self.lookAhead()}"
 
         isValidLookahead =  lambda :\
             isCloseParenthesis(self.lookAhead()) \
@@ -130,7 +129,7 @@ class Lexer:
 
                 if self.lookAhead() == '\0':
                     if isPoint(self.curr_char()):
-                        raise InvalidTokenException(self._resultWord, "Unexpected '.' at")
+                        raise InvalidTokenException(defaultUnexpectedPointMessage())
                     self.appendToResultWord(self.curr_char())
                     print("NUMBER", float(self._resultWord))
                     return True
@@ -138,7 +137,7 @@ class Lexer:
                 if isPoint(self.lookAhead()):
 
                     if hasPoint:
-                        raise InvalidTokenException(self._resultWord, "Unexpected '.' at")
+                        raise InvalidTokenException(defaultUnexpectedPointMessage())
 
                     self.appendToResultWord(self.curr_char())
 
@@ -150,7 +149,7 @@ class Lexer:
 
                 if isValidLookahead():
                     if isPoint(self.curr_char()):
-                        raise InvalidTokenException(self._resultWord, "Expected number but '.' was found at")
+                        raise InvalidTokenException(defaultUnexpectedPointMessage())
 
                     self.appendToResultWord(self.curr_char())
                     print("NUMBER", float(self._resultWord))
@@ -160,7 +159,7 @@ class Lexer:
 
     def handleTokens(self):
 
-        tokenHandlers = [self.isString, self.isIdentifier, self.isNumber]
+        tokenHandlers = [self.isString, self.isIdentifierOrType, self.isNumber]
 
         for handler in tokenHandlers:
 
