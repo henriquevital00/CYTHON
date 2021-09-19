@@ -1,6 +1,7 @@
 import re
 
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
+from Lexer.Utils.Patterns import isArithmeticOperator, isPoint, isCloseParenthesis, isSeparator, isWhitespace
 from Tokens.Token import Token
 
 class Lexer:
@@ -19,10 +20,10 @@ class Lexer:
     def lookAhead(self):
         idx = self._position + 1
 
-        return '\0' if idx >= len(self._text) else self._text[idx-1]
+        return '\0' if idx >= len(self._text) else self._text[idx]
 
     def curr_char(self):
-        return self._text[self._position-1]
+        return self._text[self._position]
 
     def appendToResultWord(self, char):
         self._resultWord += char
@@ -34,7 +35,7 @@ class Lexer:
     def validateToken(self):
 
         validators = [
-        # validadores aqui
+            # validadores aqui
         ]
 
         try:
@@ -69,7 +70,7 @@ class Lexer:
 
                 if self.lookAhead() == quote:
                     self.appendToResultWord(quote)
-                    print("STRING")
+                    print("STRING", self._resultWord)
                     return True
 
                 self.appendToResultWord(self.curr_char())
@@ -94,12 +95,12 @@ class Lexer:
                     if not isLetterOrNumber(self.curr_char()):
                         raise InvalidTokenException(self._resultWord, f"Unexpected '{self.curr_char()}' at")
                     self.appendToResultWord(self.curr_char())
-                    print("IDENTIFIER")
+                    print("IDENTIFIER", self._resultWord)
                     return True
 
                 if self.isWhitespace(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
-                    print("IDENTIFIER")
+                    print("IDENTIFIER", self._resultWord)
                     return True
 
                 if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
@@ -114,13 +115,12 @@ class Lexer:
 
     def isNumber(self, char):
 
-        isPoint = lambda c : c == "."
-        isOperator = lambda c : re.match("^+|-|\*|/$", c)
-        isValidLookahead =  \
-            lambda : self.lookAhead() == ")" \
-                     or self.isSeparator(self.lookAhead()) \
-                     or isOperator(self.lookAhead())
         hasPoint = False
+
+        isValidLookahead =  lambda :\
+            isCloseParenthesis(self.lookAhead()) \
+            or isSeparator(self.lookAhead()) \
+            or isArithmeticOperator(self.lookAhead())
 
         if char.isdigit():
 
@@ -153,51 +153,35 @@ class Lexer:
                         raise InvalidTokenException(self._resultWord, "Expected number but '.' was found at")
 
                     self.appendToResultWord(self.curr_char())
-                    print("NUMBER")
+                    print("NUMBER", float(self._resultWord))
                     return True
 
         return False
 
-    def isSeparator(self, char):
-        return char is not None and re.match("^;|\s|\\n$", char)
+    def handleTokens(self):
 
-    def isWhitespace(self, char):
-        return char is not None and char.isspace()
+        tokenHandlers = [self.isString, self.isIdentifier, self.isNumber]
 
-    def readTokens(self):
+        for handler in tokenHandlers:
+
+            if handler(self.curr_char()):
+
+                break
+
+    def readInput(self):
 
         while True:
 
             if self._position == len(self._text):
                 break
 
-            char = self._text[self._position]
+            char = self.curr_char()
 
-            # isFirstChar = self._position == 0
-            # isSpace = self.isWhitespace(char)
-            # isDuplicateSpace = self.isWhitespace(self._text[self._position -1])
-            #
-            # if not isSpace:
-            #     self.appendToResultWord(char)
-            #
-            # elif isSpace and isDuplicateSpace and not isFirstChar:
-            if self.isWhitespace(char) :
+            if isWhitespace(char):
                 self._position += 1
                 continue
 
-            validators = [
-                self.isString,
-                self.isIdentifier,
-                self.isNumber
-            ]
-
-            for validator in validators:
-
-                if validator(char):
-
-                    break
-
-            #self.validateToken()
+            self.handleTokens()
 
             self.clearResultWord()
 

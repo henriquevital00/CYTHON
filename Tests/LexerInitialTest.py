@@ -7,4 +7,4 @@ class LexerInitialTest:
 
         string = input()
 
-        Lexer(string).readTokens()
+        Lexer(string).readInput()
