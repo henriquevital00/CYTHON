@@ -7,13 +7,11 @@ class Lexer:
 
     _tokensList: list[Token] = []
 
-    _resultWord: str
+    _resultWord: str = ''
 
     _position: int = 0
 
     _text: str
-
-    _currentChar: str
 
     def __init__(self, text):
         self._text = text
@@ -27,13 +25,13 @@ class Lexer:
         return self._text[self._position]
 
     def appendToResultWord(self, char):
-        self._resultWord.append(char)
+        self._resultWord += char
         self._position += 1
 
     def clearResultWord(self):
         self._resultWord = ""
 
-    def validateToken(self, word):
+    def validateToken(self):
 
         validators = [
         # validadores aqui
@@ -43,7 +41,7 @@ class Lexer:
 
             for validator in validators:
 
-                isValid, Token = validator(word)
+                isValid, Token = validator(self._resultWord)
 
                 if isValid:
                     self._tokensList.append(Token)
@@ -63,10 +61,17 @@ class Lexer:
             quote = char
             self.appendToResultWord(quote)
 
-            while self.lookAhead() != '\0':
+            while True:
+
+                if self.lookAhead() == '\0':
+                    if self.curr_char() != quote:
+                        raise InvalidTokenException(self._resultWord, f"String f{self.curr_char()} was not closed")
+                    print("STRING")
+                    return True
 
                 if self.lookAhead() == quote:
                     self.appendToResultWord(quote)
+                    print("STRING")
                     return True
 
                 self.appendToResultWord(self.curr_char())
@@ -76,49 +81,64 @@ class Lexer:
 
     def isIdentifier(self, char):
 
-        isLetterOrNumber = lambda c : re.match("^\w$", c)
+        if char.isdigit():
+            return False
+
+        isLetterOrNumber = lambda c: re.match("^\w$", c)
 
         if isLetterOrNumber(char):
 
             self.appendToResultWord(char)
 
-            while self.lookAhead() != '\0':
+            while True:
+
+                if self.lookAhead() == '\0':
+                    if not isLetterOrNumber(self.curr_char()):
+                        raise InvalidTokenException(self._resultWord, f"Unexpected '{self.curr_char()}' at")
+                    print("IDENTIFIER")
+                    return True
 
                 if self.isWhitespace(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
-
-                    if self.curr_char()[0].isdigit():
-                        raise InvalidTokenException(self._resultWord, "Identifier cannot start with numbers, at: ", )
-
+                    print("IDENTIFIER")
                     return True
 
-                if isLetterOrNumber(self.lookAhead()):
+                if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
                     self.appendToResultWord(self.curr_char())
+                else:
+                    raise InvalidTokenException(
+                        f"{self._resultWord}{self.lookAhead()}",
+                        f"Expected letter or number, but {self.lookAhead()} was found , at: "
+                    )
 
         return False
 
     def isNumber(self, char):
 
         isPoint = lambda c : c == "."
+        isOperator = lambda c : re.match("^+|-|\*|/$", c)
+        isValidLookahead =  \
+            lambda : self.lookAhead() == ")" \
+                     or self.isSeparator(self.lookAhead()) \
+                     or isOperator(self.lookAhead())
         hasPoint = False
 
         if char.isdigit():
 
             self.appendToResultWord(char)
 
-            while self.lookAhead() != '\0':
+            while True:
 
-                if self.isWhitespace(self.lookAhead()):
+                if self.lookAhead() == '\0':
                     if isPoint(self.curr_char()):
-                        raise InvalidTokenException(self._resultWord, "Expected number but '.' was found at", )
-
-                    self.appendToResultWord(self.curr_char())
+                        raise InvalidTokenException(self._resultWord, "Unexpected '.' at")
+                    print("NUMBER")
                     return True
 
                 if isPoint(self.lookAhead()):
 
                     if hasPoint:
-                        return False
+                        raise InvalidTokenException(self._resultWord, "Unexpected '.' at")
 
                     self.appendToResultWord(self.curr_char())
 
@@ -128,20 +148,29 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
 
+                if isValidLookahead():
+                    if isPoint(self.curr_char()):
+                        raise InvalidTokenException(self._resultWord, "Expected number but '.' was found at")
+
+                    self.appendToResultWord(self.curr_char())
+                    print("NUMBER")
+                    return True
+
         return False
+
+    def isSeparator(self, char):
+        return char is not None and re.match("^;|\s|\\n$", char)
 
     def isWhitespace(self, char):
         return char is not None and char.isspace()
 
     def readTokens(self):
 
-        resultWord = []
-
         for char in self._text:
 
             isFirstChar = self._position == 0
             isSpace = self.isWhitespace(char)
-            isDuplicateSpace = self.isWhitespace(input[self._position -1])
+            isDuplicateSpace = self.isWhitespace(self._text[self._position -1])
 
             if not isSpace:
                 self.appendToResultWord(char)
@@ -150,7 +179,19 @@ class Lexer:
                 self._position += 1
                 continue
 
-            self.validateToken(resultWord)
+            validators = [
+                self.isString,
+                self.isIdentifier,
+                self.isNumber
+            ]
+
+            for validator in validators:
+
+                if validator(char):
+
+                    break
+
+            #self.validateToken()
 
             self.clearResultWord()
 
