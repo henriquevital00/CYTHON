@@ -6,6 +6,12 @@ isWhitespace = lambda char : char.isspace()
 
 isPoint = lambda char : char == "."
 
+isNaN = lambda char : not char.isdigit()
+
+isEquals = lambda char : char == "="
+
+isUnderscore = lambda char : char == "_"
+
 isArithmeticOperator = lambda char : re.match("^\+|-|\*|/$", char)
 
 isCloseParenthesis = lambda char : char == ")"

@@ -47,7 +47,6 @@ class Lexer:
             isOperatorToken
         ]
 
-
         for validator in validators:
 
             isValid, token = validator(self._resultWord)
@@ -58,7 +57,6 @@ class Lexer:
                 return
 
         raise InvalidTokenException(f"Invalid token at {self._resultWord}")
-
 
 
     def isString(self, char):
@@ -106,6 +104,11 @@ class Lexer:
 
                     return True
 
+                if isEquals(self.lookAhead()):
+                    self.appendToResultWord(self.curr_char())
+                    return True
+
+
                 if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
                     self.appendToResultWord(self.curr_char())
                 else:
@@ -139,6 +142,9 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
                     return True
+
+                if isNaN(self.lookAhead()) and not isPoint(self.lookAhead()):
+                    raise InvalidTokenException("Number cannot be concated with NaN")
 
                 if isPoint(self.lookAhead()):
 
