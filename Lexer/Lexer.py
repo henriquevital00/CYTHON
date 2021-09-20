@@ -115,11 +115,10 @@ class Lexer:
 
         if isLetterOrNumber(char):
 
-            if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()):
-                self.appendToResultWord(char)
-                return True
-
             self.appendToResultWord(char)
+
+            if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()) or isEquals(self.lookAhead()):
+                return True
 
             while True:
 
@@ -167,11 +166,10 @@ class Lexer:
 
         if char.isdigit():
 
-            if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()):
-                self.appendToResultWord(char)
-                return True
-
             self.appendToResultWord(char)
+
+            if self.lookAhead() == '\0' or isValidLookahead():
+                return True
 
             while True:
 
@@ -181,9 +179,6 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
                     return True
-
-                if isNaN(self.lookAhead()) and not isPoint(self.lookAhead()) and not isWhitespace(self.lookAhead()):
-                    raise InvalidTokenException("Number cannot be concated with NaN")
 
                 if isPoint(self.lookAhead()):
 
@@ -204,8 +199,8 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
                     return True
-
-
+                else:
+                    raise InvalidTokenException("Number cannot be concated with NaN")
 
         return False
 
