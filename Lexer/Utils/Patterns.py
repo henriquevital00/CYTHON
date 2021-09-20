@@ -14,6 +14,8 @@ isUnderscore = lambda char : char == "_"
 
 isArithmeticOperator = lambda char : re.match("^\+|-|\*|/$", char)
 
+isBiggerOrLessOperator = lambda char : re.match("^<|>$", char)
+
 isCloseParenthesis = lambda char : char == ")"
 
 isLetterOrNumber = lambda char : re.match("^\w$", char)

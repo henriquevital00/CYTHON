@@ -58,6 +58,28 @@ class Lexer:
 
         raise InvalidTokenException(f"Invalid token at {self._resultWord}")
 
+    def isComparisonOperator(self, char):
+
+        # to <=, >=, < and > operators
+        if isBiggerOrLessOperator(char):
+
+            #  >= and <=
+            if isEquals(self.lookAhead()):
+                self.appendToResultWord(char)
+                self.appendToResultWord(self.curr_char())
+                return True
+
+            # > and <
+            self.appendToResultWord(char)
+            return True
+
+        # to "==" operator
+        if isEquals(char) and isEquals(self.lookAhead()):
+            self.appendToResultWord(char)
+            self.appendToResultWord(self.curr_char())
+            return True
+
+        return False
 
     def isString(self, char):
 
@@ -68,15 +90,20 @@ class Lexer:
 
             while True:
 
+                # if it is in the end of the file, the entire string was read
                 if self.lookAhead() == '\0':
+
+                    # if the last char is not a quote, it's invalid
                     if self.curr_char() != quote:
                         raise InvalidTokenException(f"string {self._resultWord + self.curr_char()} was not closed")
 
+                # if the lookahead is a quote, the entire string was read
                 if self.lookAhead() == quote:
                     self.appendToResultWord(self.curr_char())
                     self.appendToResultWord(quote)
                     return True
 
+                # append the current char
                 self.appendToResultWord(self.curr_char())
 
         return False
@@ -88,26 +115,34 @@ class Lexer:
 
         if isLetterOrNumber(char):
 
+            if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()):
+                self.appendToResultWord(char)
+                return True
+
             self.appendToResultWord(char)
 
             while True:
 
+                # if it is in the end of the file, the entire identifier/type was read
                 if self.lookAhead() == '\0':
+
+                    # if the last char is not a letter or number, it's invalid
                     if not isLetterOrNumber(self.curr_char()):
                         raise InvalidTokenException(f"Unexpected '{self.curr_char()}' at")
 
                     self.appendToResultWord(self.curr_char())
                     return True
 
+                # if the next char is a whitespace, the identifier/type was entire read
                 if isWhitespace(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
 
                     return True
 
+                # if the next char is '=' character, it is an variable assignment, so it's valid and it was entired read
                 if isEquals(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
                     return True
-
 
                 if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
                     self.appendToResultWord(self.curr_char())
@@ -131,6 +166,10 @@ class Lexer:
             or isArithmeticOperator(self.lookAhead())
 
         if char.isdigit():
+
+            if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()):
+                self.appendToResultWord(char)
+                return True
 
             self.appendToResultWord(char)
 
@@ -166,11 +205,13 @@ class Lexer:
                     self.appendToResultWord(self.curr_char())
                     return True
 
+
+
         return False
 
     def handleTokens(self):
 
-        tokenHandlers = [self.isString, self.isIdentifierOrType, self.isNumber]
+        tokenHandlers = [self.isString, self.isComparisonOperator, self.isIdentifierOrType, self.isNumber]
 
         for handler in tokenHandlers:
 
