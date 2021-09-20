@@ -6,8 +6,6 @@ isWhitespace = lambda char : char.isspace()
 
 isPoint = lambda char : char == "."
 
-isNaN = lambda char : not char.isdigit()
-
 isEquals = lambda char : char == "="
 
 isUnderscore = lambda char : char == "_"
@@ -21,3 +19,8 @@ isCloseParenthesis = lambda char : char == ")"
 isLetterOrNumber = lambda char : re.match("^\w$", char)
 
 isQuote = lambda char : re.match("^\"|'$", char)
+
+isNumberValidTerminator = lambda c: \
+    isCloseParenthesis(c) \
+    or isSeparator(c) \
+    or isArithmeticOperator(c)

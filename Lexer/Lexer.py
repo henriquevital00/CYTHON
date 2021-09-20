@@ -137,8 +137,8 @@ class Lexer:
                     self.appendToResultWord(self.curr_char())
                     return True
 
-                # if the next char is a whitespace, the identifier/type was entire read
-                if isWhitespace(self.lookAhead()):
+                # if the next char is a separator, the identifier/type was entire read
+                if isSeparator(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
 
                     return True
@@ -164,14 +164,10 @@ class Lexer:
         defaultUnexpectedPointMessage = \
             lambda : f"Expected number but '.' was found at {self._resultWord}{self.curr_char()}{self.lookAhead()}"
 
-        isValidTerminator =  lambda c:\
-            isCloseParenthesis(c) \
-            or isSeparator(c) \
-            or isArithmeticOperator(c)
 
         if char.isdigit():
 
-            if self.lookAhead() == '\0' or isValidTerminator(self.lookAhead()):
+            if self.lookAhead() == '\0' or isNumberValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)
                 return True
 
@@ -199,7 +195,7 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
 
-                elif isValidTerminator(self.lookAhead()):
+                elif isNumberValidTerminator(self.lookAhead()):
                     if isPoint(self.curr_char()):
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
 

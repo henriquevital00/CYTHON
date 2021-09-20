@@ -9,10 +9,11 @@ def isLiteralToken(word):
     isNumberLiteral = re.match(numberLiteralPattern, word)
 
     if isNumberLiteral:
+        token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
         isFloat = re.match("^\d+\.\d+$", word)
-        cast = float if isFloat else int
-
-        return True, TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word, typeCast=cast)
+        word = float(word) if isFloat else int(word)
+        token.value = word
+        return True, TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
 
 
 
@@ -21,7 +22,10 @@ def isLiteralToken(word):
     isStringLiteral = re.match(stringLiteralPattern, word)
 
     if isStringLiteral:
-        return True, TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
+        token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
+        word = re.sub("""("|')""", '', word)
+        token.value = word
+        return True, token
 
 
 
@@ -30,7 +34,10 @@ def isLiteralToken(word):
     isBooleanLiteral = re.match(booleanLiteralPattern, word)
 
     if isBooleanLiteral:
-        return True, TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word, typeCast=bool)
+        token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
+        word = 0 if word == "False" else 1
+        token.value = bool(word)
+        return True, token
 
 
     return False, None
