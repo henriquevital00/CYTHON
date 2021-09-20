@@ -88,13 +88,17 @@ class Lexer:
             quote = char
             self.appendToResultWord(quote)
 
+            if isQuote(self.curr_char()):
+                self.appendToResultWord(quote)
+                return True
+
             while True:
 
                 # if it is in the end of the file, the entire string was read
                 if self.lookAhead() == '\0':
 
                     # if the last char is not a quote, it's invalid
-                    if self.curr_char() != quote:
+                    if not isQuote(self.curr_char()):
                         raise InvalidTokenException(f"string {self._resultWord + self.curr_char()} was not closed")
 
                 # if the lookahead is a quote, the entire string was read
