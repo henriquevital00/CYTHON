@@ -51,7 +51,7 @@ class Lexer:
 
         for validator in validators:
 
-            isValid, token = validator(self._resultWord or self.curr_char())
+            isValid, token = validator(self._resultWord)
 
             if isValid:
                 self._tokensList.append(token.toString())
@@ -224,6 +224,9 @@ class Lexer:
             if handler(self.curr_char()):
 
                 return True
+
+        self._resultWord = self.curr_char()
+        self.advance()
 
     def readInput(self):
 
