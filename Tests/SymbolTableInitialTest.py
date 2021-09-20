@@ -2,7 +2,7 @@ from core import core
 from Tokens.Token import Token
 from Utils.Constants.Scope import ScopeConstants
 from Symbols.Symbol import Symbol
-from Tokens.Types.General.TokenTypes import TokenTypes
+from Tokens.Types.Variables.Identifier.Identifier import IdentifierToken
 
 class SymbolTableInitalTest:
 
@@ -13,8 +13,8 @@ class SymbolTableInitalTest:
 
     def addSymbolsToTableTest(self):
 
-        symbol = Symbol(Token(TokenTypes.Variables.IDENTIFIER, "number1"), ScopeConstants.LOCAL)
-        symbol2 = Symbol(Token(TokenTypes.Variables.IDENTIFIER, "string1"), ScopeConstants.LOCAL)
+        symbol = Symbol(Token(IdentifierToken.IDENTIFIER.name, "number1"), ScopeConstants.LOCAL)
+        symbol2 = Symbol(Token(IdentifierToken.IDENTIFIER.name, "string1"), ScopeConstants.LOCAL)
 
         self._symbolsTable.storeSymbol(symbol)
         self._symbolsTable.storeSymbol(symbol2)

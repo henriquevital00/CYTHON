@@ -1,3 +1,0 @@
-class LoopTokens:
-
-    WHILE = 'WHILE'

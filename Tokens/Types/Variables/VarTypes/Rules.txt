@@ -1,0 +1,10 @@
+#               ASSIGNMENT TOKENS OPERATOR
+# =========================================================================
+#   TOKEN           REGEX                        MEANING
+# =========================================================================
+#   STRING           str                     string type token
+#   NUMBER          number                   number type token
+#   BOOLEAN          bool                    boolean type token
+#
+#  TOKEN TYPE: VarType
+#  REGEX ^str|number|bool$

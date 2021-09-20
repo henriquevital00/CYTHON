@@ -1,0 +1,4 @@
+from Lexer.Validators.Matcher.TokenMatcher import TokenMatcher
+
+def isVariableTypeToken(word):
+    pass

@@ -8,3 +8,6 @@ class Token:
     def __init__(self, type: str, value: Any):
         self.type = type
         self.value = value
+
+    def toString(self):
+        return f"<{self.type}: {self.value}>"

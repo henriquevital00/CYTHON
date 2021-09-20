@@ -1,8 +1,8 @@
 import re
 
-isSeparator = lambda char : char is not None and re.match("^;|\s|\\n$", char)
+isSeparator = lambda char : re.match("^;|\s|\\n$", char)
 
-isWhitespace = lambda char : char is not None and char.isspace()
+isWhitespace = lambda char : char.isspace()
 
 isPoint = lambda char : char == "."
 

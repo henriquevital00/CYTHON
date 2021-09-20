@@ -2,6 +2,9 @@ import re
 
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
 from Lexer.Utils.Patterns import *
+from Lexer.Validators.IdentifierToken import isIdentifierToken
+from Lexer.Validators.LiteralsToken import isLiteralToken
+from Lexer.Validators.OperatorsToken import isOperatorToken
 from Tokens.Token import Token
 
 class Lexer:
@@ -25,9 +28,12 @@ class Lexer:
     def curr_char(self):
         return self._text[self._position]
 
+    def advance(self):
+        self._position += 1
+
     def appendToResultWord(self, char):
         self._resultWord += char
-        self._position += 1
+        self.advance()
 
     def clearResultWord(self):
         self._resultWord = ""
@@ -35,23 +41,24 @@ class Lexer:
     def validateToken(self):
 
         validators = [
-            # validadores aqui
+            isIdentifierToken,
+            isLiteralToken,
+            isOperatorToken
         ]
 
-        try:
 
-            for validator in validators:
+        for validator in validators:
 
-                isValid, Token = validator(self._resultWord)
+            isValid, token = validator(self._resultWord)
 
-                if isValid:
-                    self._tokensList.append(Token)
-                    return
+            if isValid:
+                self._tokensList.append(token.toString())
+                print(self._tokensList)
+                return
 
-            raise ValueError
+        raise InvalidTokenException(f"Invalid token at {self._resultWord}")
 
-        except:
-            pass
+
 
     def isString(self, char):
 
@@ -177,10 +184,11 @@ class Lexer:
             char = self.curr_char()
 
             if isWhitespace(char):
-                self._position += 1
+                self.advance()
                 continue
 
             self.handleTokens()
 
-            self.clearResultWord()
+            self.validateToken()
 
+            self.clearResultWord()

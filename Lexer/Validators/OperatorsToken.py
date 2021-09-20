@@ -1,16 +1,11 @@
-import re
+from Lexer.Validators.Matcher.TokenMatcher import TokenMatcher
+from Tokens.Types.Operators.Arithmetic.Arithmetic import ArithmeticOperationsTokens
 
 def isOperatorToken(word):
 
-    isArithmetic = re.match("^\+|-|\/|\*$", word)
+    arithmeticToken = TokenMatcher.matchToken(tokenEnum=ArithmeticOperationsTokens, word=word)
 
-    isLogical = "^&|\|$"
+    if arithmeticToken is None:
+        return False, None
 
-
-    if isArithmetic:
-
-        if word == '+':
-            return (true, Token)
-
-
-    return False, None
+    return True, arithmeticToken
