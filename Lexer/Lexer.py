@@ -1,5 +1,6 @@
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
 from Lexer.Utils.Patterns import *
+from Lexer.Validators.DelimitersTokens import isDelimiterToken
 from Lexer.Validators.IdentifierToken import isIdentifierToken
 from Lexer.Validators.LiteralsToken import isLiteralToken
 from Lexer.Validators.OperatorsToken import isOperatorToken
@@ -41,15 +42,16 @@ class Lexer:
     def validateToken(self):
 
         validators = [
+            isDelimiterToken,
             isVariableTypeToken,
             isLiteralToken,
             isIdentifierToken,
-            isOperatorToken
+            isOperatorToken,
         ]
 
         for validator in validators:
 
-            isValid, token = validator(self._resultWord)
+            isValid, token = validator(self._resultWord or self.curr_char())
 
             if isValid:
                 self._tokensList.append(token.toString())
@@ -115,14 +117,17 @@ class Lexer:
     def isIdentifierOrType(self, char):
 
         if char.isdigit():
-            return False
+            return
+
+        isValidTerminator = lambda c: \
+            isSeparator(c) \
+            or isEquals(c)
 
         if isLetterOrNumber(char):
 
             self.appendToResultWord(char)
 
-            if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()) or isEquals(self.lookAhead()):
-                self.appendToResultWord(self.curr_char())
+            if isValidTerminator(self.curr_char()):
                 return True
 
             while True:
@@ -138,7 +143,7 @@ class Lexer:
                     return True
 
                 # if the next char is a separator, the identifier/type was entire read
-                if isSeparator(self.lookAhead()):
+                if isValidTerminator(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
 
                     return True
@@ -164,10 +169,14 @@ class Lexer:
         defaultUnexpectedPointMessage = \
             lambda : f"Expected number but '.' was found at {self._resultWord}{self.curr_char()}{self.lookAhead()}"
 
+        isValidTerminator = lambda c: \
+            isCloseParenthesis(c) \
+            or isSeparator(c) \
+            or isArithmeticOperator(c)
 
         if char.isdigit():
 
-            if self.lookAhead() == '\0' or isNumberValidTerminator(self.lookAhead()):
+            if self.lookAhead() == '\0' or isValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)
                 return True
 
@@ -195,7 +204,7 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
 
-                elif isNumberValidTerminator(self.lookAhead()):
+                elif isValidTerminator(self.lookAhead()):
                     if isPoint(self.curr_char()):
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
 
@@ -214,7 +223,7 @@ class Lexer:
 
             if handler(self.curr_char()):
 
-                break
+                return True
 
     def readInput(self):
 

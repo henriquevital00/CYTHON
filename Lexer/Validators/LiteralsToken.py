@@ -13,7 +13,7 @@ def isLiteralToken(word):
         isFloat = re.match("^\d+\.\d+$", word)
         word = float(word) if isFloat else int(word)
         token.value = word
-        return True, TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
+        return True, token
 
 
 

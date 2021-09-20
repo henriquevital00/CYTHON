@@ -1,11 +1,8 @@
-from typing import Any
-
 class Token:
 
     type: str
-    value: Any
 
-    def __init__(self, type: str, value: Any):
+    def __init__(self, type: str, value):
         self.type = type
         self.value = value
 

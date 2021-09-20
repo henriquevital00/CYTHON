@@ -1,6 +1,6 @@
 import re
 
-isSeparator = lambda char : re.match("^;|\s|\\n$", char)
+isSeparator = lambda char : re.match("^;|\\s|\\n$", char)
 
 isWhitespace = lambda char : char.isspace()
 
@@ -20,7 +20,3 @@ isLetterOrNumber = lambda char : re.match("^\w$", char)
 
 isQuote = lambda char : re.match("^\"|'$", char)
 
-isNumberValidTerminator = lambda c: \
-    isCloseParenthesis(c) \
-    or isSeparator(c) \
-    or isArithmeticOperator(c)
