@@ -1,5 +1,3 @@
-import re
-
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
 from Lexer.Utils.Patterns import *
 from Lexer.Validators.IdentifierToken import isIdentifierToken
@@ -79,7 +77,6 @@ class Lexer:
                 if self.lookAhead() == quote:
                     self.appendToResultWord(self.curr_char())
                     self.appendToResultWord(quote)
-                    print("STRING", self._resultWord)
                     return True
 
                 self.appendToResultWord(self.curr_char())
@@ -100,13 +97,13 @@ class Lexer:
                 if self.lookAhead() == '\0':
                     if not isLetterOrNumber(self.curr_char()):
                         raise InvalidTokenException(f"Unexpected '{self.curr_char()}' at")
+
                     self.appendToResultWord(self.curr_char())
-                    print("IDENTIFIER or TYPE", self._resultWord)
                     return True
 
                 if isWhitespace(self.lookAhead()):
                     self.appendToResultWord(self.curr_char())
-                    print("IDENTIFIER or TYPE", self._resultWord)
+
                     return True
 
                 if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
@@ -139,8 +136,8 @@ class Lexer:
                 if self.lookAhead() == '\0':
                     if isPoint(self.curr_char()):
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
+
                     self.appendToResultWord(self.curr_char())
-                    print("NUMBER", float(self._resultWord))
                     return True
 
                 if isPoint(self.lookAhead()):
@@ -161,7 +158,6 @@ class Lexer:
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
 
                     self.appendToResultWord(self.curr_char())
-                    print("NUMBER", float(self._resultWord))
                     return True
 
         return False
