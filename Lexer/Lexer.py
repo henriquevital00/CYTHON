@@ -122,6 +122,7 @@ class Lexer:
             self.appendToResultWord(char)
 
             if self.lookAhead() == '\0' or isWhitespace(self.lookAhead()) or isEquals(self.lookAhead()):
+                self.appendToResultWord(self.curr_char())
                 return True
 
             while True:
@@ -163,17 +164,18 @@ class Lexer:
         defaultUnexpectedPointMessage = \
             lambda : f"Expected number but '.' was found at {self._resultWord}{self.curr_char()}{self.lookAhead()}"
 
-        isValidLookahead =  lambda :\
-            isCloseParenthesis(self.lookAhead()) \
-            or isSeparator(self.lookAhead()) \
-            or isArithmeticOperator(self.lookAhead())
+        isValidTerminator =  lambda c:\
+            isCloseParenthesis(c) \
+            or isSeparator(c) \
+            or isArithmeticOperator(c)
 
         if char.isdigit():
 
-            self.appendToResultWord(char)
-
-            if self.lookAhead() == '\0' or isValidLookahead():
+            if self.lookAhead() == '\0' or isValidTerminator(self.lookAhead()):
+                self.appendToResultWord(char)
                 return True
+
+            self.appendToResultWord(char)
 
             while True:
 
@@ -191,13 +193,13 @@ class Lexer:
 
                     self.appendToResultWord(self.curr_char())
 
-                if self.lookAhead().isdigit():
+                elif self.lookAhead().isdigit():
                     if isPoint(self.curr_char()):
                         hasPoint = True
 
                     self.appendToResultWord(self.curr_char())
 
-                if isValidLookahead():
+                elif isValidTerminator(self.lookAhead()):
                     if isPoint(self.curr_char()):
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
 
