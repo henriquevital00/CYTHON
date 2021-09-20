@@ -23,7 +23,7 @@ def isLiteralToken(word):
 
     if isStringLiteral:
         token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
-        word = re.sub("""("|')""", '', word)
+        word = word[1:-1]
         token.value = word
         return True, token
 
