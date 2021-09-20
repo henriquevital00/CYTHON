@@ -182,7 +182,7 @@ class Lexer:
                     self.appendToResultWord(self.curr_char())
                     return True
 
-                if isNaN(self.lookAhead()) and not isPoint(self.lookAhead()):
+                if isNaN(self.lookAhead()) and not isPoint(self.lookAhead()) and not isWhitespace(self.lookAhead()):
                     raise InvalidTokenException("Number cannot be concated with NaN")
 
                 if isPoint(self.lookAhead()):
