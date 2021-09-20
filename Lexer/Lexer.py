@@ -5,6 +5,8 @@ from Lexer.Utils.Patterns import *
 from Lexer.Validators.IdentifierToken import isIdentifierToken
 from Lexer.Validators.LiteralsToken import isLiteralToken
 from Lexer.Validators.OperatorsToken import isOperatorToken
+from Lexer.Validators.VarTypeToken import isVariableTypeToken
+
 from Tokens.Token import Token
 
 class Lexer:
@@ -41,6 +43,7 @@ class Lexer:
     def validateToken(self):
 
         validators = [
+            isVariableTypeToken,
             isIdentifierToken,
             isLiteralToken,
             isOperatorToken

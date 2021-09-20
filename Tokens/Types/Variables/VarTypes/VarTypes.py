@@ -2,6 +2,6 @@ from enum import Enum
 
 class VariableTypesTokens(Enum):
 
-    NUMBER = '^number$'
-    STRING = '^str$'
-    BOOLEAN = '^bool$'
+    TYPE_NUMBER = '^number$'
+    TYPE_STRING = '^str$'
+    TYPE_BOOLEAN = '^bool$'
