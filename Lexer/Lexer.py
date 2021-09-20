@@ -44,8 +44,8 @@ class Lexer:
 
         validators = [
             isVariableTypeToken,
-            isIdentifierToken,
             isLiteralToken,
+            isIdentifierToken,
             isOperatorToken
         ]
 
@@ -85,7 +85,6 @@ class Lexer:
                 self.appendToResultWord(self.curr_char())
 
         return False
-
 
     def isIdentifierOrType(self, char):
 
