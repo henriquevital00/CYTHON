@@ -14,7 +14,7 @@ def main():
     #
     # LexerInitialTest().run()
 
-    with open("program.txt", "rt") as input:
+    with open("program.cy", "rt") as input:
         Lexer(input.read()).readInput()
 
 

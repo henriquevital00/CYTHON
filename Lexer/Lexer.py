@@ -4,6 +4,7 @@ from Lexer.Validators.EscapeValidator import isEscapeToken
 from Lexer.Validators.IdentifierValidator import isIdentifierToken
 from Lexer.Validators.LiteralsValidator import isLiteralToken
 from Lexer.Validators.OperatorsValidator import isOperatorToken
+from Lexer.Validators.StatementValidator import isStatementToken
 from Lexer.Validators.VarTypeValidator import isVariableTypeToken
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
 
@@ -48,6 +49,7 @@ class Lexer:
             isVariableTypeToken,
             isLiteralToken,
             isIdentifierToken,
+            isStatementToken,
             isOperatorToken,
         ]
 
