@@ -11,10 +11,8 @@ def isLiteralToken(word):
     if isNumberLiteral:
         token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
         isFloat = re.match("^\d+\.\d+$", word)
-        word = float(word) if isFloat else int(word)
-        token.value = word
+        token.value = float(word) if isFloat else int(word)
         return True, token
-
 
 
     # STRING
@@ -28,16 +26,13 @@ def isLiteralToken(word):
         return True, token
 
 
-
     # BOOLEAN
     booleanLiteralPattern = LiteralsTokens.BOOLEAN_LITERAL.value
     isBooleanLiteral = re.match(booleanLiteralPattern, word)
 
     if isBooleanLiteral:
         token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
-        word = 0 if word == "False" else 1
-        token.value = bool(word)
+        token.value = False if word == "False" else True
         return True, token
-
 
     return False, None

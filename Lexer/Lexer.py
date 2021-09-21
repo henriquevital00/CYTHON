@@ -1,10 +1,10 @@
 from Lexer.Exception.InvalidTokenException import InvalidTokenException
 from Lexer.Utils.Patterns import *
-from Lexer.Validators.DelimitersTokens import isDelimiterToken
-from Lexer.Validators.IdentifierToken import isIdentifierToken
-from Lexer.Validators.LiteralsToken import isLiteralToken
-from Lexer.Validators.OperatorsToken import isOperatorToken
-from Lexer.Validators.VarTypeToken import isVariableTypeToken
+from Lexer.Validators.DelimitersValidator import isDelimiterToken
+from Lexer.Validators.IdentifierValidator import isIdentifierToken
+from Lexer.Validators.LiteralsValidator import isLiteralToken
+from Lexer.Validators.OperatorsValidator import isOperatorToken
+from Lexer.Validators.VarTypeValidator import isVariableTypeToken
 
 from Tokens.Token import Token
 
@@ -157,7 +157,7 @@ class Lexer:
                     self.appendToResultWord(self.curr_char())
                 else:
                     raise InvalidTokenException(
-                        f"Expected letter or number, but {self.lookAhead()} was found , at: {self._resultWord + self.lookAhead()}"
+                        f"Expected letter or number, but {self.lookAhead()} was found , at: {self._resultWord + self.curr_char() + self.lookAhead()}"
                     )
 
         return False
