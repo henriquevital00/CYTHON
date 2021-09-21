@@ -2,6 +2,6 @@ from enum import Enum
 
 class EscapeCharsTokens(Enum):
 
-    WHITESPACE = '^\s$'
+    WHITESPACE = '^ $'
     NEW_LINE = '^\\n$'
-    TAB = '\\t'
+    TAB = '^\\t$'

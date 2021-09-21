@@ -1,4 +1,5 @@
 from Lexer.Lexer import Lexer
+import re
 from Tests.LexerInitialTest import LexerInitialTest
 from Tests.SymbolTableInitialTest import test
 
@@ -11,9 +12,11 @@ def main():
     #
     # test.shouldTableFindSymbol('number2')
     #
-    # with open("program.txt", "r") as input:
-    #     Lexer(input.read()).readTokens()
-    LexerInitialTest().run()
+    # LexerInitialTest().run()
+
+    with open("program.txt", "rt") as input:
+        Lexer(input.read()).readInput()
+
 
 if __name__ == "__main__":
     main()

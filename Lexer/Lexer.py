@@ -1,6 +1,6 @@
 from Lexer.Utils.Patterns import *
-from Lexer.Validators.AssingmentValidator import isAssignmentToken
 from Lexer.Validators.DelimitersValidator import isDelimiterToken
+from Lexer.Validators.EscapeValidator import isEscapeToken
 from Lexer.Validators.IdentifierValidator import isIdentifierToken
 from Lexer.Validators.LiteralsValidator import isLiteralToken
 from Lexer.Validators.OperatorsValidator import isOperatorToken
@@ -43,8 +43,8 @@ class Lexer:
     def validateToken(self):
 
         validators = [
+            isEscapeToken,
             isDelimiterToken,
-            isAssignmentToken,
             isVariableTypeToken,
             isLiteralToken,
             isIdentifierToken,
@@ -176,7 +176,7 @@ class Lexer:
         isValidTerminator = lambda c: \
             isCloseParenthesis(c) \
             or isSeparator(c) \
-            or isArithmeticOperator(c)
+            or isOperator
 
         if char.isdigit():
 
@@ -253,6 +253,7 @@ class Lexer:
                 break
 
             char = self.curr_char()
+
 
             if isWhitespace(char):
                 self.advance()
