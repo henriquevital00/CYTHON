@@ -90,7 +90,7 @@ class Lexer:
             quote = char
             self.appendToResultWord(quote)
 
-            if isQuote(self.curr_char()):
+            if self.curr_char() == quote:
                 self.appendToResultWord(quote)
                 return True
 
@@ -100,7 +100,7 @@ class Lexer:
                 if self.lookAhead() == '\0':
 
                     # if the last char is not a quote, it's invalid
-                    if not isQuote(self.curr_char()):
+                    if self.curr_char() != quote:
                         raise InvalidTokenException(f"string {self._resultWord + self.curr_char()} was not closed")
 
                 # if the lookahead is a quote, the entire string was read
