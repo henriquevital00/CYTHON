@@ -241,7 +241,7 @@ class Lexer:
 
                 return True
 
-        # if current char has not passed in any handler, just advance the cursos and set result word as the car
+        # if current char has not passed in any handler, just advance and set result word as the char
         self._resultWord = self.curr_char()
         self.advance()
 
