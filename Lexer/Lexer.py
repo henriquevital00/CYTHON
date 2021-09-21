@@ -1,10 +1,11 @@
-from Lexer.Exception.InvalidTokenException import InvalidTokenException
 from Lexer.Utils.Patterns import *
+from Lexer.Validators.AssingmentValidator import isAssignmentToken
 from Lexer.Validators.DelimitersValidator import isDelimiterToken
 from Lexer.Validators.IdentifierValidator import isIdentifierToken
 from Lexer.Validators.LiteralsValidator import isLiteralToken
 from Lexer.Validators.OperatorsValidator import isOperatorToken
 from Lexer.Validators.VarTypeValidator import isVariableTypeToken
+from Lexer.Exception.InvalidTokenException import InvalidTokenException
 
 from Tokens.Token import Token
 
@@ -43,6 +44,7 @@ class Lexer:
 
         validators = [
             isDelimiterToken,
+            isAssignmentToken,
             isVariableTypeToken,
             isLiteralToken,
             isIdentifierToken,
@@ -58,7 +60,7 @@ class Lexer:
                 print(self._tokensList)
                 return
 
-        raise InvalidTokenException(f"Invalid token at {self._resultWord}")
+        raise InvalidTokenException(f"Invalid token: Unexpected {self._resultWord}")
 
     def isComparisonOperator(self, char):
 
@@ -125,10 +127,12 @@ class Lexer:
 
         if isLetterOrNumber(char):
 
-            self.appendToResultWord(char)
-
-            if isValidTerminator(self.curr_char()):
+            # if the next char is a valid terminator or is none, just append the current char and return
+            if self.lookAhead() == '\0' or isValidTerminator(self.lookAhead()):
+                self.appendToResultWord(char)
                 return True
+
+            self.appendToResultWord(char)
 
             while True:
 
@@ -176,6 +180,7 @@ class Lexer:
 
         if char.isdigit():
 
+            # if the next char is a valid terminator or is none, just append the current char and return
             if self.lookAhead() == '\0' or isValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)
                 return True
@@ -184,27 +189,38 @@ class Lexer:
 
             while True:
 
+                # if it is in the end of the file, the entire number was read
                 if self.lookAhead() == '\0':
-                    if isPoint(self.curr_char()):
-                        raise InvalidTokenException(defaultUnexpectedPointMessage())
+
+                    # if the current char (the last) is not a terminator, it's invalid
+                    if not isValidTerminator(self.curr_char()):
+                        raise InvalidTokenException(f"Unexpected {self.curr_char()} at {self._resultWord + self.curr_char()}")
 
                     self.appendToResultWord(self.curr_char())
                     return True
 
+                # if the lookahead is a point
                 if isPoint(self.lookAhead()):
 
+                    # if already has a point, it's invalid
                     if hasPoint:
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
 
                     self.appendToResultWord(self.curr_char())
 
+                # if the lookhead is a digit
                 elif self.lookAhead().isdigit():
+
+                    # if next char is a point, set hasPoint flag
                     if isPoint(self.curr_char()):
                         hasPoint = True
 
                     self.appendToResultWord(self.curr_char())
 
+                # if the lookahead is a terminator
                 elif isValidTerminator(self.lookAhead()):
+
+                    # if the current char (the last) is a point, it's invalid
                     if isPoint(self.curr_char()):
                         raise InvalidTokenException(defaultUnexpectedPointMessage())
 
@@ -225,6 +241,7 @@ class Lexer:
 
                 return True
 
+        # if current char has not passed in any handler, just advance the cursos and set result word as the car
         self._resultWord = self.curr_char()
         self.advance()
 
