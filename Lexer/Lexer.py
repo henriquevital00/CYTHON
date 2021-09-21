@@ -56,8 +56,7 @@ class Lexer:
             isValid, token = validator(self._resultWord)
 
             if isValid:
-                self._tokensList.append(token.toString())
-                print(self._tokensList)
+                self._tokensList.append(token)
                 return
 
         raise InvalidTokenException(f"Invalid token: Unexpected {self._resultWord}")
@@ -264,3 +263,8 @@ class Lexer:
             self.validateToken()
 
             self.clearResultWord()
+
+        # on read finished
+        self._tokensList.append(Token("EOF", "eof"))
+
+        print(([token.toString() for token in self._tokensList]))
