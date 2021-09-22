@@ -106,7 +106,7 @@ class Lexer:
             while True:
 
                 if self.lookAhead() == 'EOF':
-                    if not isValidTerminator(self.curr_char()):
+                    if not self.curr_char().isdigit():
                         return False
 
                     self.appendToResultWord(self.curr_char())
@@ -136,7 +136,7 @@ class Lexer:
         return False
 
     def readTokens(self):
-        readers = [self.isString, self.isComparisonOperator, self.isIdentifierOrType, self.isNumber]
+        readers = [self.isString, self.isNumber, self.isComparisonOperator, self.isIdentifierOrType]
 
         for reader in readers:
             if reader(self.curr_char()):
