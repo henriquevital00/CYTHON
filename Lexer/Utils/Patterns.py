@@ -14,13 +14,17 @@ isArithmeticOperator = lambda char : re.match("^\+|-|\*|/$", char)
 
 isLogicalOperator = lambda char : re.match("^&|\|", char)
 
-isComparisonOperator = lambda char : re.match("^<|>|=$")
+isComparisonOperator = lambda char : re.match("^<|>|=$", char)
 
-isOperator = lambda char : isLogicalOperator(char) or isComparisonOperator(char) or isArithmeticOperator(char)
+isOperator = lambda char : isLogicalOperator(char) \
+                           or isComparisonOperator(char)\
+                           or isArithmeticOperator(char)
 
 isBiggerOrLessOperator = lambda char : re.match("^<|>$", char)
 
 isCloseParenthesis = lambda char : char == ")"
+
+isOpenCurlyBracket = lambda char : char == "{"
 
 isLetterOrNumber = lambda char : re.match("^\w$", char)
 

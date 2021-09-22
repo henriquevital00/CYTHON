@@ -4,35 +4,18 @@ from Tokens.Types.Literals.Literals import LiteralsTokens
 
 def isLiteralToken(word):
 
-    # NUMBER
-    numberLiteralPattern = LiteralsTokens.NUMBER_LITERAL.value
-    isNumberLiteral = re.match(numberLiteralPattern, word)
+    literalToken = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
 
-    if isNumberLiteral:
-        token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
-        isFloat = re.match("^\d+\.\d+$", word)
-        token.value = float(word) if isFloat else int(word)
-        return True, token
+    formatters = {}
+    formatters[LiteralsTokens.NUMBER_LITERAL.value] = lambda: float(word) if re.match("^\d+\.\d+$", word) else int(word)
+    formatters[LiteralsTokens.STRING_LITERAL.value] = lambda: word[1:-1]
+    formatters[LiteralsTokens.BOOLEAN_LITERAL.value] = lambda: False if word == "False" else True
 
+    if literalToken:
 
-    # STRING
-    stringLiteralPattern = LiteralsTokens.STRING_LITERAL.value
-    isStringLiteral = re.match(stringLiteralPattern, word)
+        for pattern, formatter in formatters.items():
 
-    if isStringLiteral:
-        token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
-        word = word[1:-1]
-        token.value = word
-        return True, token
-
-
-    # BOOLEAN
-    booleanLiteralPattern = LiteralsTokens.BOOLEAN_LITERAL.value
-    isBooleanLiteral = re.match(booleanLiteralPattern, word)
-
-    if isBooleanLiteral:
-        token = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
-        token.value = False if word == "False" else True
-        return True, token
-
-    return False, None
+            if re.match(pattern, word):
+                literalToken.value = formatter()
+                return literalToken
+    return None
