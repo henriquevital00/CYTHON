@@ -8,10 +8,12 @@ from Tests.SymbolTableInitialTest import test
 
 def main():
 
+    #  TESTE TABELA DE SÍMBOLOS
     # test.addSymbolsToTableTest()
     #
     # test.shouldTableFindSymbol('number2')
-    #
+
+    # TESTES LEXER
     # LexerInitialTest().run()
 
     with open("program.cy", "rt") as input:

@@ -105,7 +105,7 @@ class Lexer:
 
             while True:
 
-                if self.lookAhead() == 'EOF':
+                if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                     if not self.curr_char().isdigit():
                         return False
 
@@ -123,15 +123,6 @@ class Lexer:
                         hasPoint = True
 
                     self.appendToResultWord(self.curr_char())
-
-                elif isValidTerminator(self.lookAhead()):
-                    if isPoint(self.curr_char()):
-                        return False
-
-                    self.appendToResultWord(self.curr_char())
-                    return True
-                else:
-                    return False
 
         return False
 
