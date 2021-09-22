@@ -1,4 +1,4 @@
-number a = 15;
+number a = 15.5;
 str _ab1 = "hello world!";
 str f = "";
 if a != b {

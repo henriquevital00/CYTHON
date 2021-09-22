@@ -112,7 +112,7 @@ class Lexer:
 
             self.appendToResultWord(char)
 
-            if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
+            if self.curr_char() == 'EOF' or isValidTerminator(self.curr_char()):
                 return True
 
             while True:
