@@ -56,7 +56,7 @@ class Lexer:
                     if self.curr_char() != quote:
                         return False
 
-                if self.lookAhead() == quote:
+                elif self.lookAhead() == quote:
                     self.appendToResultWord(self.curr_char())
                     self.appendToResultWord(quote)
                     return True
@@ -66,12 +66,36 @@ class Lexer:
         return False
 
     def isIdentifierOrType(self, char):
-        if char.isdigit():
-            return
+        if isLetter(char) or isUnderscore(char):
 
-        isValidTerminator = lambda c: isSeparator(c) or isEquals(c) or isOpenCurlyBracket(c)
+            isValidTerminator = lambda c: isSeparator(c) or isOperator(c) or isOpener(c) or isEquals(c)
 
-        if isLetterOrNumber(char):
+            if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
+                self.appendToResultWord(char)
+                return True
+
+            self.appendToResultWord(char)
+
+            while True:
+
+                if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
+                    if not (isLetterOrNumber(self.curr_char()) or isUnderscore(self.curr_char())):
+                        return False
+
+                    self.appendToResultWord(self.curr_char())
+                    return True
+
+                if isLetterOrNumber(self.curr_char()) or isUnderscore(char):
+                    self.appendToResultWord(self.curr_char())
+                else:
+                    return False
+
+        return False
+
+    def isNumber(self, char):
+        if char.isdigit() or isMinus(char):
+            hasPoint = False
+            isValidTerminator = lambda c: isCloseParenthesis(c) or isSeparator(c) or isOperator(c)
 
             if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)
@@ -82,49 +106,13 @@ class Lexer:
             while True:
 
                 if self.lookAhead() == 'EOF':
-                    if not isLetterOrNumber(self.curr_char()):
-                        return False
-
-                    self.appendToResultWord(self.curr_char())
-                    return True
-
-
-                if isValidTerminator(self.lookAhead()):
-                    self.appendToResultWord(self.curr_char())
-                    return True
-
-                if isEquals(self.lookAhead()):
-                    self.appendToResultWord(self.curr_char())
-                    return True
-
-                if isLetterOrNumber(self.lookAhead()) and isLetterOrNumber(self.curr_char()):
-                    self.appendToResultWord(self.curr_char())
-                else:
-                    return False
-
-        return False
-
-    def isNumber(self, char):
-        hasPoint = False
-        isValidTerminator = lambda c: isCloseParenthesis(c) or isSeparator(c) or isOperator(c)
-
-        if char.isdigit() or isMinus(char):
-
-            self.appendToResultWord(char)
-
-            if self.curr_char() == 'EOF' or isValidTerminator(self.curr_char()):
-                return True
-
-            while True:
-
-                if self.lookAhead() == 'EOF':
                     if not isValidTerminator(self.curr_char()):
                         return False
 
                     self.appendToResultWord(self.curr_char())
                     return True
 
-                if isPoint(self.lookAhead()):
+                elif isPoint(self.lookAhead()):
                     if hasPoint:
                         return False
 

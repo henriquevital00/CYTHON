@@ -13,13 +13,13 @@ class TokenValidator:
     def validateToken(char, word, tokenList):
 
         validators = [
+            isOperatorToken,
             isEscapeToken,
             isDelimiterToken,
             isVariableTypeToken,
             isLiteralToken,
             isStatementToken,
             isIdentifierToken,
-            isOperatorToken,
         ]
 
         for validator in validators:

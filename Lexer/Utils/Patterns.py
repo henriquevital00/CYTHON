@@ -10,6 +10,8 @@ isEquals = lambda char : char == "="
 
 isUnderscore = lambda char : char == "_"
 
+isLetter = lambda char : re.match("^[a-z]|[A-Z]$", char)
+
 isArithmeticOperator = lambda char : re.match("^\+|-|\*|/$", char)
 
 isLogicalOperator = lambda char : re.match("^&|\|", char)
@@ -24,7 +26,7 @@ isBiggerOrLessOperator = lambda char : re.match("^<|>$", char)
 
 isCloseParenthesis = lambda char : char == ")"
 
-isOpenCurlyBracket = lambda char : char == "{"
+isOpener = lambda char : re.match("^{|$", char)
 
 isLetterOrNumber = lambda char : re.match("^\w$", char)
 
