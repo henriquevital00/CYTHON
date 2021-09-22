@@ -131,8 +131,7 @@ class Lexer:
                 return
 
         # if current char has not passed in any reader, just advance and set result word as the char
-        self._resultWord = self.curr_char()
-        self.advance()
+        self.appendToResultWord(self.curr_char())
 
     def readInput(self):
         while True:
