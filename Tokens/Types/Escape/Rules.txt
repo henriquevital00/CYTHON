@@ -7,5 +7,4 @@
 #       TAB        \t         TAB ESCAPE CHARACTER
 #
 #
-#  TOKEN TYPE: ESCAPE_CHARACTER
 #  REGEX  \n|\n|\t

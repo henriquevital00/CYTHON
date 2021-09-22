@@ -7,4 +7,4 @@ class Token:
         self.value = value
 
     def toString(self):
-        return f"<{self.type}: {self.value}>"
+        return f"< {self.type}: {self.value} >"

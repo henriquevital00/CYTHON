@@ -1,8 +1,8 @@
 #                      LOOP TOKENS
 # ==========================================================
-#   TOKEN          TOKENS               MEANIGN
+#   TOKEN          LEXEME               MEANIGN
 # ==========================================================
 #   WHILE          while            WHILE loop token
+#   FOR            for              FOR loop token
 #
-#  TOKEN TYPE: KEYWORD
-#  REGEX while
+#  REGEX ^while$

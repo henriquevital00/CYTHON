@@ -108,7 +108,7 @@ class Lexer:
         hasPoint = False
         isValidTerminator = lambda c: isCloseParenthesis(c) or isSeparator(c) or isOperator(c)
 
-        if char.isdigit():
+        if char.isdigit() or isMinus(char):
 
             self.appendToResultWord(char)
 
