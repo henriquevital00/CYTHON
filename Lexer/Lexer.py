@@ -64,7 +64,7 @@ class Lexer:
 
         return False
 
-    def isIdentifierOrType(self, char):
+    def isIdentifierOrKeyword(self, char):
         if isLetter(char) or isUnderscore(char):
 
             isValidTerminator = lambda c: isSeparator(c) or isOperator(c) or isOpener(c) or isEquals(c)
@@ -124,7 +124,7 @@ class Lexer:
         return False
 
     def readTokens(self):
-        readers = [self.isString, self.isNumber, self.isComparisonOperator, self.isIdentifierOrType]
+        readers = [self.isString, self.isNumber, self.isComparisonOperator, self.isIdentifierOrKeyword]
 
         for reader in readers:
             if reader(self.curr_char()):
