@@ -1,0 +1,1 @@
+removeQuotes = lambda word : word[1:-1]

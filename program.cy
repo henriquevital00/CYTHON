@@ -1,6 +1,4 @@
 number a >= -10.5;
-b = 5
-c = -3.2+5
 str _ab1 = "hello world!";
 str f = "";
 if a != b {
@@ -10,7 +8,7 @@ if a != b {
   bool d = False;
 }
 
-while (i == 50.2346){
+while (i == 5){
     i = i + 1.53;
 }
 

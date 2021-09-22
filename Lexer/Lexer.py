@@ -1,5 +1,5 @@
-from Lexer.Utils.Patterns import *
-from Lexer.Validators.TokenValidator.TokenValidator import TokenValidator
+from Utils.Patterns import *
+from Lexer.Validators.Validator.Validator import TokenValidator
 from Tokens.Token import Token
 
 class Lexer:
@@ -51,7 +51,6 @@ class Lexer:
                 return True
 
             while True:
-
                 if self.lookAhead() == 'EOF':
                     if self.curr_char() != quote:
                         return False
@@ -77,7 +76,6 @@ class Lexer:
             self.appendToResultWord(char)
 
             while True:
-
                 if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                     if not (isLetterOrNumber(self.curr_char()) or isUnderscore(self.curr_char())):
                         return False
@@ -104,7 +102,6 @@ class Lexer:
             self.appendToResultWord(char)
 
             while True:
-
                 if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                     if not self.curr_char().isdigit():
                         return False
@@ -133,7 +130,7 @@ class Lexer:
             if reader(self.curr_char()):
                 return
 
-        # if current char has not passed in any handler, just advance and set result word as the char
+        # if current char has not passed in any reader, just advance and set result word as the char
         self._resultWord = self.curr_char()
         self.advance()
 

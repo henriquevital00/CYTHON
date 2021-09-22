@@ -33,3 +33,5 @@ isLetterOrNumber = lambda char : re.match("^\w$", char)
 isQuote = lambda char : re.match("^\"|'$", char)
 
 isMinus = lambda char : char == "-"
+
+isFloat = lambda char : re.match("^-?\d+\.\d+$", char)
