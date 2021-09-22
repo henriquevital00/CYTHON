@@ -14,10 +14,10 @@ isArithmeticOperator = lambda char : re.match("^\+|-|\*|/$", char)
 
 isLogicalOperator = lambda char : re.match("^&|\|", char)
 
-isComparisonOperator = lambda char : re.match("^<|>|=$", char)
+isComparisonStarter = lambda char : re.match("^<|>|=|!$", char)
 
 isOperator = lambda char : isLogicalOperator(char) \
-                           or isComparisonOperator(char)\
+                           or isComparisonStarter(char)\
                            or isArithmeticOperator(char)
 
 isBiggerOrLessOperator = lambda char : re.match("^<|>$", char)

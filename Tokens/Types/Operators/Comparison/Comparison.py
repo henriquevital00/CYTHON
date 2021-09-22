@@ -8,3 +8,4 @@ class ComparisonOperatorsTokens(Enum):
     EQUALS = '^==$'
     GREATER_EQUALS = '^>=$'
     LESS_EQUALS = '^<=$'
+    DIFFERENT = '^!=$'

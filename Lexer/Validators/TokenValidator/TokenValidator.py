@@ -10,7 +10,7 @@ from Lexer.Validators.VarTypeValidator import isVariableTypeToken
 class TokenValidator:
 
     @staticmethod
-    def validateToken(word, tokenList):
+    def validateToken(char, word, tokenList):
 
         validators = [
             isEscapeToken,
@@ -30,4 +30,4 @@ class TokenValidator:
                 tokenList.append(token)
                 return
 
-        raise InvalidTokenException(f"Invalid token: Unexpected {word}")
+        raise InvalidTokenException(f"Invalid token: Unexpected {char}")
