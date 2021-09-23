@@ -3,32 +3,64 @@ from Lexer.Validators.Validator.Validator import TokenValidator
 from Tokens.Token import Token
 
 class Lexer:
+    """
+        Class responsible for validate all tokens types
+    """
     _tokensList: list = []
     _resultWord: str = ''
     _position: int = 0
     _text: str
 
-    def __init__(self, text):
-        self._text = text
+    def __init__(self, text: str):
+        """
+            Constructor
+
+            :param text: The main text that will be compiled
+        """
+        self._text: str = text
+
 
     def lookAhead(self):
+        """
+            :return Returns a cursor for the next position if it exists. Otherwise it returns End Of File statement.
+        """
         next = self._position + 1
         return 'EOF' if next >= len(self._text) else self._text[next]
 
     def curr_char(self):
+        """
+            :return Returns the char at current position
+        """
         return self._text[self._position]
 
     def advance(self):
+        """
+            Increments position
+        """
         self._position += 1
 
     def appendToResultWord(self, char):
+        """
+            Appends a char into result word
+
+            :param char: A simple char
+        """
         self._resultWord += char
         self.advance()
 
     def clearResultWord(self):
+        """
+            Clears the result word
+
+        """
         self._resultWord = ""
 
     def isComparisonOperator(self, char):
+        """
+
+            :param char: A simple char
+        """
+
         if isComparisonStarter(char):
             if isEquals(self.lookAhead()):
                 self.appendToResultWord(char)

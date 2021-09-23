@@ -3,15 +3,20 @@ import re
 from Tests.LexerInitialTest import LexerInitialTest
 from Tests.SymbolTableInitialTest import test
 
-# Step by step
-# Lexer -> Syntax Analyzer -> Symbols Table
+"""
+MAIN
+"""
 
-def main():
+def main() -> None:
+    """
+    The program starts here.
+    Main method will read the .cy file and throw it to the lexer
+
+    :return: None
+    """
 
     #  TESTE TABELA DE SÍMBOLOS
-    test.addSymbolsToTableTest()
-    #
-    # test.shouldTableFindSymbol('number2')
+    # test.addSymbolsToTableTest()
 
     # TESTES LEXER
     # LexerInitialTest().run()

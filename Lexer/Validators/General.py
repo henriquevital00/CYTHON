@@ -1,6 +1,5 @@
 import re
 from Lexer.Validators.Matcher.Matcher import TokenMatcher
-from Tokens.Token import Token
 from Tokens.Types.Delimiters.Delimiters import DelimitersTokens
 from Tokens.Types.Escape.Escape import EscapeCharsTokens
 from Tokens.Types.Literals.Literals import LiteralsTokens
@@ -14,6 +13,10 @@ from Tokens.Types.Variables.Identifier.Identifier import IdentifierToken
 from Tokens.Types.Variables.VarTypes.VarTypes import VariableTypesTokens
 from Utils.Helpers import removeQuotes
 from Utils.Patterns import isFloat
+
+"""
+    
+"""
 
 isDelimiterToken = lambda word: TokenMatcher.getToken([DelimitersTokens], word)
 

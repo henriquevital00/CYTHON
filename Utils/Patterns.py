@@ -1,5 +1,9 @@
 import re
 
+"""
+Methods responsible for validate chars literals
+"""
+
 isSeparator = lambda char : re.match("^;|\\s|\\n$", char)
 
 isWhitespace = lambda char : re.match("^ $", char)
