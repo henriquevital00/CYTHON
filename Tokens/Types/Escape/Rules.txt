@@ -1,0 +1,10 @@
+#                    ESCAPE CHARACTERS DELIMITERS
+# =========================================================
+#      TOKEN       REGEX            MEANING
+# =========================================================
+#   WHITESPACE     \s         WHITESPACE ESCAPE CHARACTER
+#    NEW_LINE      \n         NEW LINE ESCAPE CHARACTER
+#       TAB        \t         TAB ESCAPE CHARACTER
+#
+#
+#  REGEX  \n|\n|\t

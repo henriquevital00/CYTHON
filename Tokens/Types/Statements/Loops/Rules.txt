@@ -1,0 +1,8 @@
+#                      LOOP TOKENS
+# ==========================================================
+#   TOKEN          LEXEME               MEANIGN
+# ==========================================================
+#   WHILE          while            WHILE loop token
+#   FOR            for              FOR loop token
+#
+#  REGEX ^while$

@@ -1,0 +1,11 @@
+#                             LITERAIS TOKENS
+# ===================================================================================================
+#   TOKEN                   REGEX                      MEANING
+# ===================================================================================================
+#    NUMBER_LITERAL       ^\d+(.\d+)?$              NUEMRIC CONSTANTS LITERAL
+#    STRING_LITERAL       ^('|")\w*\1$         STRINGS CONSTANTS LITERAL
+#    BOOLEAN_LITERAL      ^True|False$         BOOLEAN CONSTANTS LITERAL
+#
+#  number_literal = \d+(.\d+)?
+#  string_literal = ('\w*')|("\w*")
+#  boolean_literal = 0|1|True|False|

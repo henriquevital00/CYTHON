@@ -3,10 +3,11 @@ from Symbols.SymbolsTable.Exceptions.SymbolAlreadyDeclared import SymbolAlreadyD
 from Symbols.SymbolsTable.Exceptions.SymbolNotFound import SymbolNotFoundException
 
 class SymbolsTable:
+    """Store the identified symbols during the program execution"""
 
     _storedSymbols: dict = {}
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def storeSymbol(self, symbol: Symbol) -> None:
@@ -14,7 +15,10 @@ class SymbolsTable:
             Store a provided symbol in the table
 
             :param symbol: symbol to be stored
-            :return:
+            :return: None
+
+            :raises: SymbolAlreadyDeclared
+                exception raised if a symbol has already been declared
         """
         try:
             if self._storedSymbols.get(symbol.name) is None:
@@ -31,6 +35,9 @@ class SymbolsTable:
 
             :param key: provided symbol key
             :return: found symbol key
+
+            :raises: SymbolNotFoundException
+                exception raised if a symbol is not found in symbols table
         """
         try:
 
@@ -44,11 +51,11 @@ class SymbolsTable:
             print(ex.message)
 
 
-    def findAllSymbols(self):
+    def findAllSymbols(self) -> None:
         """
             Find and print all table stored symbols
 
-            :return:
+            :return: None
         """
         for symbol in self._storedSymbols.values():
 

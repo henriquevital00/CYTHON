@@ -1,0 +1,16 @@
+#                         DELIMITERS TOKENS
+# ========================================================================================
+#      TOKEN          REGEX               SIGNIFICADO
+# ========================================================================================
+#    OPEN_SCOPE       ->           OPEN SCOPE DELIMITER
+#    END_SCOPE        end          CLOSE SCOPE DELIMITER
+#    END_COMMAND       ;           END LINE DELIMITER
+#     L_PAREN          (           OPENER CONDITIONAL AND ARITHMETIC PRIORITY DELIMITER
+#     R_PAREN          )           CLOSE CONDITIONAL AND ARITHMETIC PRIORITY DELIMITER
+#
+#
+#  OPEN_SCOPE = '^)$'
+#  END_SCOPE  = '^end$'
+#  END_LIJNE  = '^;$'
+#  L_PAREN    = '^($'
+#  R_PAREN    = '^)$'
