@@ -26,7 +26,9 @@ isBiggerOrLessOperator = lambda char : re.match("^<|>$", char)
 
 isCloseParenthesis = lambda char : char == ")"
 
-isOpener = lambda char : re.match("^{|$", char)
+isOpener = lambda char : re.match("^{|\($", char)
+
+isCloser = lambda char : re.match("^\)|}$", char)
 
 isLetterOrNumber = lambda char : re.match("^\w$", char)
 

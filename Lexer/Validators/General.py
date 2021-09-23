@@ -1,5 +1,6 @@
 import re
 from Lexer.Validators.Matcher.Matcher import TokenMatcher
+from Tokens.Token import Token
 from Tokens.Types.Delimiters.Delimiters import DelimitersTokens
 from Tokens.Types.Escape.Escape import EscapeCharsTokens
 from Tokens.Types.Literals.Literals import LiteralsTokens

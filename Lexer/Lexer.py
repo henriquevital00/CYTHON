@@ -67,7 +67,7 @@ class Lexer:
     def isIdentifierOrKeyword(self, char):
         if isLetter(char) or isUnderscore(char):
 
-            isValidTerminator = lambda c: isSeparator(c) or isOperator(c) or isOpener(c) or isEquals(c)
+            isValidTerminator = lambda c: isSeparator(c) or isOperator(c) or isOpener(c) or isEquals(c) or isCloser(c)
 
             if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)

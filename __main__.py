@@ -9,7 +9,7 @@ from Tests.SymbolTableInitialTest import test
 def main():
 
     #  TESTE TABELA DE SÍMBOLOS
-    # test.addSymbolsToTableTest()
+    test.addSymbolsToTableTest()
     #
     # test.shouldTableFindSymbol('number2')
 
