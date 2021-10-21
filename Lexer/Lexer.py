@@ -20,6 +20,10 @@ class Lexer:
         self._text: str = text
 
 
+    def getNextToken(self) -> Token:
+        return self._tokensList.pop(0)
+
+
     def lookAhead(self):
         """
             :return Returns a cursor for the next position if it exists. Otherwise it returns End Of File statement.

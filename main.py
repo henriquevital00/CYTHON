@@ -2,6 +2,9 @@ from Lexer.Lexer import Lexer
 import re
 from Tests.LexerInitialTest import LexerInitialTest
 from Tests.SymbolTableInitialTest import test
+from core import core
+from Parser.Parser import Parser
+
 
 """
 MAIN
@@ -22,7 +25,8 @@ def main() -> None:
     # LexerInitialTest().run()
 
     with open("program.cy", "rt") as input:
-        Lexer(input.read()).readInput()
+        core.Lexer = Lexer(input.read()).readInput()
+    Parser()
 
 
 if __name__ == "__main__":
