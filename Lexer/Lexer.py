@@ -127,7 +127,7 @@ class Lexer:
         return False
 
     def isNumber(self, char):
-        if char.isdigit() or isMinus(char):
+        if char.isdigit():
             hasPoint = False
             isValidTerminator = lambda c: isCloseParenthesis(c) or isSeparator(c) or isOperator(c)
 

@@ -25,8 +25,9 @@ def main() -> None:
     # LexerInitialTest().run()
 
     with open("program.cy", "rt") as input:
-        core.Lexer = Lexer(input.read()).readInput()
-    Parser()
+        core.Lexer = Lexer(input.read())
+        core.Lexer.readInput()
+    Parser().parseGrammar()
 
 
 if __name__ == "__main__":
