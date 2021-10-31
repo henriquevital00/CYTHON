@@ -20,8 +20,8 @@ class Lexer:
         self._text: str = text
 
 
-    def getNextToken(self) -> Token:
-        return self._tokensList.pop(0)
+    def getNextToken(self, position = 0) -> Token:
+        return self._tokensList[position]
 
 
     def lookAhead(self):

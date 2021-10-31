@@ -1,14 +1,28 @@
 from Lexer.Lexer import Lexer
+from Parser.SyntaxEvaluator.SyntaxEvaluator import SyntaxEvaluator
+from Parser.SyntaxTree import SyntaxTree
+from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
+from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
+from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
+from Parser.SyntaxTypes.Expression.LiteralExpression.StringExpression import StringExpression
+from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
+from Parser.SyntaxTypes.Expression.BinaryExpression import BinaryExpression
+from Parser.SyntaxTypes.Expression.Expression import Expression
+from Tokens.Constants.TokenConstants import TokenTypes
 from Tokens.Token import Token
-from Tokens.Types.Literals.Literals import LiteralsTokens
 from core import core
 
 
 class Parser:
 
+    _lexer: Lexer
+    current_token: Token
+    _position: int
+
     def __init__(self):
         self._lexer: Lexer = core.Lexer
         self.current_token: Token = self._lexer.getNextToken()
+        self._position = 0
 
     def eat(self, token_type: str) -> None:
         '''
@@ -19,107 +33,166 @@ class Parser:
         '''
 
         if self.current_token.type == token_type:
-            self.current_token = self._lexer.getNextToken()
+            self._position += 1
+            self.current_token = self._lexer.getNextToken(self._position)
         else:
             print("Deu merda Amigao")
 
     # region 1. ARITHMETIC EXPRESSION
 
     #ARITHMETIC_EXPR -> ARITHMETIC _TERM
-                        #| ARITHMETIC_TERM  PLUS ARITHMETIC _EXPR
-                        #| ARITHMETIC_TERM  MINUS ARITHMETIC _EXPR
+                        #| ARITHMETIC _EXPR PLUS ARITHMETIC_TERM
+                        #| ARITHMETIC _EXPR  MINUS ARITHMETIC_TERM
 
     #ARITHMETIC_TERM ->  ARITHMETIC _FACTOR
-                        #| ARITHMETIC _FACTOR MULT ARITHMETIC _TERM
-                        #| ARITHMETIC _FACTOR DIVIDE ARITHMETIC _TERM
+                        #| ARITHMETIC _TERM MULT ARITHMETIC _FACTOR
+                        #| ARITHMETIC _TERM DIVIDE ARITHMETIC _FACTOR
 
     #ARITHMETIC_FACTOR -> NUMBER_LITERAL
                         #| IDENTIFIER
                         #| L_PAREN ARITHMETIC _EXPR R_PAREN
 
-    def arithmetic_expr(self):
-        result = self.arithmetic_term()
+    def parseArithmeticTerm(self) -> Expression:
+        leftTerm = self.parseArithmeticFactor()
 
-        if not result:
-           return 0
+        while self.current_token.type in (TokenTypes.PLUS, TokenTypes.MINUS):
+            operator = self.current_token
+            self.eat(operator.type)
+            rightTerm = self.parseArithmeticFactor()
+            leftTerm = ArithmeticExpression(leftTerm, operator, rightTerm)
 
-        if self.current_token.type == "PLUS":
-            self.eat("PLUS")
-            return result + self.arithmetic_expr()
-        elif self.current_token.type == "MINUS":
-            self.eat("MINUS")
-            return result - self.arithmetic_expr()
+        return leftTerm
 
-        return result
 
-    def arithmetic_term(self):
-        result = self.arithmetic_factor(self.current_token)
+    def parseArithmeticFactor(self) -> Expression:
+        leftTerm = self.parseFinalArithmeticExpression()
 
-        if not result:
-           return 1
+        while self.current_token.type in (TokenTypes.MULTIPLY, TokenTypes.DIVISION):
+            operator = self.current_token
+            self.eat(operator.type)
 
-        if self.current_token.type == "MULTIPLY":
-            self.eat("MULTIPLY")
-            return result * self.arithmetic_term()
-        elif self.current_token.type == "DIVISION":
-            self.eat("DIVISION")
-            return result / self.arithmetic_term()
+            rightTerm = self.parseFinalArithmeticExpression()
+            leftTerm = ArithmeticExpression(leftTerm, operator, rightTerm)
 
-        return result
+        return leftTerm
 
-    def arithmetic_factor(self, token):
-        if token.type == "NUMBER_LITERAL":
-            self.eat("NUMBER_LITERAL")
-            return float(token.value)
+    def parseFinalArithmeticExpression(self) -> Expression:
+        if self.current_token.type == TokenTypes.L_PAREN:
+            left_parenthesis = self.current_token
+            self.eat(TokenTypes.L_PAREN)
 
-        elif token.type == "L_PAREN":
-            self.eat("L_PAREN")
+            expression = self.parseArithmeticTerm()
 
-            expr_result = self.arithmetic_expr()
+            right_parenthesis = self.current_token
+            self.eat(TokenTypes.R_PAREN)
 
-            if not expr_result:
-                pass
+            return ParenthesizedExpression(left_parenthesis, expression, right_parenthesis)
 
-            if self.current_token.type == "R_PAREN":
-                self.eat("R_PAREN")
-                return expr_result
-
-            raise Exception("Faltou parênteses parça")
-
-        return None
+        elif self.current_token.type == TokenTypes.NUMBER_LITERAL:
+            numberLiteralToken = self.current_token
+            self.eat(TokenTypes.NUMBER_LITERAL)
+            return NumberExpression(numberLiteralToken)
 
     # endregion
 
     # region 2. LOGIC EXPRESSION
 
+    def parseLogicalTerm(self) -> Expression:
+        leftTerm = self.parseLogicalFactor()
+
+        while self.current_token.type == TokenTypes.OR:
+            # operator = self.current_token
+            # self.eat(operator.type)
+            # rightTerm = self.parseLogicalFactor()
+            # leftTerm = BinaryExpression(leftTerm, operator, rightTerm)
+            pass
+
+        return leftTerm
 
 
-
-
-    # LOGICAL_TERM ->   IDENTIFIER
-                        # | BOOLEAN_LITERAL
-                        # | EXPR
-
-    # LOGICAL_EXPR ->   LOGICAL_EXPR’ OR LOGICAL_EXPR
-                        # | LOGICAL_EXPR’
-    def logical_expr(self):
-        result = self.aux_logical_expr()
-
-        if self.current_token.type == "OR":
-            return result or self.logical_expr()
-
-        return result
-
-
-    # LOGICAL_EXPR’ ->  LOGICAL_TERM AND LOGICAL_TERM
-                        # | LOGICAL_TERM
-                        # | L_PAREN LOGICAL_EXPR R_PAREN AND LOGICAL_EXPR’
-                        # | L_PAREN LOGICAL_EXPR R_PAREN
-    def aux_logical_expr(self):
+    def parseLogicalFactor(self) -> Expression:
         pass
+
+    def parseFinalLogicalExpression(self) -> Expression:
+        pass
+
+    # endregion
+
+    # region 3. COMPARISON EXPRESSION
+
+    # COMPARISON_EXPR -> COMPARISON_TERM COMPARISON_OP COMPARISON_TERM
+    # COMPARISON_TERM ->  LITERAL
+    #                    | IDENTIFIER
+    #                    | ARITHMETIC_EXPR
+
+    def parseComparisonExpression(self) -> Expression:
+        leftTerm = self.parseFinalComparsionExpression()
+
+        if self.current_token.type in (
+                TokenTypes.GREATER,
+                TokenTypes.LESS,
+                TokenTypes.EQUALS,
+                TokenTypes.GREATER_EQUALS,
+                TokenTypes.LESS_EQUALS,
+                TokenTypes.DIFFERENT
+        ):
+            operator = self.current_token
+            self.eat(operator.type)
+            rightTerm = self.parseFinalComparsionExpression()
+
+            return BinaryExpression(leftTerm, operator, rightTerm)
+
+
+    def parseFinalComparsionExpression(self) -> Expression:
+
+        # IS COMPARISON EXPR PARENTHESIZED
+        if self.current_token.type == TokenTypes.L_PAREN:
+            left_parenthesis = self.current_token
+            self.eat(TokenTypes.L_PAREN)
+
+            expression = self.parseComparisonExpression()
+
+            right_parenthesis = self.current_token
+            self.eat(TokenTypes.R_PAREN)
+
+            return ParenthesizedExpression(left_parenthesis, expression, right_parenthesis)
+
+        oldPosition = self._position
+        arithmeticExpression = self.parseArithmeticTerm()
+        isArithmetic = isinstance(arithmeticExpression, ArithmeticExpression)
+
+
+        #  IS ARITHMETIC
+        if isArithmetic:
+            return arithmeticExpression
+        else:
+            self.current_token = self._lexer.getNextToken(oldPosition)
+            self._position = oldPosition
+
+        # IS LITERAL
+        if self.current_token.type in (
+                TokenTypes.NUMBER_LITERAL,
+                TokenTypes.BOOLEAN_LITERAL,
+                TokenTypes.STRING_LITERAL
+        ):
+            literalToken = self.current_token
+            self.eat(self.current_token.type)
+
+            if literalToken.type == TokenTypes.STRING_LITERAL:
+                return StringExpression(literalToken)
+
+            elif literalToken.type == TokenTypes.BOOLEAN_LITERAL:
+                return BooleanExpression(literalToken)
+
+            else:
+                return NumberExpression(literalToken)
+
+
 
 
     # endregion
 
-    def parseGrammar(self):
-        print(self.arithmetic_expr())
+    def parseGrammar(self) -> SyntaxTree:
+        result = self.parseComparisonExpression()
+        pass
+

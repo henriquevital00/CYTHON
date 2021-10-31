@@ -27,6 +27,7 @@ def main() -> None:
     with open("program.cy", "rt") as input:
         core.Lexer = Lexer(input.read())
         core.Lexer.readInput()
+
     Parser().parseGrammar()
 
 

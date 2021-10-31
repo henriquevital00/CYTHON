@@ -7,7 +7,6 @@ class CompilerCore:
     """
 
     SymbolsTable: "SymbolsTable" = SymbolsTable()
-    Lexer: "Lexer"
-
+    Lexer: Lexer
 
 core = CompilerCore()
