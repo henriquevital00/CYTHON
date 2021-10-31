@@ -250,14 +250,40 @@ class Parser:
 
     # region CONDITIONAL EXPRESSION
 
-    # CONDITIONAL_EXPR -> LOGICAL_EXPR | COMPARISON_EXPR | BOOLEAN_LITERAL | IDENTIFIER | NUMBER_LITERAL | ARITHMETIC_EXPR
+    # CONDITIONAL_EXPR -> EXPR | LITERAL | IDENTIFIER
 
-    def parseConditionalExpression(self):
-        pass
+    def parseConditionalExpression(self) -> Expression:
+        #  IS EXPRESSION
+        expression = SyntaxMatcher.checkSyntax([
+            [LogicalExpression, self.parseLogicalTerm],
+            [ComparisonExpression, self.parseComparisonExpression],
+            [ArithmeticExpression, self.parseArithmeticTerm],
+        ], self)
+
+        if expression:
+            return expression
+
+        # IS LITERAL
+        if self.current_token.type in (
+                TokenTypes.NUMBER_LITERAL,
+                TokenTypes.BOOLEAN_LITERAL,
+                TokenTypes.STRING_LITERAL
+        ):
+            literalToken = self.current_token
+            self.eat(self.current_token.type)
+
+            if literalToken.type == TokenTypes.STRING_LITERAL:
+                return StringExpression(literalToken)
+
+            elif literalToken.type == TokenTypes.BOOLEAN_LITERAL:
+                return BooleanExpression(literalToken)
+
+            else:
+                return NumberExpression(literalToken)
 
 
     def parseGrammar(self) -> SyntaxTree:
-        result = self.parseLogicalTerm()
+        result = self.parseConditionalExpression()
         print(SyntaxEvaluator.evaluate(result))
         pass
 
