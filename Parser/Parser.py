@@ -194,5 +194,6 @@ class Parser:
 
     def parseGrammar(self) -> SyntaxTree:
         result = self.parseComparisonExpression()
+        print(SyntaxEvaluator.evaluate(result))
         pass
 
