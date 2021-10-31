@@ -53,4 +53,9 @@ class SyntaxEvaluator:
             elif operator.type == TokenTypes.DIFFERENT:
                 return leftTerm != rightTerm
 
+            elif operator.type == TokenTypes.AND:
+                return leftTerm and rightTerm
+            elif operator.type == TokenTypes.OR:
+                return leftTerm or rightTerm
+
 

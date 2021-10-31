@@ -1,10 +1,13 @@
 from Lexer.Lexer import Lexer
 from Parser.SyntaxEvaluator.SyntaxEvaluator import SyntaxEvaluator
+from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTree import SyntaxTree
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
+from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.StringExpression import StringExpression
+from Parser.SyntaxTypes.Expression.LogicalExpression import LogicalExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Parser.SyntaxTypes.Expression.BinaryExpression import BinaryExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
@@ -95,26 +98,83 @@ class Parser:
 
     # endregion
 
-    # region 2. LOGIC EXPRESSION
+    # region 2. LOGICAL EXPRESSION
+
+    # LOGICAL_EXPR -> LOGICAL_TERM
+    #                 | LOGICAL_EXPR OR LOGICAL_TERM
+    #
+    #
+    # LOGICAL_TERM -> LOGICAL_FACTOR
+    #                 | LOGICAL_TERM AND LOGICAL_TERM
+    # LOGICAL_FACTOR -> IDENTIFIER
+    #                   | LITERAL
+    #                   | EXPR
+    #                   | L_PAREN LOGICAL_EXPRR_PAREN
+
 
     def parseLogicalTerm(self) -> Expression:
         leftTerm = self.parseLogicalFactor()
 
         while self.current_token.type == TokenTypes.OR:
-            # operator = self.current_token
-            # self.eat(operator.type)
-            # rightTerm = self.parseLogicalFactor()
-            # leftTerm = BinaryExpression(leftTerm, operator, rightTerm)
-            pass
+            operator = self.current_token
+            self.eat(operator.type)
+            rightTerm = self.parseLogicalFactor()
+            leftTerm = LogicalExpression(leftTerm, operator, rightTerm)
 
         return leftTerm
 
 
     def parseLogicalFactor(self) -> Expression:
-        pass
+        leftTerm = self.parseFinalLogicalExpression()
+
+        while self.current_token.type == TokenTypes.AND:
+            operator = self.current_token
+            self.eat(operator.type)
+
+            rightTerm = self.parseFinalLogicalExpression()
+            return LogicalExpression(leftTerm, operator, rightTerm)
+
+        return leftTerm
 
     def parseFinalLogicalExpression(self) -> Expression:
-        pass
+        # IS LOGICAL EXPR PARENTHESIZED
+        if self.current_token.type == TokenTypes.L_PAREN:
+            left_parenthesis = self.current_token
+            self.eat(TokenTypes.L_PAREN)
+
+            expression = self.parseLogicalTerm()
+
+            right_parenthesis = self.current_token
+            self.eat(TokenTypes.R_PAREN)
+
+            return ParenthesizedExpression(left_parenthesis, expression, right_parenthesis)
+
+        #  IS EXPRESSION
+        expression = SyntaxMatcher.checkSyntax([
+            [ComparisonExpression, self.parseComparisonExpression],
+            [ArithmeticExpression, self.parseArithmeticTerm],
+        ], self)
+
+        if expression:
+            return expression
+
+        # IS LITERAL
+        if self.current_token.type in (
+                TokenTypes.NUMBER_LITERAL,
+                TokenTypes.BOOLEAN_LITERAL,
+                TokenTypes.STRING_LITERAL
+        ):
+            literalToken = self.current_token
+            self.eat(self.current_token.type)
+
+            if literalToken.type == TokenTypes.STRING_LITERAL:
+                return StringExpression(literalToken)
+
+            elif literalToken.type == TokenTypes.BOOLEAN_LITERAL:
+                return BooleanExpression(literalToken)
+
+            else:
+                return NumberExpression(literalToken)
 
     # endregion
 
@@ -126,7 +186,7 @@ class Parser:
     #                    | ARITHMETIC_EXPR
 
     def parseComparisonExpression(self) -> Expression:
-        leftTerm = self.parseFinalComparsionExpression()
+        leftTerm = self.parseFinalComparisonExpression()
 
         if self.current_token.type in (
                 TokenTypes.GREATER,
@@ -138,12 +198,12 @@ class Parser:
         ):
             operator = self.current_token
             self.eat(operator.type)
-            rightTerm = self.parseFinalComparsionExpression()
+            rightTerm = self.parseFinalComparisonExpression()
 
-            return BinaryExpression(leftTerm, operator, rightTerm)
+            return ComparisonExpression(leftTerm, operator, rightTerm)
 
 
-    def parseFinalComparsionExpression(self) -> Expression:
+    def parseFinalComparisonExpression(self) -> Expression:
 
         # IS COMPARISON EXPR PARENTHESIZED
         if self.current_token.type == TokenTypes.L_PAREN:
@@ -157,17 +217,14 @@ class Parser:
 
             return ParenthesizedExpression(left_parenthesis, expression, right_parenthesis)
 
-        oldPosition = self._position
-        arithmeticExpression = self.parseArithmeticTerm()
-        isArithmetic = isinstance(arithmeticExpression, ArithmeticExpression)
-
-
         #  IS ARITHMETIC
-        if isArithmetic:
+        arithmeticExpression = SyntaxMatcher.checkSyntax([
+            [ArithmeticExpression, self.parseArithmeticTerm],
+        ], self)
+
+        if arithmeticExpression:
             return arithmeticExpression
-        else:
-            self.current_token = self._lexer.getNextToken(oldPosition)
-            self._position = oldPosition
+
 
         # IS LITERAL
         if self.current_token.type in (
@@ -189,11 +246,18 @@ class Parser:
 
 
 
-
     # endregion
 
+    # region CONDITIONAL EXPRESSION
+
+    # CONDITIONAL_EXPR -> LOGICAL_EXPR | COMPARISON_EXPR | BOOLEAN_LITERAL | IDENTIFIER | NUMBER_LITERAL | ARITHMETIC_EXPR
+
+    def parseConditionalExpression(self):
+        pass
+
+
     def parseGrammar(self) -> SyntaxTree:
-        result = self.parseComparisonExpression()
+        result = self.parseLogicalTerm()
         print(SyntaxEvaluator.evaluate(result))
         pass
 
