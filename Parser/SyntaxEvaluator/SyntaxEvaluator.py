@@ -14,7 +14,7 @@ class SyntaxEvaluator:
     def evaluate(node: SyntaxNode):
 
         if isinstance(node, NumberExpression):
-            return float(node.numberLiteralToken.value)
+            return node.numberLiteralToken.value
 
         elif isinstance(node, BooleanExpression):
             return node.booleanLiteralToken.value
