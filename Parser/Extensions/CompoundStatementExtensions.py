@@ -14,7 +14,16 @@ def parseCompoundStatement(self):
     if self.current_token.type == TokenTypes.OPEN_SCOPE:
         self.eat(TokenTypes.OPEN_SCOPE)
 
-        while self.current_token.type != TokenTypes.END_SCOPE:
+        while True:
+
+            if self.current_token.type == TokenTypes.NEW_LINE:
+                self.eat(TokenTypes.NEW_LINE)
+                self._lineCounter += 1
+
+            if self.current_token.type == TokenTypes.END_SCOPE:
+                self.eat(TokenTypes.END_SCOPE)
+                break
+
             result = SyntaxMatcher.checkSyntax([
                 [SimpleStatement, self.parseSimpleStatement],
                 [SelectionStatement, self.parseSelectionStatement],
@@ -25,12 +34,11 @@ def parseCompoundStatement(self):
             if self.current_token.type == TokenTypes.END_COMMAND:
                 self.eat(TokenTypes.END_COMMAND)
             else:
-                raise Exception("Missing ; in end of statement")
+                raise Exception(f"Missing ; in end of statement at line {self._lineCounter}")
 
             if self.current_token.type == TokenTypes.EOF:
                 raise Exception("Missing close scope")
 
-        self.eat(TokenTypes.END_SCOPE)
         return scope
 
 def addExtensions():

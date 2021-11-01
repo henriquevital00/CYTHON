@@ -11,11 +11,13 @@ class Parser:
     _lexer: Lexer
     current_token: Token
     _position: int
+    _lineCounter: int
 
     def __init__(self):
         self._lexer: Lexer = core.Lexer
         self.current_token: Token = self._lexer.getNextToken()
         self._position = 0
+        self._lineCounter = 1
 
     def eat(self, token_type: str) -> None:
         '''
@@ -31,7 +33,6 @@ class Parser:
         else:
             raise Exception(f"Token {self.current_token.value} not expected")
 
-
     def parseStatement(self):
         while self.current_token.type != TokenTypes.EOF:
             result = SyntaxMatcher.checkSyntax([
@@ -42,7 +43,13 @@ class Parser:
             if self.current_token.type == TokenTypes.END_COMMAND:
                 self.eat(TokenTypes.END_COMMAND)
             else:
-                raise Exception("Missing ; in end of statement")
+                raise Exception(f"Missing ; in end of statement at line {self._lineCounter}")
+
+            if self.current_token.type == TokenTypes.NEW_LINE:
+                self.eat(TokenTypes.NEW_LINE)
+                self._lineCounter += 1
+
+        print(f"lines: {self._lineCounter}")
 
 
     def parse(self):

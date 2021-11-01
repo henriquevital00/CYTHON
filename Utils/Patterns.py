@@ -6,7 +6,7 @@ Methods responsible for validate chars literals
 
 isSeparator = lambda char : re.match("^;|\\s$", char)
 
-isWhitespace = lambda char : re.match("^\\s$", char)
+isWhitespace = lambda char : re.match("^ | \\t$", char)
 
 isPoint = lambda char : char == "."
 

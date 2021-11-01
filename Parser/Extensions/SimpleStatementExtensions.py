@@ -54,7 +54,7 @@ def parseSimpleStatement(self) -> SimpleStatement:
             literalExpression = self.checkLiteralExpression()
 
             if literalExpression:
-                return literalExpression
+                value = literalExpression
 
             return VarAssignSyntax(var_type, identifier, operator, value)
 

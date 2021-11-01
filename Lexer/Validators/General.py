@@ -1,6 +1,7 @@
 import re
 from Lexer.Validators.Matcher.Matcher import TokenMatcher
 from Tokens.Types.Delimiters.Delimiters import DelimitersTokens
+from Tokens.Types.Escape.Escape import EscapeCharsTokens
 from Tokens.Types.Literals.Literals import LiteralsTokens
 from Tokens.Types.Operators.Arithmetic.Arithmetic import ArithmeticOperatorsTokens
 from Tokens.Types.Operators.Assignment.Assignment import AssignmentOperatorsTokens
@@ -18,6 +19,8 @@ from Utils.Patterns import isFloat
 """
 
 isDelimiterToken = lambda word: TokenMatcher.getToken([DelimitersTokens], word)
+
+isEscapeToken = lambda word: TokenMatcher.getToken([EscapeCharsTokens], word)
 
 isIdentifierToken = lambda word: TokenMatcher.getToken([IdentifierToken], word)
 
@@ -48,4 +51,4 @@ def isLiteralToken(word):
 # ====================================================================================================
 # ALL VALIDATORS
 validators = \
-    [isOperatorToken, isDelimiterToken, isVariableTypeToken, isLiteralToken, isStatementToken, isIdentifierToken]
+    [isOperatorToken, isEscapeToken, isDelimiterToken, isVariableTypeToken, isLiteralToken, isStatementToken, isIdentifierToken]
