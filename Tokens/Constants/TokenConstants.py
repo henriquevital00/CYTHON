@@ -55,3 +55,5 @@ class TokenTypes:
     TYPE_BOOLEAN = 'TYPE_BOOLEAN'
     # endregion
 
+    EOF = 'EOF'
+

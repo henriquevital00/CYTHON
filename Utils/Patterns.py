@@ -4,9 +4,9 @@ import re
 Methods responsible for validate chars literals
 """
 
-isSeparator = lambda char : re.match("^;|\\s|\\n$", char)
+isSeparator = lambda char : re.match("^;|\\s$", char)
 
-isWhitespace = lambda char : re.match("^ $", char)
+isWhitespace = lambda char : re.match("^\\s$", char)
 
 isPoint = lambda char : char == "."
 

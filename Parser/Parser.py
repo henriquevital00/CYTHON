@@ -3,12 +3,19 @@ from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTree import SyntaxTree
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
+from Parser.SyntaxTypes.Expression.ConditionalExpression import ConditionalExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.StringExpression import StringExpression
 from Parser.SyntaxTypes.Expression.LogicalExpression import LogicalExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
+from Parser.SyntaxTypes.Statement.CompoundStatement.CompoundStatement import CompoundStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.ElseStatement import ElseStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.ElifStatement import ElifStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.IfStatement import IfStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.WhileStatement import WhileStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.VarAssignSyntax import VarAssignSyntax
 from Parser.SyntaxTypes.Statement.SimpleStatement.VarDeclareSyntax import VarDeclareSyntax
@@ -343,16 +350,84 @@ class Parser:
                     else:
                         value = NumberExpression(literalToken)
 
-                if self.current_token == TokenTypes.END_COMMAND:
-                    self.eat(TokenTypes.END_COMMAND)
-
                 return VarAssignSyntax(var_type, identifier, operator, value)
 
     # endregion
 
+    # region 6. SELECTION STATEMENT
+    def parseSelectionStatement(self):
+        keyword = None
 
+        if self.current_token.type in (
+            TokenTypes.IF,
+            TokenTypes.ELIF,
+            TokenTypes.ELSE,
+            TokenTypes.WHILE
+        ):
+            keyword = self.current_token
+            self.eat(keyword.type)
+
+        #  IS EXPRESSION
+        conditionalExpression = SyntaxMatcher.checkSyntax([
+            [Expression, self.parseConditionalExpression],
+        ], self)
+
+        if keyword:
+            scope = self.parseCompoundStatement()
+            if conditionalExpression and keyword.type != TokenTypes.ELSE:
+                if keyword.type == TokenTypes.IF:
+                    return IfStatement(keyword, conditionalExpression, scope)
+                elif keyword.type == TokenTypes.ELIF:
+                    return ElifStatement(keyword, conditionalExpression, scope)
+
+                return WhileStatement(keyword, conditionalExpression, scope)
+            elif keyword.type == TokenTypes.ELSE:
+                return ElseStatement(keyword, scope)
+
+    # endregion
+
+    # region STATEMENT
+
+    def parseCompoundStatement(self):
+        scope = CompoundStatement()
+
+        if self.current_token.type == TokenTypes.OPEN_SCOPE:
+            self.eat(TokenTypes.OPEN_SCOPE)
+
+            while self.current_token.type != TokenTypes.END_SCOPE:
+                result = SyntaxMatcher.checkSyntax([
+                    [SimpleStatement, self.parseSimpleStatement],
+                    [SelectionStatement, self.parseSelectionStatement],
+                ], self)
+
+                scope.children.append(result)
+
+                if self.current_token.type == TokenTypes.END_COMMAND:
+                    self.eat(TokenTypes.END_COMMAND)
+                else:
+                    raise Exception("Missing ; in end of statement")
+
+                if self.current_token.type == TokenTypes.EOF:
+                    raise Exception("Missing close scope")
+
+            self.eat(TokenTypes.END_SCOPE)
+            return scope
+
+    def parseStatement(self):
+
+        while self.current_token.type != TokenTypes.EOF:
+            result = SyntaxMatcher.checkSyntax([
+                [SimpleStatement, self.parseSimpleStatement],
+                [SelectionStatement, self.parseSelectionStatement],
+            ], self)
+
+            if self.current_token.type == TokenTypes.END_COMMAND:
+                self.eat(TokenTypes.END_COMMAND)
+            else:
+                raise Exception("Missing ; in end of statement")
+
+
+    # endregion
 
     def parseGrammar(self) -> SyntaxTree:
-        result = self.parseSimpleStatement()
-        pass
-
+        self.parseStatement()

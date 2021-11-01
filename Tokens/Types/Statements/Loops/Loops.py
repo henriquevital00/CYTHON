@@ -9,10 +9,3 @@ class LoopTokens(Enum):
     
     regex: ^while$
     """
-
-    FOR   = '^for$'
-    """
-    type: FOR
-    
-    regex: ^for$
-    """
