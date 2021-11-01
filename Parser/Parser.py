@@ -40,6 +40,11 @@ class Parser:
         statementChildren = statementNode.children
 
         while self.current_token.type != TokenTypes.EOF:
+            if self.current_token.type == TokenTypes.NEW_LINE:
+                self.eat(TokenTypes.NEW_LINE)
+                self._lineCounter += 1
+                continue
+
             result = SyntaxMatcher.checkSyntax([
                 [SimpleStatement, self.parseSimpleStatement],
                 [SelectionStatement, self.parseSelectionStatement],
@@ -49,10 +54,6 @@ class Parser:
                 self.eat(TokenTypes.END_COMMAND)
             else:
                 raise Exception(f"Missing ; in end of statement at line {self._lineCounter}")
-
-            if self.current_token.type == TokenTypes.NEW_LINE:
-                self.eat(TokenTypes.NEW_LINE)
-                self._lineCounter += 1
 
             statementChildren.append(result)
 
