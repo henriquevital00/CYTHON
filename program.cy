@@ -1,8 +1,7 @@
-if 5 > 2 {
-    str a = "abc";
-    number b = 5;
+number a = 5;
 
-    if True{
-        number a = 5 + 2;
+while 5 < 10 {
+    if 5 < 2 {
+        str a = "abc";
     };
 };
