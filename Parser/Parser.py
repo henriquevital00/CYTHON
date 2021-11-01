@@ -62,5 +62,7 @@ class Parser:
         return statementNode
 
     def parse(self):
-        syntaxTree = SyntaxTree(self.parseStatement())
+        result = self.parseStatement()
+        print(result.getChildren()[0].getChildren())
+        syntaxTree = SyntaxTree(result)
         print(syntaxTree)
