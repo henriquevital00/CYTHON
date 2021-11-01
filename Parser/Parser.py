@@ -29,7 +29,7 @@ class Parser:
             self._position += 1
             self.current_token = self._lexer.getNextToken(self._position)
         else:
-            print("Deu merda Amigao")
+            raise Exception(f"Token {self.current_token.value} not expected")
 
 
     def parseStatement(self):
