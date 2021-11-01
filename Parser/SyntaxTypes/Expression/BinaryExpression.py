@@ -2,9 +2,9 @@ from Parser.SyntaxTypes.Expression.Expression import Expression
 from Tokens import Token
 
 class BinaryExpression(Expression):
-    leftTerm: Token
-    operator: Expression
-    rightTerm: Token
+    leftTerm: Expression
+    operator: Token
+    rightTerm: Expression
 
     def __init__(self, leftTerm: Token, operator: Token, rightTerm: Token):
         self.leftTerm = leftTerm

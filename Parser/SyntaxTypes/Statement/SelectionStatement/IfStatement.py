@@ -12,4 +12,4 @@ class IfStatement(SelectionStatement):
         self.conditions = conditions
 
     def getChildren(self):
-        return [self.IfKeyword, self.conditions]
+        return [self.IfKeyword, self.conditions, *self.scope.children]

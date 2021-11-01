@@ -1,6 +1,9 @@
 from typing import Any
 
-class Token:
+from Parser.SyntaxNode.SyntaxNode import SyntaxNode
+
+
+class Token(SyntaxNode):
     """
         Represents the compiler tokens:
         chars that when joined form a token
@@ -23,3 +26,6 @@ class Token:
             :return: token string
         """
         return f"< {self.type}: {self.value} >"
+
+    def getChildren(self):
+        return []

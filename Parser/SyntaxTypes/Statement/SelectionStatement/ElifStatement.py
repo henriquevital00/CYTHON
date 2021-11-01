@@ -12,4 +12,4 @@ class ElifStatement(SelectionStatement):
         self.conditions = conditions
 
     def getChildren(self):
-        return [self.ElifKeyword, self.conditions]
+        return [self.ElifKeyword, self.conditions, *self.scope.children]

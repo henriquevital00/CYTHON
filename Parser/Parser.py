@@ -1,11 +1,13 @@
 from Lexer.Lexer import Lexer
 from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
-from Parser.SyntaxTree import SyntaxTree
+from Parser.SyntaxTree.SyntaxTree import SyntaxTree
 from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
+from Parser.SyntaxTypes.Statement.Statement import Statement
 from Tokens.Constants.TokenConstants import TokenTypes
 from Tokens.Token import Token
 from core import core
+
 
 class Parser:
     _lexer: Lexer
@@ -33,7 +35,10 @@ class Parser:
         else:
             raise Exception(f"Token {self.current_token.value} not expected")
 
-    def parseStatement(self):
+    def parseStatement(self) -> Statement:
+        statementNode = Statement()
+        statementChildren = statementNode.children
+
         while self.current_token.type != TokenTypes.EOF:
             result = SyntaxMatcher.checkSyntax([
                 [SimpleStatement, self.parseSimpleStatement],
@@ -49,8 +54,12 @@ class Parser:
                 self.eat(TokenTypes.NEW_LINE)
                 self._lineCounter += 1
 
+            statementChildren.append(result)
+
         print(f"lines: {self._lineCounter}")
 
+        return statementNode
 
     def parse(self):
-        self.parseStatement()
+        syntaxTree = SyntaxTree(self.parseStatement())
+        print(syntaxTree)
