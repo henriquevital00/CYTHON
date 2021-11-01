@@ -16,7 +16,7 @@ def parseCompoundStatement(self):
 
         while True:
 
-            while self.current_token.type == TokenTypes.NEW_LINE:
+            if self.current_token.type == TokenTypes.NEW_LINE:
                 self.eat(TokenTypes.NEW_LINE)
                 self._lineCounter += 1
                 continue
