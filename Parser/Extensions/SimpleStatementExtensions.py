@@ -2,9 +2,6 @@ from Parser.Parser import Parser
 from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
-from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
-from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
-from Parser.SyntaxTypes.Expression.LiteralExpression.StringExpression import StringExpression
 from Parser.SyntaxTypes.Expression.LogicalExpression import LogicalExpression
 from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.VarAssignSyntax import VarAssignSyntax
@@ -52,22 +49,12 @@ def parseSimpleStatement(self) -> SimpleStatement:
 
             if expression:
                 value = expression
-            elif self.current_token.type in (
-                    TokenTypes.NUMBER_LITERAL,
-                    TokenTypes.BOOLEAN_LITERAL,
-                    TokenTypes.STRING_LITERAL
-            ):
-                literalToken = self.current_token
-                self.eat(self.current_token.type)
 
-                if literalToken.type == TokenTypes.STRING_LITERAL:
-                    value = StringExpression(literalToken)
+            # IS LITERAL
+            literalExpression = self.checkLiteralExpression()
 
-                elif literalToken.type == TokenTypes.BOOLEAN_LITERAL:
-                    value = BooleanExpression(literalToken)
-
-                else:
-                    value = NumberExpression(literalToken)
+            if literalExpression:
+                return literalExpression
 
             return VarAssignSyntax(var_type, identifier, operator, value)
 

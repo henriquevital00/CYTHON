@@ -37,6 +37,7 @@ def parseSelectionStatement(self):
 
     if keyword:
         scope = self.parseCompoundStatement()
+
         if conditionalExpression and keyword.type != TokenTypes.ELSE:
             if keyword.type == TokenTypes.IF:
                 return IfStatement(keyword, conditionalExpression, scope)
@@ -44,6 +45,7 @@ def parseSelectionStatement(self):
                 return ElifStatement(keyword, conditionalExpression, scope)
 
             return WhileStatement(keyword, conditionalExpression, scope)
+
         elif keyword.type == TokenTypes.ELSE:
             return ElseStatement(keyword, scope)
 

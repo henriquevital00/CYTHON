@@ -33,7 +33,6 @@ class Parser:
 
 
     def parseStatement(self):
-
         while self.current_token.type != TokenTypes.EOF:
             result = SyntaxMatcher.checkSyntax([
                 [SimpleStatement, self.parseSimpleStatement],

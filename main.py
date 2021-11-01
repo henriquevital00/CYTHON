@@ -1,6 +1,7 @@
 from Lexer.Lexer import Lexer
 from Parser.Extensions import ArithmeticParseExtensions, LogicalParseExtensions, ComparisonParseExtensions, \
-    ConditionalParseExtensions, SimpleStatementExtensions, SelectionStatementExtensions, CompoundStatementExtensions
+    ConditionalParseExtensions, SimpleStatementExtensions, SelectionStatementExtensions, CompoundStatementExtensions, \
+    LiteralsExtensions
 from Tests.LexerInitialTest import LexerInitialTest
 from Tests.SymbolTableInitialTest import test
 from core import core
@@ -40,6 +41,7 @@ def configureParsingExtensions():
     SimpleStatementExtensions.addExtensions()
     SelectionStatementExtensions.addExtensions()
     CompoundStatementExtensions.addExtensions()
+    LiteralsExtensions.addExtensions()
 
 if __name__ == "__main__":
     main()
