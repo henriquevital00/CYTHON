@@ -5,10 +5,10 @@ class LiteralsTokens(Enum):
     Enum class for literal tokens
     """
 
-    NUMBER_LITERAL = '^-?\d+(.\d+)?$'
+    NUMBER_LITERAL = '^\d+(.\d+)?$'
     """ type: NUMBER_LITERAL 
     
-    regex ^-?\d+(.\d+)?$ """
+    regex ^\d+(.\d+)?$ """
 
     STRING_LITERAL = """^(".*")|('.*')$"""
     """ type: STRING_LITERAL 

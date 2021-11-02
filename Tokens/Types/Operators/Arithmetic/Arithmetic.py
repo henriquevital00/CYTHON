@@ -19,6 +19,6 @@ class ArithmeticOperatorsTokens(Enum):
     regex: ^/$ """
 
     MULTIPLY = '^\*$'
-    """ type: DIVISION 
+    """ type: MULTIPLY
 
     regex: ^\*$ """

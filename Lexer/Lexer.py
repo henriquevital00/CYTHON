@@ -20,6 +20,10 @@ class Lexer:
         self._text: str = text
 
 
+    def getNextToken(self, position = 0) -> Token:
+        return self._tokensList[position]
+
+
     def lookAhead(self):
         """
             :return Returns a cursor for the next position if it exists. Otherwise it returns End Of File statement.
@@ -123,9 +127,9 @@ class Lexer:
         return False
 
     def isNumber(self, char):
-        if char.isdigit() or isMinus(char):
+        if char.isdigit():
             hasPoint = False
-            isValidTerminator = lambda c: isCloseParenthesis(c) or isSeparator(c) or isOperator(c)
+            isValidTerminator = lambda c: isOpener(c) or isCloser(c) or isSeparator(c) or isOperator(c)
 
             if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)
