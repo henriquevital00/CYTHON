@@ -12,7 +12,7 @@ class SyntaxTree:
         self.prettyPrint(self.root, result)
         return ''.join(result)
 
-    def prettyPrint(self, node: SyntaxNode or list, result: list, tab: str = '', isLast: bool = True):
+    def prettyPrint(self, node: SyntaxNode, result: list, tab: str = '', isLast: bool = True):
 
         branch = "└──" if isLast else "├──"
 
@@ -27,7 +27,7 @@ class SyntaxTree:
 
         result.append("\n")
 
-        last = node.getChildren()[-1] if len(node.getChildren()) else node.value
+        last = node.getChildren()[-1] if len(node.getChildren()) else node
 
         for child in node.getChildren():
             if isinstance(child, SyntaxNode):
