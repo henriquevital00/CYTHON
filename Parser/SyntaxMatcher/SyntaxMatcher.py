@@ -16,9 +16,3 @@ class SyntaxMatcher:
                 return expression
 
             SyntaxMatcher.restoreTokenCursor(parser, oldPosition)
-
-
-
-
-
-
