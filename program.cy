@@ -1,4 +1,6 @@
 number a;
+number b;
+str a = "abc";
 
 if 5 < 2 {
      if 5 + 3 < 2 & 2 + 5 == 7 {
@@ -11,7 +13,7 @@ if 5 < 2 {
 
             while 2 < 3{
                 if 1 < 2 {
-                    a = 2;
+                    a = 5 + 2;
                 };
             };
         };

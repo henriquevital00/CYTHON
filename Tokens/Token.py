@@ -28,4 +28,4 @@ class Token(SyntaxNode):
         return f"< {self.type}: {self.value} >"
 
     def getChildren(self):
-        return []
+        return [self.value]
