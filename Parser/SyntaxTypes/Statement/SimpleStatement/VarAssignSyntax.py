@@ -22,6 +22,6 @@ class VarAssignSyntax(SimpleStatement):
         ]
 
         if self.varType:
-            children.append(children)
+            children.append(self.varType)
 
         return children
