@@ -12,4 +12,4 @@ class WhileStatement(SelectionStatement):
         self.conditions = conditions
 
     def getChildren(self):
-        return [self.WhileKeyword, self.conditions, *self.scope.children]
+        return [self.WhileKeyword, self.conditions, self.scope]

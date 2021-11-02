@@ -129,7 +129,7 @@ class Lexer:
     def isNumber(self, char):
         if char.isdigit():
             hasPoint = False
-            isValidTerminator = lambda c: isCloseParenthesis(c) or isSeparator(c) or isOperator(c)
+            isValidTerminator = lambda c: isOpener(c) or isCloser(c) or isSeparator(c) or isOperator(c)
 
             if self.lookAhead() == 'EOF' or isValidTerminator(self.lookAhead()):
                 self.appendToResultWord(char)

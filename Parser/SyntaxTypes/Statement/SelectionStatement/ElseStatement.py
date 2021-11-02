@@ -9,4 +9,4 @@ class ElseStatement(SelectionStatement):
         self.ElseKeyword = keyword
 
     def getChildren(self):
-        return [self.ElseKeyword, *self.scope.children]
+        return [self.ElseKeyword, self.scope]
