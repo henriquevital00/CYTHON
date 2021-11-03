@@ -3,6 +3,7 @@ from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
+from Parser.SyntaxTypes.Expression.LiteralExpression.LiteralExpression import LiteralExpression
 from Parser.SyntaxTypes.Expression.LogicalExpression import LogicalExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Tokens.Constants.TokenConstants import TokenTypes
@@ -61,16 +62,11 @@ def parseFinalLogicalExpression(self) -> Expression:
     expression = SyntaxMatcher.checkSyntax([
         [ComparisonExpression, self.parseComparisonExpression],
         [ArithmeticExpression, self.parseArithmeticTerm],
+        [LiteralExpression ,self.checkLiteralExpression]
     ], self)
 
     if expression:
         return expression
-
-    # IS LITERAL
-    literalExpression = self.checkLiteralExpression()
-
-    if literalExpression:
-        return literalExpression
 
 def addExtensions():
     Parser.parseLogicalTerm = parseLogicalTerm

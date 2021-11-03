@@ -3,6 +3,7 @@ from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
+from Parser.SyntaxTypes.Expression.LiteralExpression.LiteralExpression import LiteralExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Tokens.Constants.TokenConstants import TokenTypes
 
@@ -43,19 +44,14 @@ def parseFinalComparisonExpression(self) -> Expression:
 
         return ParenthesizedExpression(left_parenthesis, expression, right_parenthesis)
 
-    #  IS ARITHMETIC
-    arithmeticExpression = SyntaxMatcher.checkSyntax([
+    #  IS ARITHMETIC OR LITERAL EXPRESSION
+    expression = SyntaxMatcher.checkSyntax([
         [ArithmeticExpression, self.parseArithmeticTerm],
+        [LiteralExpression, self.checkLiteralExpression]
     ], self)
 
-    if arithmeticExpression:
-        return arithmeticExpression
-
-    # IS LITERAL
-    literalExpression = self.checkLiteralExpression()
-
-    if literalExpression:
-        return literalExpression
+    if expression:
+        return expression
 
 def addExtensions():
     Parser.parseComparisonExpression = parseComparisonExpression
