@@ -120,7 +120,6 @@ class SyntaxEvaluator:
             conditionalsStatements.append(node)
 
             nextIdx = idx + 1
-
             if nextIdx < len(statement.getChildren()):
                 while isinstance(statement.getChildren()[nextIdx], ElifStatement):
                     conditionalsStatements.append(statement.getChildren()[nextIdx])
@@ -129,12 +128,8 @@ class SyntaxEvaluator:
                     else:
                         break
 
-                while isinstance(statement.getChildren()[nextIdx], ElseStatement):
+                if isinstance(statement.getChildren()[nextIdx], ElseStatement):
                     conditionalsStatements.append(statement.getChildren()[nextIdx])
-                    if len(statement.getChildren()) > nextIdx + 1:
-                        nextIdx += 1
-                    else:
-                        break
 
             SyntaxEvaluator.evaluateIfStatement(conditionalsStatements)
 
