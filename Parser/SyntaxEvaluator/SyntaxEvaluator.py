@@ -131,6 +131,6 @@ class SyntaxEvaluator:
                 if isinstance(statement.getChildren()[nextIdx], ElseStatement):
                     conditionalsStatements.append(statement.getChildren()[nextIdx])
 
-            SyntaxEvaluator.evaluateStatement(conditionalsStatements)
+            SyntaxEvaluator.evaluateSelectionStatement(conditionalsStatements)
 
         return len(conditionalsStatements)
