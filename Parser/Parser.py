@@ -1,4 +1,5 @@
 from Lexer.Lexer import Lexer
+from Parser.SyntaxEvaluator.SyntaxEvaluator import SyntaxEvaluator
 from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTree.SyntaxTree import SyntaxTree
 from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
@@ -65,4 +66,5 @@ class Parser:
         result = self.parseStatement()
         print(result.getChildren()[0].getChildren())
         syntaxTree = SyntaxTree(result)
-        print(syntaxTree)
+        SyntaxEvaluator.evaluateStatement(syntaxTree.root)
+        # print(syntaxTree)

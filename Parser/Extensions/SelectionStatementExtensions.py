@@ -19,7 +19,7 @@ from Tokens.Constants.TokenConstants import TokenTypes
 
 
 def parseSelectionStatement(self):
-    keyword = None
+    keyword = conditionalExpression = None
 
     if self.current_token.type in (
             TokenTypes.IF,
@@ -30,12 +30,15 @@ def parseSelectionStatement(self):
         keyword = self.current_token
         self.eat(keyword.type)
 
-    #  IS EXPRESSION
-    conditionalExpression = SyntaxMatcher.checkSyntax([
-        [Expression, self.parseConditionalExpression],
-    ], self)
-
     if keyword:
+        if keyword.type == TokenTypes.ELSE:
+            return ElseStatement(keyword, self.parseCompoundStatement())
+
+        #  IS EXPRESSION
+        conditionalExpression = SyntaxMatcher.checkSyntax([
+            [Expression, self.parseConditionalExpression],
+        ], self)
+
         scope = self.parseCompoundStatement()
 
         if conditionalExpression and keyword.type != TokenTypes.ELSE:
@@ -45,9 +48,6 @@ def parseSelectionStatement(self):
                 return ElifStatement(keyword, conditionalExpression, scope)
 
             return WhileStatement(keyword, conditionalExpression, scope)
-
-        elif keyword.type == TokenTypes.ELSE:
-            return ElseStatement(keyword, scope)
 
 def addExtensions():
     Parser.parseSelectionStatement = parseSelectionStatement
