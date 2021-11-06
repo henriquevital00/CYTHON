@@ -70,8 +70,8 @@ class SyntaxEvaluator:
         ifStmt = conditionalNodes[0]
 
         if SyntaxEvaluator.evaluate(ifStmt.conditions):
-            SyntaxEvaluator.evaluateStatement(ifStmt.scope)
             print("entrou no if")
+            SyntaxEvaluator.evaluateStatement(ifStmt.scope)
             return
 
         elif len(conditionalNodes) > 1:
@@ -80,17 +80,16 @@ class SyntaxEvaluator:
                 elifStmt = conditionalNodes[nodeIdx]
 
                 if SyntaxEvaluator.evaluate(elifStmt.conditions):
-                    SyntaxEvaluator.evaluateStatement(elifStmt.scope)
                     print(f"entrou no elif {nodeIdx}")
+                    SyntaxEvaluator.evaluateStatement(elifStmt.scope)
                     return
 
                 nodeIdx += 1
 
             if isinstance(conditionalNodes[nodeIdx], ElseStatement):
                 elseStmt = conditionalNodes[nodeIdx]
-
-                SyntaxEvaluator.evaluateStatement(elseStmt.scope)
                 print(f"entrou no else")
+                SyntaxEvaluator.evaluateStatement(elseStmt.scope)
 
                 return
 
