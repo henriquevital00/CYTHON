@@ -66,7 +66,7 @@ class SyntaxEvaluator:
                 return leftTerm or rightTerm
 
     @staticmethod
-    def evaluateIfStatement(conditionalNodes):
+    def evaluateSelectionStatement(conditionalNodes):
         ifStmt = conditionalNodes[0]
 
         if SyntaxEvaluator.evaluate(ifStmt.conditions):
@@ -113,7 +113,7 @@ class SyntaxEvaluator:
             stmtIdx += 1
 
     @staticmethod
-    def appendConditionalsSyntax(node, statement, idx):
+    def appendSelectionSyntax(node, statement, idx):
         conditionalsStatements = []
 
         if isinstance(node, IfStatement):
