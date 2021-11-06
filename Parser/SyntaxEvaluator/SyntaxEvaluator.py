@@ -101,7 +101,7 @@ class SyntaxEvaluator:
         while stmtIdx < len(statement.getChildren()):
             node = statement.getChildren()[stmtIdx]
 
-            numberOfConditionalStmt = SyntaxEvaluator.appendConditionalsSyntax(node, statement, stmtIdx)
+            numberOfConditionalStmt = SyntaxEvaluator.appendSelectionSyntax(node, statement, stmtIdx)
 
             if numberOfConditionalStmt > 0:
                 stmtIdx += numberOfConditionalStmt
