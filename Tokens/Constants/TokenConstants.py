@@ -46,6 +46,9 @@ class TokenTypes:
 
     WHILE = 'WHILE'
     FOR = 'FOR'
+
+    PRINT = 'PRINT'
+    INPUT = 'INPUT'
     # endregion
 
     # region VARIABLES

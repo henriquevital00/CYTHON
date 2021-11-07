@@ -3,6 +3,7 @@ from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
+from Parser.SyntaxTypes.Expression.IdentifierExpression import IdentifierExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.LiteralExpression import LiteralExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Tokens.Constants.TokenConstants import TokenTypes
@@ -47,7 +48,8 @@ def parseFinalComparisonExpression(self) -> Expression:
     #  IS ARITHMETIC OR LITERAL EXPRESSION
     expression = SyntaxMatcher.checkSyntax([
         [ArithmeticExpression, self.parseArithmeticTerm],
-        [LiteralExpression, self.checkLiteralExpression]
+        [LiteralExpression, self.checkLiteralExpression],
+        [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
     if expression:

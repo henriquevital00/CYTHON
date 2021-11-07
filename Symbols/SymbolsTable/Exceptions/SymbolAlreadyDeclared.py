@@ -9,4 +9,4 @@ class SymbolAlreadyDeclared(Exception):
         :param symbol: symbol
         :return: None
         """
-        self.message = f"{symbol.type} with name {symbol.name} already declared in {symbol.scope} scope"
+        self.message = f"{symbol.type} with name {symbol.name} already declared"

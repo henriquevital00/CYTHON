@@ -1,6 +1,7 @@
 from Parser.Parser import Parser
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
+from Parser.SyntaxTypes.Expression.IdentifierExpression import IdentifierExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Tokens.Constants.TokenConstants import TokenTypes
@@ -60,7 +61,10 @@ def parseFinalArithmeticExpression(self) -> Expression:
         self.eat(TokenTypes.NUMBER_LITERAL)
         return NumberExpression(numberLiteralToken)
 
-
+    elif self.current_token.type == TokenTypes.IDENTIFIER:
+        identifierToken = self.current_token
+        self.eat(TokenTypes.IDENTIFIER)
+        return IdentifierExpression(identifierToken)
 
 def addExtensions():
     Parser.parseArithmeticTerm = parseArithmeticTerm

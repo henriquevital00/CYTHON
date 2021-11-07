@@ -6,6 +6,7 @@ class VarDeclareSyntax(SimpleStatement):
     identifier: Token
 
     def __init__(self, varType, identifier):
+        super().__init__()
         self.varType = varType
         self.identifier = identifier
 

@@ -20,14 +20,10 @@ class SymbolsTable:
             :raises: SymbolAlreadyDeclared
                 exception raised if a symbol has already been declared
         """
-        try:
-            if self._storedSymbols.get(symbol.name) is None:
-                self._storedSymbols[symbol.name] = symbol
-            else:
-                raise SymbolAlreadyDeclared(symbol)
-
-        except SymbolAlreadyDeclared as ex:
-            print(ex.message)
+        if self._storedSymbols.get(symbol.name) is None:
+            self._storedSymbols[symbol.name] = symbol
+        else:
+            raise Exception(f"{symbol.type} with name '{symbol.name}' already declared")
 
     def findSymbolByKey(self, key: str) -> Symbol:
         """
@@ -36,20 +32,12 @@ class SymbolsTable:
             :param key: provided symbol key
             :return: found symbol key
 
-            :raises: SymbolNotFoundException
-                exception raised if a symbol is not found in symbols table
         """
-        try:
+        if self._storedSymbols.get(key) is None:
+            raise Exception(f"Not found symbol with provided key: <{key}>")
 
-            if self._storedSymbols.get(key) is None:
-                raise SymbolNotFoundException(key)
-
-            symbol = self._storedSymbols[key]
-            return symbol
-
-        except SymbolNotFoundException as ex:
-            print(ex.message)
-
+        symbol = self._storedSymbols[key]
+        return symbol
 
     def findAllSymbols(self) -> None:
         """
@@ -61,3 +49,7 @@ class SymbolsTable:
 
             print(symbol, end='  :  ')
             print(symbol.toString())
+
+    def updateSymbol(self, symbolName, symbolValue):
+        symbol = self.findSymbolByKey(symbolName)
+        symbol.value = symbolValue

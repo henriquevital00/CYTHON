@@ -9,6 +9,7 @@ class VarAssignSyntax(SimpleStatement):
     value: Expression or Token
 
     def __init__(self, varType, identifier, assignOperator, value):
+        super().__init__()
         self.varType = varType
         self.identifier = identifier
         self.assignOperator = assignOperator

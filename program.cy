@@ -1,18 +1,28 @@
-if 2 + 3 < 5 {
-};
-elif 2 + 3 == 6 {
-};
-elif 2 + 3 == 5 | 2 +1 == 4 {
+number resultado;
+number j = 1;
+number i = 1;
+str help = "prof, da 10 ai";
 
-    if 2 + 5 != 7 {
-    };
-    elif 2 + 3 == 6 {
-    };
-    elif 2 + 3 == 8 | 2 +1 == 4 {
-    };
-    else{
-    };
-};
-else{
-};
+print("Ate qual numero voce quer a tabuada?");
+number limit = input();
 
+while i <= limit {
+    j = 0;
+
+    print("");
+    print("TABUADA");
+    print(i);
+    print("");
+
+    while j <= 10 {
+        resultado = j * i;
+        print(resultado);
+        j = j + 1;
+    };
+
+    i = i + 1;
+
+    if i > limit {
+        print(help);
+    };
+};

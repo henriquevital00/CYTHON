@@ -64,7 +64,7 @@ class Parser:
 
     def parse(self):
         result = self.parseStatement()
-        print(result.getChildren()[0].getChildren())
         syntaxTree = SyntaxTree(result)
+        print(syntaxTree)
+
         SyntaxEvaluator.evaluateStatement(syntaxTree.root)
-        # print(syntaxTree)

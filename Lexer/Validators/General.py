@@ -3,6 +3,7 @@ from Lexer.Validators.Matcher.Matcher import TokenMatcher
 from Tokens.Types.Delimiters.Delimiters import DelimitersTokens
 from Tokens.Types.Escape.Escape import EscapeCharsTokens
 from Tokens.Types.Literals.Literals import LiteralsTokens
+from Tokens.Types.Statements.NativeFunctions.NativeFunctions import NativeFunctionsTokens
 from Tokens.Types.Operators.Arithmetic.Arithmetic import ArithmeticOperatorsTokens
 from Tokens.Types.Operators.Assignment.Assignment import AssignmentOperatorsTokens
 from Tokens.Types.Operators.Comparison.Comparison import ComparisonOperatorsTokens
@@ -14,17 +15,13 @@ from Tokens.Types.Variables.VarTypes.VarTypes import VariableTypesTokens
 from Utils.Helpers import removeQuotes
 from Utils.Patterns import isFloat
 
-"""
-    
-"""
-
 isDelimiterToken = lambda word: TokenMatcher.getToken([DelimitersTokens], word)
 
 isEscapeToken = lambda word: TokenMatcher.getToken([EscapeCharsTokens], word)
 
 isIdentifierToken = lambda word: TokenMatcher.getToken([IdentifierToken], word)
 
-isStatementToken = lambda word: TokenMatcher.getToken([ConditionalsTokens, LoopTokens], word)
+isStatementToken = lambda word: TokenMatcher.getToken([ConditionalsTokens, LoopTokens, NativeFunctionsTokens], word)
 
 isVariableTypeToken = lambda word: TokenMatcher.getToken([VariableTypesTokens], word)
 

@@ -1,8 +1,16 @@
+from Parser.SyntaxTypes.Statement.SimpleStatement.InputStatement import InputStatement
+from Parser.SyntaxTypes.Statement.SimpleStatement.PrintStatement import PrintStatement
+from core import core
+from Tokens.Token import Token
+from Symbols.Symbol import Symbol
 from Parser.SyntaxNode.SyntaxNode import SyntaxNode
+from Tokens.Constants.TokenConstants import TokenTypes
+from Parser.SyntaxTypes.Statement.Statement import Statement
 from Parser.SyntaxTypes.Expression.BinaryExpression import BinaryExpression
-from Parser.SyntaxTypes.Expression.Expression import Expression
-from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
+from Parser.SyntaxTypes.Expression.IdentifierExpression import IdentifierExpression
+from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
+from Parser.SyntaxTypes.Statement.SimpleStatement.VarAssignSyntax import VarAssignSyntax
 from Parser.SyntaxTypes.Expression.LiteralExpression.StringExpression import StringExpression
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Parser.SyntaxTypes.Statement.SelectionStatement.ElifStatement import ElifStatement
@@ -10,16 +18,13 @@ from Parser.SyntaxTypes.Statement.SelectionStatement.ElseStatement import ElseSt
 from Parser.SyntaxTypes.Statement.SelectionStatement.IfStatement import IfStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.WhileStatement import WhileStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.VarDeclareSyntax import VarDeclareSyntax
-from Parser.SyntaxTypes.Statement.Statement import Statement
-from Tokens.Constants.TokenConstants import TokenTypes
-from Tokens.Token import Token
-
 
 class SyntaxEvaluator:
 
     @staticmethod
-    def evaluate(node: SyntaxNode):
+    def evaluateExpression(node: SyntaxNode):
 
+        # IS LITERAL LEAF
         if isinstance(node, NumberExpression):
             return node.numberLiteralToken.value
 
@@ -29,13 +34,17 @@ class SyntaxEvaluator:
         elif isinstance(node, StringExpression):
             return node.stringLiteralToken.value
 
+        # IS IDENTIFIER LEAF
+        if isinstance(node, IdentifierExpression):
+            varSymbol = core.SymbolsTable.findSymbolByKey(node.identifierToken.value)
+            return varSymbol.value
 
         elif isinstance(node, ParenthesizedExpression):
-            return SyntaxEvaluator.evaluate(node.expression)
+            return SyntaxEvaluator.evaluateExpression(node.expression)
 
         elif isinstance(node, BinaryExpression):
-            leftTerm = SyntaxEvaluator.evaluate(node.leftTerm)
-            rightTerm = SyntaxEvaluator.evaluate(node.rightTerm)
+            leftTerm = SyntaxEvaluator.evaluateExpression(node.leftTerm)
+            rightTerm = SyntaxEvaluator.evaluateExpression(node.rightTerm)
             operator: Token = node.operator
 
             if operator.type == TokenTypes.PLUS:
@@ -65,12 +74,98 @@ class SyntaxEvaluator:
             elif operator.type == TokenTypes.OR:
                 return leftTerm or rightTerm
 
+
     @staticmethod
-    def evaluateSelectionStatement(conditionalNodes):
+    def evaluateStatement(statement: Statement):
+        stmtIdx = 0
+
+        while stmtIdx < len(statement.getChildren()):
+            stmt = statement.getChildren()[stmtIdx]
+
+            numberOfConditionalStmt = SyntaxEvaluator.appendConditionalSyntax(stmt, statement, stmtIdx)
+
+            if numberOfConditionalStmt > 0:
+                stmtIdx += numberOfConditionalStmt
+                continue
+
+            elif isinstance(stmt, WhileStatement):
+                SyntaxEvaluator.evaluateWhileStatement(stmt)
+
+            elif isinstance(stmt, VarDeclareSyntax):
+                SyntaxEvaluator.evaluateVarDeclareStatement(stmt)
+
+            elif isinstance(stmt, VarAssignSyntax):
+                SyntaxEvaluator.evaluateVarAssignStatement(stmt)
+
+            elif isinstance(stmt, PrintStatement):
+                SyntaxEvaluator.evaluatePrintStatement(stmt)
+
+            stmtIdx += 1
+
+    @staticmethod
+    def evaluatePrintStatement(printStatement):
+        valueToPrint = SyntaxEvaluator.evaluateExpression(printStatement.valueToPrint)
+        print(valueToPrint)
+
+    @staticmethod
+    def evaluateVarAssignStatement(assignStmt: VarAssignSyntax):
+        varType = assignStmt.varType
+        varName = assignStmt.identifier.value
+        varValue = SyntaxEvaluator.evaluateVarValue(assignStmt.value)
+        availableTypes = {
+            "number": [float, int],
+            "str": [str],
+            "bool": [bool]
+        }
+
+        if varType:
+            varType = varType.value
+            assignType = None
+
+            for typeKey, v in availableTypes.items():
+                for typeValue in v:
+                    if type(varValue) == typeValue:
+                        assignType = typeKey
+                        break
+
+            if assignType != varType:
+                raise Exception(f"Type {varType} cannot be assigned to {assignType}")
+
+            varSymbol = Symbol(varType, varName, varValue)
+            core.SymbolsTable.storeSymbol(varSymbol)
+        else:
+            symbolType = core.SymbolsTable.findSymbolByKey(varName).type
+            assignType = None
+
+            for typeKey, v in availableTypes.items():
+                for typeValue in v:
+                    if type(varValue) == typeValue:
+                        assignType = typeKey
+                        break
+
+            if assignType != symbolType:
+                raise Exception(f"Type {symbolType} cannot be assigned to {assignType}")
+
+            core.SymbolsTable.updateSymbol(varName, varValue)
+
+    @staticmethod
+    def evaluateVarDeclareStatement(declareStmt: VarDeclareSyntax):
+        varType = declareStmt.varType.value
+        varName = declareStmt.identifier.value
+
+        varSymbol = Symbol(varType, varName, None)
+        core.SymbolsTable.storeSymbol(varSymbol)
+
+    @staticmethod
+    def evaluateWhileStatement(whileStmt: WhileStatement):
+        while SyntaxEvaluator.evaluateExpression(whileStmt.conditions):
+            SyntaxEvaluator.evaluateStatement(whileStmt.scope)
+
+    @staticmethod
+    def evaluateConditionalStatement(conditionalNodes):
         ifStmt = conditionalNodes[0]
 
-        if SyntaxEvaluator.evaluate(ifStmt.conditions):
-            print("entrou no if")
+        if SyntaxEvaluator.evaluateExpression(ifStmt.conditions):
             SyntaxEvaluator.evaluateStatement(ifStmt.scope)
             return
 
@@ -79,8 +174,7 @@ class SyntaxEvaluator:
             while isinstance(conditionalNodes[nodeIdx], ElifStatement):
                 elifStmt = conditionalNodes[nodeIdx]
 
-                if SyntaxEvaluator.evaluate(elifStmt.conditions):
-                    print(f"entrou no elif {nodeIdx}")
+                if SyntaxEvaluator.evaluateExpression(elifStmt.conditions):
                     SyntaxEvaluator.evaluateStatement(elifStmt.scope)
                     return
 
@@ -88,32 +182,11 @@ class SyntaxEvaluator:
 
             if isinstance(conditionalNodes[nodeIdx], ElseStatement):
                 elseStmt = conditionalNodes[nodeIdx]
-                print(f"entrou no else")
                 SyntaxEvaluator.evaluateStatement(elseStmt.scope)
-
                 return
 
-
     @staticmethod
-    def evaluateStatement(statement: Statement):
-
-        stmtIdx = 0
-        while stmtIdx < len(statement.getChildren()):
-            node = statement.getChildren()[stmtIdx]
-
-            numberOfConditionalStmt = SyntaxEvaluator.appendSelectionSyntax(node, statement, stmtIdx)
-
-            if numberOfConditionalStmt > 0:
-                stmtIdx += numberOfConditionalStmt
-                continue
-
-            elif isinstance(node, VarDeclareSyntax):
-                pass
-
-            stmtIdx += 1
-
-    @staticmethod
-    def appendSelectionSyntax(node, statement, idx):
+    def appendConditionalSyntax(node, statement, idx):
         conditionalsStatements = []
 
         if isinstance(node, IfStatement):
@@ -131,6 +204,17 @@ class SyntaxEvaluator:
                 if isinstance(statement.getChildren()[nextIdx], ElseStatement):
                     conditionalsStatements.append(statement.getChildren()[nextIdx])
 
-            SyntaxEvaluator.evaluateSelectionStatement(conditionalsStatements)
+            SyntaxEvaluator.evaluateConditionalStatement(conditionalsStatements)
 
         return len(conditionalsStatements)
+
+    @staticmethod
+    def evaluateVarValue(varValue):
+        if isinstance(varValue, InputStatement):
+            inputValue = input()
+            try:
+                return float(inputValue)
+            except:
+                return inputValue
+
+        return SyntaxEvaluator.evaluateExpression(varValue)

@@ -1,17 +1,13 @@
 from Lexer.Lexer import Lexer
 from Parser.Extensions import ArithmeticParseExtensions, LogicalParseExtensions, ComparisonParseExtensions, \
     ConditionalParseExtensions, SimpleStatementExtensions, SelectionStatementExtensions, CompoundStatementExtensions, \
-    LiteralsExtensions
-from Tests.LexerInitialTest import LexerInitialTest
-from Tests.SymbolTableInitialTest import test
+    LiteralExtensions, IdentifierExtensions
 from core import core
 from Parser.Parser import Parser
-
 
 """
 MAIN
 """
-
 
 def main() -> None:
     """
@@ -21,15 +17,11 @@ def main() -> None:
     :return: None
     """
 
-    #  TESTE TABELA DE SÍMBOLOS
-    # test.addSymbolsToTableTest()
-
     with open("program.cy", "rt") as input:
         core.Lexer = Lexer(input.read())
         core.Lexer.readInput()
 
     configureParsingExtensions()
-
     Parser().parse()
 
 
@@ -41,7 +33,8 @@ def configureParsingExtensions():
     SimpleStatementExtensions.addExtensions()
     SelectionStatementExtensions.addExtensions()
     CompoundStatementExtensions.addExtensions()
-    LiteralsExtensions.addExtensions()
+    LiteralExtensions.addExtensions()
+    IdentifierExtensions.addExtensions()
 
 if __name__ == "__main__":
     main()

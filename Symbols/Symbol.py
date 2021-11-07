@@ -1,4 +1,4 @@
-from Tokens import Token
+from typing import Any
 
 class Symbol:
     """
@@ -11,27 +11,12 @@ class Symbol:
     type: str
     """Symbol type"""
 
-    scope: str
-    """The scope in which the symbol was declared"""
+    value: Any
 
-    instance: "Symbol"
-    """The symbol instance"""
-
-    def __init__(self, token: Token, scope: str) -> None:
-        self.name = token.value
-        self.type = token.type
-        self.scope = scope
-        self.address = self.getSymbolAddress(self)
-
-    def getSymbolAddress(self, symbol: "Symbol") -> str:
-        """
-            Get the symbol's memory address
-
-            :param symbol: provided symbol
-
-            :return: symbol address
-        """
-        return hex(id(symbol))
+    def __init__(self, type, name, value) -> None:
+        self.type = type
+        self.name = name
+        self.value = value
 
     def toString(self) -> str:
         """
@@ -39,4 +24,4 @@ class Symbol:
 
             :return: symbol string
         """
-        return f"[{self.scope}] <{self.type}: {self.name}> at {self.address}"
+        return f"[<{self.type}: {self.name}>"
