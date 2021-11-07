@@ -6,6 +6,20 @@ str help = "prof, da 10 ai";
 print("Ate qual numero voce quer a tabuada?");
 number limit = input();
 
+
+while limit == 0 {
+    print("Digite um numero maior que zero");
+    limit = input();
+
+    if limit == 0 {
+        print("");
+        print("para de digitar zero, amigao");
+    };
+     else {
+        print("Calculando a tabuada...");
+    };
+};
+
 while i <= limit {
     j = 0;
 
