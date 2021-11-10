@@ -1,42 +1,18 @@
-number resultado;
-number j = 1;
-number i = 1;
-str help = "prof, da 10 ai";
+number a = 6;
+number b = 7;
+bool x;
 
-print("Ate qual numero voce quer a tabuada?");
-number limit = input();
+if a == b {
+    a = 5;
+    b = 6;
 
+    if c == d & d == c{
+        if (c == d & d == c) | c == d{
+            a = 5;
 
-while limit == 0 {
-    print("Digite um numero maior que zero");
-    limit = input();
+            while b == c & c == d{
 
-    if limit == 0 {
-        print("");
-        print("para de digitar zero, amigao");
-    };
-     else {
-        print("Calculando a tabuada...");
-    };
-};
-
-while i <= limit {
-    j = 0;
-
-    print("");
-    print("TABUADA");
-    print(i);
-    print("");
-
-    while j <= 10 {
-        resultado = j * i;
-        print(resultado);
-        j = j + 1;
-    };
-
-    i = i + 1;
-
-    if i > limit {
-        print(help);
+            };
+        };
     };
 };

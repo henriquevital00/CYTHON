@@ -2,9 +2,11 @@ from Lexer.Lexer import Lexer
 from Parser.SyntaxEvaluator.SyntaxEvaluator import SyntaxEvaluator
 from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTree.SyntaxTree import SyntaxTree
+from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
 from Parser.SyntaxTypes.Statement.Statement import Statement
+from Parser.SyntaxVisitor.SyntaxVisitor import SyntaxVisitor
 from Tokens.Constants.TokenConstants import TokenTypes
 from Tokens.Token import Token
 from core import core
@@ -67,4 +69,11 @@ class Parser:
         syntaxTree = SyntaxTree(result)
         print(syntaxTree)
 
-        SyntaxEvaluator.evaluateStatement(syntaxTree.root)
+        # SyntaxEvaluator.evaluateStatement(syntaxTree.root)
+        visitor = SyntaxVisitor(syntaxTree.root).getResult()
+
+        print(visitor)
+
+        with open("teste.py", "w") as file:
+
+            file.write(visitor)
