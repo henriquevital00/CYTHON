@@ -1,8 +1,6 @@
 from Lexer.Lexer import Lexer
-from Parser.SyntaxEvaluator.SyntaxEvaluator import SyntaxEvaluator
 from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
 from Parser.SyntaxTree.SyntaxTree import SyntaxTree
-from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
 from Parser.SyntaxTypes.Statement.Statement import Statement
@@ -38,6 +36,14 @@ class Parser:
         else:
             raise Exception(f"Token {self.current_token.value} not expected")
 
+    def transpile(self, syntaxTree: SyntaxTree):
+        visitor = SyntaxVisitor(syntaxTree.root).getResult()
+
+        with open("teste.py", "w") as file:
+            file.write(visitor)
+
+        print("Build successfully! Check .py generated file.")
+
 #   STATEMENT -> (SIMPLE_STMT | SELECTION_STMT  | STATEMENT) ENDCOMMAND
 
     def parseStatement(self) -> Statement:
@@ -62,20 +68,9 @@ class Parser:
 
             statementChildren.append(result)
 
-        print(f"lines: {self._lineCounter}")
-
         return statementNode
 
-    def parse(self):
+    def parse(self) -> SyntaxTree:
         result = self.parseStatement()
-        syntaxTree = SyntaxTree(result)
-        print(syntaxTree)
+        return SyntaxTree(result)
 
-        # SyntaxEvaluator.evaluateStatement(syntaxTree.root)
-        visitor = SyntaxVisitor(syntaxTree.root).getResult()
-
-        print(visitor)
-
-        with open("teste.py", "w") as file:
-
-            file.write(visitor)

@@ -25,8 +25,7 @@ from Tokens.Constants.TokenConstants import TokenTypes
 
 
 def parseSimpleStatement(self) -> SimpleStatement:
-    x = self.parseInputOrPrint() or self.parseAssignOrDeclaration()
-    return x
+    return self.parseInputOrPrint() or self.parseAssignOrDeclaration()
 
 def parseInputOrPrint(self):
 

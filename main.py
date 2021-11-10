@@ -17,13 +17,34 @@ def main() -> None:
     :return: None
     """
 
-    with open("Tests/sumTwoNumbers.cy", "rt") as input:
+    with open("program.cy", "rt") as input:
         core.Lexer = Lexer(input.read())
         core.Lexer.readInput()
 
     configureParsingExtensions()
-    Parser().parse()
+    parser = Parser()
 
+    syntaxTree = parser.parse()
+    parser.transpile(syntaxTree)
+
+    showUserOptions(syntaxTree)
+
+def showUserOptions(syntaxTree):
+    option = 0
+
+    while option != 3:
+        option = int(input(f"\nChoose an option:"
+              f"\n1 - Show syntax tokens"
+              f"\n2 - Show syntax tree"
+              f"\n3 - Close cython compiler options\n"))
+
+        if option == 1:
+            core.Lexer.prettyTokensPrint()
+
+        elif option == 2:
+            print(syntaxTree)
+
+        print()
 
 def configureParsingExtensions():
     ArithmeticParseExtensions.addExtensions()

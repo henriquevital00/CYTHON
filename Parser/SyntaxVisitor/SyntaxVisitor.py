@@ -1,7 +1,3 @@
-from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
-from Parser.SyntaxTypes.Statement.SimpleStatement.InputStatement import InputStatement
-from Parser.SyntaxTypes.Statement.SimpleStatement.PrintStatement import PrintStatement
-from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
 from core import core
 from Tokens.Token import Token
 from Symbols.Symbol import Symbol
@@ -9,6 +5,9 @@ from Parser.SyntaxNode.SyntaxNode import SyntaxNode
 from Tokens.Constants.TokenConstants import TokenTypes
 from Parser.SyntaxTypes.Statement.Statement import Statement
 from Parser.SyntaxTypes.Expression.BinaryExpression import BinaryExpression
+from Parser.SyntaxTypes.Statement.SimpleStatement.InputStatement import InputStatement
+from Parser.SyntaxTypes.Statement.SimpleStatement.PrintStatement import PrintStatement
+from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleStatement
 from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import NumberExpression
 from Parser.SyntaxTypes.Expression.IdentifierExpression import IdentifierExpression
 from Parser.SyntaxTypes.Expression.LiteralExpression.BooleanExpression import BooleanExpression
@@ -20,7 +19,8 @@ from Parser.SyntaxTypes.Statement.SelectionStatement.ElseStatement import ElseSt
 from Parser.SyntaxTypes.Statement.SelectionStatement.IfStatement import IfStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.WhileStatement import WhileStatement
 from Parser.SyntaxTypes.Statement.SimpleStatement.VarDeclareSyntax import VarDeclareSyntax
-
+from Parser.SyntaxTypes.Statement.CompoundStatement.CompoundStatement import CompoundStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 
 class SyntaxVisitor:
 
@@ -33,7 +33,7 @@ class SyntaxVisitor:
         return ''.join(result)
 
 
-    def visitExpression(self, node: SyntaxNode, string = ''):
+    def visitExpression(self, node: SyntaxNode):
 
         # IS LITERAL LEAF
         if isinstance(node, NumberExpression):
@@ -43,18 +43,18 @@ class SyntaxVisitor:
             return str(node.booleanLiteralToken.value)
 
         elif isinstance(node, StringExpression):
-            return node.stringLiteralToken.value
+            return f'"{node.stringLiteralToken.value}"'
 
         # IS IDENTIFIER LEAF
         if isinstance(node, IdentifierExpression):
             return node.identifierToken.value
 
         elif isinstance(node, ParenthesizedExpression):
-            return f"({self.visitExpression(node.expression, string)})"
+            return f"({self.visitExpression(node.expression)})"
 
         elif isinstance(node, BinaryExpression):
-            leftTerm = self.visitExpression(node.leftTerm, string)
-            rightTerm = self.visitExpression(node.rightTerm, string)
+            leftTerm = self.visitExpression(node.leftTerm)
+            rightTerm = self.visitExpression(node.rightTerm)
             operator: Token = node.operator
 
             if operator.type == TokenTypes.PLUS:
@@ -93,11 +93,16 @@ class SyntaxVisitor:
             elif operator.type == TokenTypes.OR:
                 return f"{leftTerm} or {rightTerm}"
 
-    def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
+    def visitVarValue(self, varValue):
+        if isinstance(varValue, InputStatement):
+            return f"input()"
+        else:
+            return self.visitExpression(varValue)
 
+    def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
         if isinstance(simpleStmt, VarAssignSyntax):
             varName = simpleStmt.identifier.value
-            varValue = self.visitExpression(simpleStmt.value)
+            varValue = self.visitVarValue(simpleStmt.value)
 
             result.append(f"{varName} = {varValue}")
 
@@ -105,8 +110,14 @@ class SyntaxVisitor:
             varName = simpleStmt.identifier.value
             result.append(f"{varName} = None")
 
-    def visitSelectionStatement(self, selectionNode, result, indent):
+        elif isinstance(simpleStmt, InputStatement):
+            result.append(f"input()")
 
+        elif isinstance(simpleStmt, PrintStatement):
+            valueToPrint = self.visitExpression(simpleStmt.valueToPrint)
+            result.append(f"print({valueToPrint})")
+
+    def visitSelectionStatement(self, selectionNode, result, indent):
         keyWord = None
         compoundStmt = selectionNode.scope
 
@@ -119,14 +130,16 @@ class SyntaxVisitor:
         elif isinstance(selectionNode, WhileStatement):
             keyWord = selectionNode.WhileKeyword.value
 
-        conditions = self.visitExpression(selectionNode.conditions)
-
-        result.append(f"{keyWord} {conditions} :")
+        if not isinstance(selectionNode, ElseStatement):
+            conditions = self.visitExpression(selectionNode.conditions)
+            result.append(f"{keyWord} {conditions}:")
+        else:
+            result.append(f"{keyWord}:")
 
         self.visitStatement(compoundStmt, result, indent + 1)
 
 
-    def visitStatement(self, statement, result: list, indent: int = 0):
+    def visitStatement(self, statement: Statement or CompoundStatement, result: list, indent: int = 0):
         if not len(statement.getChildren()):
             return result.append('\n' + '\t'*indent + "pass")
 
@@ -142,6 +155,3 @@ class SyntaxVisitor:
 
             elif isinstance(child, SimpleStatement):
                 self.visitSimpleStatement(child, result)
-
-
-

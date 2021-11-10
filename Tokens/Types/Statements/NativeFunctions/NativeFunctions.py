@@ -6,12 +6,12 @@ class NativeFunctionsTokens(Enum):
     Enum class for native functions tokens
     """
 
-    PRINT = '^print?$'
+    PRINT = '^printf$'
     """ type: PRINT 
 
-    regex ^print?$ """
+    regex ^printf$ """
 
-    INPUT = '^input$'
+    INPUT = '^inputf$'
     """ type: INPUT 
 
-    regex: ^input$ """
+    regex: ^inputf$ """

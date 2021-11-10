@@ -1,18 +1,31 @@
-number a = 6;
-number b = 7;
-bool x;
+number a;
 
-if a == b {
-    a = 5;
-    b = 6;
+while 5 + 2 == 7 {
+    number cz = 2.5 * 2 | c == d;
+    str x = "abc";
 
-    if c == d & d == c{
-        if (c == d & d == c) | c == d{
-            a = 5;
+    if a != cz {
 
-            while b == c & c == d{
+    };
+    elif cz > 5 {
+        printf("abc");
+        if 2 > 5 {
+            number x = inputf();
+
+            if 2 > 5 {
+            };
+
+            elif 1 == 1 & 2 == 3 | (2 == 3 & 5 == 2 | 5 == 3) {
+
+            };
+
+            else {
 
             };
         };
     };
+    else {
+        printf("5O");
+    };
 };
+

@@ -19,6 +19,10 @@ class Lexer:
         """
         self._text: str = text
 
+    def prettyTokensPrint(self):
+        for token in [[token.toString()] for token in self._tokensList]:
+            print(token)
+
 
     def getNextToken(self, position = 0) -> Token:
         return self._tokensList[position]
@@ -186,8 +190,3 @@ class Lexer:
             TokenValidator.validateToken(char, self._resultWord, self._tokensList)
 
             self.clearResultWord()
-
-        prettyTokenPrint = [[token.toString()] for token in self._tokensList]
-
-        for token in prettyTokenPrint:
-            print(token)

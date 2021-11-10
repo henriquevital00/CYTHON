@@ -6,7 +6,6 @@ class InputStatement(SimpleStatement):
 
     def __init__(self, inputKeyword):
         super().__init__()
-        self.inputKeyword = inputKeyword
 
     def getChildren(self):
         return [self.inputKeyword]
