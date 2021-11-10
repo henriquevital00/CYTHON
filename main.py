@@ -17,7 +17,7 @@ def main() -> None:
     :return: None
     """
 
-    with open("program.cy", "rt") as input:
+    with open("Tests/sumTwoNumbers.cy", "rt") as input:
         core.Lexer = Lexer(input.read())
         core.Lexer.readInput()
 

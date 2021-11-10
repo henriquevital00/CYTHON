@@ -9,16 +9,16 @@ from Tokens.Constants.TokenConstants import TokenTypes
 
 # region GRAMMAR
 #ARITHMETIC_EXPR -> ARITHMETIC _TERM
-                    #| ARITHMETIC _EXPR PLUS ARITHMETIC_TERM
-                    #| ARITHMETIC _EXPR  MINUS ARITHMETIC_TERM
+#               | ARITHMETIC_TERM  PLUS ARITHMETIC _EXPR
+#               | ARITHMETIC_TERM  MINUS ARITHMETIC _EXPR
 
 #ARITHMETIC_TERM ->  ARITHMETIC _FACTOR
-                    #| ARITHMETIC _TERM MULT ARITHMETIC _FACTOR
-                    #| ARITHMETIC _TERM DIVIDE ARITHMETIC _FACTOR
+#                   | ARITHMETIC _FACTOR MULT ARITHMETIC _TERM
+#                   | ARITHMETIC _FACTOR DIVIDE ARITHMETIC _TERM
 
 #ARITHMETIC_FACTOR -> NUMBER_LITERAL
-                    #| IDENTIFIER
-                    #| L_PAREN ARITHMETIC _EXPR R_PAREN
+#                   | IDENTIFIER
+#                   | L_PAREN ARITHMETIC_EXPR R_PAREN
 # endregion
 
 def parseArithmeticTerm(self) -> Expression:

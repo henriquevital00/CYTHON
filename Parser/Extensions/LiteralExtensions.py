@@ -5,6 +5,8 @@ from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import Num
 from Parser.SyntaxTypes.Expression.LiteralExpression.StringExpression import StringExpression
 from Tokens.Constants.TokenConstants import TokenTypes
 
+# LITERAL_EXPR -> BOOLEAN_LITERAL | NUMBER_LITERAL | STRING_LITERAL
+
 def checkLiteralExpression(self) -> Expression:
     if self.current_token.type in (
             TokenTypes.NUMBER_LITERAL,

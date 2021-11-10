@@ -9,10 +9,11 @@ from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedE
 from Tokens.Constants.TokenConstants import TokenTypes
 
 
-# COMPARISON_EXPR -> COMPARISON_TERM COMPARISON_OP COMPARISON_TERM
+# COMPARISON_EXPR -> COMPARISON _TERM  COMPARISON_OP COMPARISON_TERM
 # COMPARISON_TERM ->  LITERAL
 #                    | IDENTIFIER
 #                    | ARITHMETIC_EXPR
+#                    | L_PAREN COMPARISON_TERM R_PAREN
 
 def parseComparisonExpression(self) -> Expression:
     leftTerm = self.parseFinalComparisonExpression()
