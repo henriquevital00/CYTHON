@@ -36,6 +36,8 @@ class Parser:
         else:
             raise Exception(f"Token {self.current_token.value} not expected")
 
+#   STATEMENT -> (SIMPLE_STMT | SELECTION_STMT  | STATEMENT) ENDCOMMAND
+
     def parseStatement(self) -> Statement:
         statementNode = Statement()
         statementChildren = statementNode.children
