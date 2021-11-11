@@ -6,15 +6,14 @@ from Parser.SyntaxTypes.Expression.LiteralExpression.NumberExpression import Num
 from Parser.SyntaxTypes.Expression.ParenthesizedExpression import ParenthesizedExpression
 from Tokens.Constants.TokenConstants import TokenTypes
 
-
 # region GRAMMAR
 #ARITHMETIC_EXPR -> ARITHMETIC _TERM
-#               | ARITHMETIC_TERM  PLUS ARITHMETIC _EXPR
-#               | ARITHMETIC_TERM  MINUS ARITHMETIC _EXPR
+#               | ARITHMETIC_EXPR PLUS ARITHMETIC_TERM
+#               | ARITHMETIC_EXPR MINUS ARITHMETIC_TERM
 
-#ARITHMETIC_TERM ->  ARITHMETIC _FACTOR
-#                   | ARITHMETIC _FACTOR MULT ARITHMETIC _TERM
-#                   | ARITHMETIC _FACTOR DIVIDE ARITHMETIC _TERM
+#ARITHMETIC_TERM ->  ARITHMETIC_FACTOR
+#                   | ARITHMETIC_TERM MULT ARITHMETIC_FACTOR
+#                   | ARITHMETIC_TERM DIVIDE ARITHMETIC_FACTOR
 
 #ARITHMETIC_FACTOR -> NUMBER_LITERAL
 #                   | IDENTIFIER
