@@ -1,6 +1,6 @@
 from Parser.Parser import Parser
 from Parser.SyntaxMatcher.SyntaxMatcher import SyntaxMatcher
-from Parser.SyntaxTypes.Expression import IdentifierExpression
+from Parser.SyntaxTypes.Expression.IdentifierExpression import IdentifierExpression
 from Parser.SyntaxTypes.Expression.ArithmeticExpression import ArithmeticExpression
 from Parser.SyntaxTypes.Expression.ComparisonExpression import ComparisonExpression
 from Parser.SyntaxTypes.Expression.Expression import Expression
@@ -11,20 +11,18 @@ from Tokens.Constants.TokenConstants import TokenTypes
 
 # LOGICAL_EXPR -> LOGICAL_TERM
 #                 | LOGICAL_EXPR OR LOGICAL_TERM
-#
-#
 # LOGICAL_TERM -> LOGICAL_FACTOR
-#                 | LOGICAL_TERM AND LOGICAL_TERM
+#                 | LOGICAL_TERM AND LOGICAL_FACTOR
 # LOGICAL_FACTOR -> IDENTIFIER
 #                   | LITERAL
 #                   | EXPR
-#                   | L_PAREN LOGICAL_EXPR R_PAREN
+#                   | L_PAREN EXPR R_PAREN
 
 
 def parseLogicalTerm(self) -> Expression:
     leftTerm = self.parseLogicalFactor()
 
-    while self.current_token.type == TokenTypes.OR:
+    while self.current_token.type in (TokenTypes.OR, TokenTypes.AND):
         operator = self.current_token
         self.eat(operator.type)
         rightTerm = self.parseLogicalFactor()
