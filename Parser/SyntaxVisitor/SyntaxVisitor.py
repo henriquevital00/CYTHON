@@ -93,8 +93,10 @@ class SyntaxVisitor:
             elif operator.type == TokenTypes.OR:
                 return f"{leftTerm} or {rightTerm}"
 
-    def visitVarValue(self, varValue):
+    def visitVarValue(self, varValue, varType):
         if isinstance(varValue, InputStatement):
+            if varType == "number":
+                return f"float(input())"
             return f"input()"
         else:
             return self.visitExpression(varValue)
@@ -102,7 +104,8 @@ class SyntaxVisitor:
     def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
         if isinstance(simpleStmt, VarAssignSyntax):
             varName = simpleStmt.identifier.value
-            varValue = self.visitVarValue(simpleStmt.value)
+            varType = simpleStmt.varType.value if simpleStmt.varType else None
+            varValue = self.visitVarValue(simpleStmt.value, varType)
 
             result.append(f"{varName} = {varValue}")
 
