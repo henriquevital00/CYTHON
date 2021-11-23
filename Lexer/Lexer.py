@@ -20,11 +20,21 @@ class Lexer:
         self._text: str = text
 
     def prettyTokensPrint(self):
+        """
+            Responsible for printing the tokens
+
+            :return None
+        """
         for token in [[token.toString()] for token in self._tokensList]:
             print(token)
 
 
     def getNextToken(self, position = 0) -> Token:
+        """
+            Get the next token and returns it
+
+            :return Returns the token at a specific position
+        """
         return self._tokensList[position]
 
 
@@ -37,6 +47,8 @@ class Lexer:
 
     def curr_char(self):
         """
+            Responsible for returning the current character
+
             :return Returns the char at current position
         """
         return self._text[self._position]
@@ -44,6 +56,8 @@ class Lexer:
     def advance(self):
         """
             Increments position
+
+            :return None
         """
         self._position += 1
 
@@ -52,6 +66,8 @@ class Lexer:
             Appends a char into result word
 
             :param char: A simple char
+
+            :return None
         """
         self._resultWord += char
         self.advance()
@@ -60,13 +76,17 @@ class Lexer:
         """
             Clears the result word
 
+            :return None
         """
         self._resultWord = ""
 
     def isComparisonOperator(self, char):
         """
+            Check if the token is a comparison operator
 
             :param char: A simple char
+
+            :return boolean
         """
 
         if isComparisonStarter(char):
@@ -81,6 +101,14 @@ class Lexer:
         return False
 
     def isString(self, char):
+        """
+            Check if the token is a string
+
+            :param char: A simple char
+
+            :return boolean
+        """
+
         if isQuote(char):
 
             quote = char
@@ -105,6 +133,14 @@ class Lexer:
         return False
 
     def isIdentifierOrKeyword(self, char):
+        """
+            Check if the token is an identifier or a keyword
+
+            :param char: A simple char
+
+            :return boolean
+        """
+
         if isLetter(char) or isUnderscore(char):
 
             isValidTerminator = lambda c: isSeparator(c) or isOperator(c) or isOpener(c) or isEquals(c) or isCloser(c)
@@ -131,6 +167,14 @@ class Lexer:
         return False
 
     def isNumber(self, char):
+        """
+            Validates if the token is a number.
+
+            :param char: A simple char
+
+            :return boolean
+        """
+
         if char.isdigit():
             hasPoint = False
             isValidTerminator = lambda c: isOpener(c) or isCloser(c) or isSeparator(c) or isOperator(c)
@@ -164,6 +208,12 @@ class Lexer:
         return False
 
     def readTokens(self):
+        """
+            Reads and validates the token type.
+
+            :return None
+        """
+
         readers = [self.isString, self.isNumber, self.isComparisonOperator, self.isIdentifierOrKeyword]
 
         for reader in readers:
@@ -174,6 +224,11 @@ class Lexer:
         self.appendToResultWord(self.curr_char())
 
     def readInput(self):
+        """
+            Read user's input
+
+            :return None
+        """
         while True:
             if self._position == len(self._text):
                 self._tokensList.append(Token("EOF", "eof"))

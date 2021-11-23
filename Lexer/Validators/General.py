@@ -30,6 +30,12 @@ isOperatorToken = lambda word : TokenMatcher.getToken([
 ], word)
 
 def isLiteralToken(word):
+    """
+        Return a token instance if the token is a valid literal
+
+        :param word: word to be matched
+    """
+
     literalToken = TokenMatcher.matchToken(tokenEnum=LiteralsTokens, word=word)
 
     formatters = {

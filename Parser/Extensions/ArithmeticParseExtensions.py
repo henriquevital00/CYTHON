@@ -21,6 +21,11 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # endregion
 
 def parseArithmeticTerm(self) -> Expression:
+    """
+        Parse the arithmetic term
+
+        :return leftTerm expression
+    """
     leftTerm = self.parseArithmeticFactor()
 
     while self.current_token.type in (TokenTypes.PLUS, TokenTypes.MINUS):
@@ -32,6 +37,11 @@ def parseArithmeticTerm(self) -> Expression:
     return leftTerm
 
 def parseArithmeticFactor(self) -> Expression:
+    """
+        Parse the arithmetic factor
+
+        :return leftTerm expression
+    """
     leftTerm = self.parseFinalArithmeticExpression()
 
     while self.current_token.type in (TokenTypes.MULTIPLY, TokenTypes.DIVISION):
@@ -44,6 +54,11 @@ def parseArithmeticFactor(self) -> Expression:
     return leftTerm
 
 def parseFinalArithmeticExpression(self) -> Expression:
+    """
+        Parse the final arithmetic expression
+
+        :return returns an expression depending on the current token type
+    """
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
         self.eat(TokenTypes.L_PAREN)
@@ -66,6 +81,11 @@ def parseFinalArithmeticExpression(self) -> Expression:
         return IdentifierExpression(identifierToken)
 
 def addExtensions():
+    """
+        Add the extensions
+
+        :return None
+    """
     Parser.parseArithmeticTerm = parseArithmeticTerm
     Parser.parseArithmeticFactor = parseArithmeticFactor
     Parser.parseFinalArithmeticExpression = parseFinalArithmeticExpression

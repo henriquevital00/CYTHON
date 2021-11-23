@@ -2,6 +2,9 @@ from Parser.SyntaxNode.SyntaxNode import SyntaxNode
 from Tokens.Token import Token
 
 class SyntaxTree:
+    """
+        Class responsible for printing the syntax tree and it's nodes
+    """
     root: SyntaxNode
 
     def __init__(self, root: SyntaxNode):
@@ -13,6 +16,16 @@ class SyntaxTree:
         return ''.join(result)
 
     def prettyPrint(self, node, result: list, tab: str = '', isLast: bool = True):
+        """
+            Prints the syntax tree
+
+            :param node: specific tree node
+            :param result: list of nodes
+            :param tab: space between the nodes when printing the tree
+            :param isLast: verifies if it is the last node
+
+            :return None
+        """
 
         branch = "└──" if isLast else "├──"
 
