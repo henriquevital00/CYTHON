@@ -17,7 +17,7 @@
 ## 💻 About The Project
 This project is the implementation of a compiler that will transpile its code to python.
 
-Cython grammar is based in C and Python (mixed) grammars, including strong variable typing, no required parenthesis on expressions and others.
+Cython grammar is based in C and Python (mixed) grammars, including strong variable typing, no required parenthesis in expressions and others.
 
 Currently the project includes lexical and parsing functions. The semantical analysis is under development.
 
