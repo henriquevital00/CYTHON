@@ -1,8 +1,0 @@
-#               ASSIGNMENT TOKENS OPERATOR
-# =========================================================================
-#   TOKEN           REGEX                        MEANING
-# =========================================================================
-#   VAR_ASSIGN        =              VARIABLES ASSIGNMENT OPERATOR
-#
-#  TOKEN TYPE: OPERATOR
-#  REGEX =

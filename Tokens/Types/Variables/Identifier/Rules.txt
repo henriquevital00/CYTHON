@@ -1,6 +1,0 @@
-#              VARIABLE IDENTIFIERS TOKENS
-# ===============================================================
-#  Define identifiers (name) of variables
-#
-#  TOKEN TYPE: IDENTIFIER
-#  REGEX @([a-z]|[A-Z])+([a-z]|[A-Z]|\d)*
