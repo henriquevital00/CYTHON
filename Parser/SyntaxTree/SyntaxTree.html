@@ -31,9 +31,13 @@ from Tokens.Token import Token
 
 class SyntaxTree:
     &#34;&#34;&#34;
-        Class responsible for printing the syntax tree and it&#39;s nodes
+        Class that represents the syntax tree generated
     &#34;&#34;&#34;
+
     root: SyntaxNode
+    &#34;&#34;&#34;
+    Syntax tree root node
+    &#34;&#34;&#34;
 
     def __init__(self, root: SyntaxNode):
         self.root = root
@@ -52,7 +56,7 @@ class SyntaxTree:
             :param tab: space between the nodes when printing the tree
             :param isLast: verifies if it is the last node
 
-            :return None
+            :returns: None
         &#34;&#34;&#34;
 
         branch = &#34;└──&#34; if isLast else &#34;├──&#34;
@@ -89,16 +93,20 @@ class SyntaxTree:
 <span>(</span><span>root: Parser.SyntaxNode.SyntaxNode.SyntaxNode)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class responsible for printing the syntax tree and it's nodes</p></div>
+<div class="desc"><p>Class that represents the syntax tree generated</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class SyntaxTree:
     &#34;&#34;&#34;
-        Class responsible for printing the syntax tree and it&#39;s nodes
+        Class that represents the syntax tree generated
     &#34;&#34;&#34;
+
     root: SyntaxNode
+    &#34;&#34;&#34;
+    Syntax tree root node
+    &#34;&#34;&#34;
 
     def __init__(self, root: SyntaxNode):
         self.root = root
@@ -117,7 +125,7 @@ class SyntaxTree:
             :param tab: space between the nodes when printing the tree
             :param isLast: verifies if it is the last node
 
-            :return None
+            :returns: None
         &#34;&#34;&#34;
 
         branch = &#34;└──&#34; if isLast else &#34;├──&#34;
@@ -143,7 +151,7 @@ class SyntaxTree:
 <dl>
 <dt id="cython.Parser.SyntaxTree.SyntaxTree.SyntaxTree.root"><code class="name">var <span class="ident">root</span> : Parser.SyntaxNode.SyntaxNode.SyntaxNode</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Syntax tree root node</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -157,7 +165,7 @@ class SyntaxTree:
 :param result: list of nodes
 :param tab: space between the nodes when printing the tree
 :param isLast: verifies if it is the last node</p>
-<p>:return None</p></div>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -171,7 +179,7 @@ class SyntaxTree:
         :param tab: space between the nodes when printing the tree
         :param isLast: verifies if it is the last node
 
-        :return None
+        :returns: None
     &#34;&#34;&#34;
 
     branch = &#34;└──&#34; if isLast else &#34;├──&#34;

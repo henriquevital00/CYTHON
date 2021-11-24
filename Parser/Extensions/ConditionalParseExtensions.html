@@ -37,6 +37,12 @@ from Parser.SyntaxTypes.Expression.LogicalExpression import LogicalExpression
 # CONDITIONAL_EXPR -&gt; EXPR | LITERAL | IDENTIFIER
 
 def parseConditionalExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse a conditional expression
+
+    :returns: Expression
+    &#34;&#34;&#34;
+
     expression = SyntaxMatcher.checkSyntax([
         [LogicalExpression, self.parseLogicalTerm],
         [ComparisonExpression, self.parseComparisonExpression],
@@ -44,10 +50,14 @@ def parseConditionalExpression(self) -&gt; Expression:
         [LiteralExpression, self.checkLiteralExpression]
     ], self)
 
-    if expression:
-        return expression
+    return expression
 
 def addExtensions():
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseConditionalExpression = parseConditionalExpression</code></pre>
 </details>
 </section>
@@ -62,12 +72,18 @@ def addExtensions():
 <span>def <span class="ident">addExtensions</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def addExtensions():
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseConditionalExpression = parseConditionalExpression</code></pre>
 </details>
 </dd>
@@ -75,12 +91,19 @@ def addExtensions():
 <span>def <span class="ident">parseConditionalExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a conditional expression</p>
+<p>:returns: Expression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseConditionalExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse a conditional expression
+
+    :returns: Expression
+    &#34;&#34;&#34;
+
     expression = SyntaxMatcher.checkSyntax([
         [LogicalExpression, self.parseLogicalTerm],
         [ComparisonExpression, self.parseComparisonExpression],
@@ -88,8 +111,7 @@ def addExtensions():
         [LiteralExpression, self.checkLiteralExpression]
     ], self)
 
-    if expression:
-        return expression</code></pre>
+    return expression</code></pre>
 </details>
 </dd>
 </dl>

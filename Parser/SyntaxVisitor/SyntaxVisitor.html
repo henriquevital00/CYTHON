@@ -152,7 +152,7 @@ class SyntaxVisitor:
 
     def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
         &#34;&#34;&#34;
-        This method is responsible for translate cython simple statements (variable assign and declare, inputf) and printf to python code
+        This method is responsible for translate cython simple statements (variable assign and declare, inputf and printf) to python code
         &#34;&#34;&#34;
         if isinstance(simpleStmt, VarAssignSyntax):
             varName = simpleStmt.identifier.value
@@ -344,7 +344,7 @@ class SyntaxVisitor:
 
     def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
         &#34;&#34;&#34;
-        This method is responsible for translate cython simple statements (variable assign and declare, inputf) and printf to python code
+        This method is responsible for translate cython simple statements (variable assign and declare, inputf and printf) to python code
         &#34;&#34;&#34;
         if isinstance(simpleStmt, VarAssignSyntax):
             varName = simpleStmt.identifier.value
@@ -556,14 +556,14 @@ recursively to python code</p>
 <span>def <span class="ident">visitSimpleStatement</span></span>(<span>self, simpleStmt: Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement.SimpleStatement, result)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>This method is responsible for translate cython simple statements (variable assign and declare, inputf) and printf to python code</p></div>
+<div class="desc"><p>This method is responsible for translate cython simple statements (variable assign and declare, inputf and printf) to python code</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
     &#34;&#34;&#34;
-    This method is responsible for translate cython simple statements (variable assign and declare, inputf) and printf to python code
+    This method is responsible for translate cython simple statements (variable assign and declare, inputf and printf) to python code
     &#34;&#34;&#34;
     if isinstance(simpleStmt, VarAssignSyntax):
         varName = simpleStmt.identifier.value

@@ -36,6 +36,11 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # LITERAL_EXPR -&gt; BOOLEAN_LITERAL | NUMBER_LITERAL | STRING_LITERAL
 
 def checkLiteralExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse an literal expression
+
+    :returns: LiteralExpression
+    &#34;&#34;&#34;
     if self.current_token.type in (
             TokenTypes.NUMBER_LITERAL,
             TokenTypes.BOOLEAN_LITERAL,
@@ -53,7 +58,12 @@ def checkLiteralExpression(self) -&gt; Expression:
         else:
             return NumberExpression(literalToken)
 
-def addExtensions():
+def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.checkLiteralExpression = checkLiteralExpression</code></pre>
 </details>
 </section>
@@ -65,15 +75,21 @@ def addExtensions():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cython.Parser.Extensions.LiteralExtensions.addExtensions"><code class="name flex">
-<span>def <span class="ident">addExtensions</span></span>(<span>)</span>
+<span>def <span class="ident">addExtensions</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addExtensions():
+<pre><code class="python">def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.checkLiteralExpression = checkLiteralExpression</code></pre>
 </details>
 </dd>
@@ -81,12 +97,18 @@ def addExtensions():
 <span>def <span class="ident">checkLiteralExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse an literal expression</p>
+<p>:returns: LiteralExpression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def checkLiteralExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse an literal expression
+
+    :returns: LiteralExpression
+    &#34;&#34;&#34;
     if self.current_token.type in (
             TokenTypes.NUMBER_LITERAL,
             TokenTypes.BOOLEAN_LITERAL,

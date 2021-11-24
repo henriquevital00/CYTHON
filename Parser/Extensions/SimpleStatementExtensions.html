@@ -53,9 +53,17 @@ from Tokens.Constants.TokenConstants import TokenTypes
 
 
 def parseSimpleStatement(self) -&gt; SimpleStatement:
+    &#34;&#34;&#34;
+    Parse a simple statement
+
+    :returns: SimpleStatement
+    &#34;&#34;&#34;
     return self.parseInputOrPrint() or self.parseAssignOrDeclaration()
 
 def parseInputOrPrint(self):
+    &#34;&#34;&#34;
+    Parse input and print functions
+    &#34;&#34;&#34;
 
     # PRINT
     if self.current_token.type == TokenTypes.PRINT:
@@ -90,6 +98,9 @@ def parseInputOrPrint(self):
                 return InputStatement(inputKeywordToken)
 
 def parseAssignOrDeclaration(self):
+    &#34;&#34;&#34;
+    Parse var assign and declaration statements
+    &#34;&#34;&#34;
     var_type = None
 
     if self.current_token.type in (
@@ -129,6 +140,11 @@ def parseAssignOrDeclaration(self):
             return VarAssignSyntax(var_type, identifier, operator, value)
 
 def addExtensions():
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseSimpleStatement = parseSimpleStatement
     Parser.parseAssignOrDeclaration = parseAssignOrDeclaration
     Parser.parseInputOrPrint = parseInputOrPrint</code></pre>
@@ -145,12 +161,18 @@ def addExtensions():
 <span>def <span class="ident">addExtensions</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def addExtensions():
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseSimpleStatement = parseSimpleStatement
     Parser.parseAssignOrDeclaration = parseAssignOrDeclaration
     Parser.parseInputOrPrint = parseInputOrPrint</code></pre>
@@ -160,12 +182,15 @@ def addExtensions():
 <span>def <span class="ident">parseAssignOrDeclaration</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse var assign and declaration statements</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseAssignOrDeclaration(self):
+    &#34;&#34;&#34;
+    Parse var assign and declaration statements
+    &#34;&#34;&#34;
     var_type = None
 
     if self.current_token.type in (
@@ -209,12 +234,15 @@ def addExtensions():
 <span>def <span class="ident">parseInputOrPrint</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse input and print functions</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseInputOrPrint(self):
+    &#34;&#34;&#34;
+    Parse input and print functions
+    &#34;&#34;&#34;
 
     # PRINT
     if self.current_token.type == TokenTypes.PRINT:
@@ -253,12 +281,18 @@ def addExtensions():
 <span>def <span class="ident">parseSimpleStatement</span></span>(<span>self) ‑> Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement.SimpleStatement</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a simple statement</p>
+<p>:returns: SimpleStatement</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseSimpleStatement(self) -&gt; SimpleStatement:
+    &#34;&#34;&#34;
+    Parse a simple statement
+
+    :returns: SimpleStatement
+    &#34;&#34;&#34;
     return self.parseInputOrPrint() or self.parseAssignOrDeclaration()</code></pre>
 </details>
 </dd>

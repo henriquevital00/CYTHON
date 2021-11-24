@@ -43,7 +43,12 @@ from Tokens.Constants.TokenConstants import TokenTypes
 #                    | ARITHMETIC_EXPR
 #                    | L_PAREN COMPARISON_TERM R_PAREN
 
-def parseComparisonExpression(self) -&gt; Expression:
+def parseComparisonExpression(self) -&gt; ComparisonExpression:
+    &#34;&#34;&#34;
+        Parse a comparison expression
+
+        :return: ComparisonExpression
+    &#34;&#34;&#34;
     leftTerm = self.parseFinalComparisonExpression()
 
     if self.current_token.type in (
@@ -62,6 +67,11 @@ def parseComparisonExpression(self) -&gt; Expression:
 
 
 def parseFinalComparisonExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+        Parse the comparison term leaf
+
+        :return: ComparisonExpression
+    &#34;&#34;&#34;
     # IS COMPARISON EXPR PARENTHESIZED
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -81,10 +91,14 @@ def parseFinalComparisonExpression(self) -&gt; Expression:
         [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
-    if expression:
-        return expression
+    return expression
 
-def addExtensions():
+def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :return None
+    &#34;&#34;&#34;
     Parser.parseComparisonExpression = parseComparisonExpression
     Parser.parseFinalComparisonExpression = parseFinalComparisonExpression</code></pre>
 </details>
@@ -97,29 +111,41 @@ def addExtensions():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cython.Parser.Extensions.ComparisonParseExtensions.addExtensions"><code class="name flex">
-<span>def <span class="ident">addExtensions</span></span>(<span>)</span>
+<span>def <span class="ident">addExtensions</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:return None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addExtensions():
+<pre><code class="python">def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :return None
+    &#34;&#34;&#34;
     Parser.parseComparisonExpression = parseComparisonExpression
     Parser.parseFinalComparisonExpression = parseFinalComparisonExpression</code></pre>
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.ComparisonParseExtensions.parseComparisonExpression"><code class="name flex">
-<span>def <span class="ident">parseComparisonExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
+<span>def <span class="ident">parseComparisonExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.ComparisonExpression.ComparisonExpression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a comparison expression</p>
+<p>:return: ComparisonExpression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parseComparisonExpression(self) -&gt; Expression:
+<pre><code class="python">def parseComparisonExpression(self) -&gt; ComparisonExpression:
+    &#34;&#34;&#34;
+        Parse a comparison expression
+
+        :return: ComparisonExpression
+    &#34;&#34;&#34;
     leftTerm = self.parseFinalComparisonExpression()
 
     if self.current_token.type in (
@@ -141,12 +167,18 @@ def addExtensions():
 <span>def <span class="ident">parseFinalComparisonExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse the comparison term leaf</p>
+<p>:return: ComparisonExpression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseFinalComparisonExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+        Parse the comparison term leaf
+
+        :return: ComparisonExpression
+    &#34;&#34;&#34;
     # IS COMPARISON EXPR PARENTHESIZED
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -166,8 +198,7 @@ def addExtensions():
         [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
-    if expression:
-        return expression</code></pre>
+    return expression</code></pre>
 </details>
 </dd>
 </dl>

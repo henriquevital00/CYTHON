@@ -47,7 +47,12 @@ from Tokens.Constants.TokenConstants import TokenTypes
 #                   | L_PAREN EXPR R_PAREN
 
 
-def parseLogicalTerm(self) -&gt; Expression:
+def parseLogicalTerm(self) -&gt; LogicalExpression:
+    &#34;&#34;&#34;
+    Parse a logical expression
+
+    :returns: LogicalExpression
+    &#34;&#34;&#34;
     leftTerm = self.parseLogicalFactor()
 
     while self.current_token.type in (TokenTypes.OR, TokenTypes.AND):
@@ -60,6 +65,9 @@ def parseLogicalTerm(self) -&gt; Expression:
 
 
 def parseLogicalFactor(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse a logical term
+    &#34;&#34;&#34;
     leftTerm = self.parseFinalLogicalExpression()
 
     while self.current_token.type == TokenTypes.AND:
@@ -73,6 +81,9 @@ def parseLogicalFactor(self) -&gt; Expression:
 
 
 def parseFinalLogicalExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse a logical factor
+    &#34;&#34;&#34;
     # IS LOGICAL EXPR PARENTHESIZED
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -93,10 +104,14 @@ def parseFinalLogicalExpression(self) -&gt; Expression:
         [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
-    if expression:
-        return expression
+    return expression
 
-def addExtensions():
+def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseLogicalTerm = parseLogicalTerm
     Parser.parseLogicalFactor = parseLogicalFactor
     Parser.parseFinalLogicalExpression = parseFinalLogicalExpression</code></pre>
@@ -110,15 +125,21 @@ def addExtensions():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cython.Parser.Extensions.LogicalParseExtensions.addExtensions"><code class="name flex">
-<span>def <span class="ident">addExtensions</span></span>(<span>)</span>
+<span>def <span class="ident">addExtensions</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addExtensions():
+<pre><code class="python">def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseLogicalTerm = parseLogicalTerm
     Parser.parseLogicalFactor = parseLogicalFactor
     Parser.parseFinalLogicalExpression = parseFinalLogicalExpression</code></pre>
@@ -128,12 +149,15 @@ def addExtensions():
 <span>def <span class="ident">parseFinalLogicalExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a logical factor</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseFinalLogicalExpression(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse a logical factor
+    &#34;&#34;&#34;
     # IS LOGICAL EXPR PARENTHESIZED
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -154,20 +178,22 @@ def addExtensions():
         [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
-    if expression:
-        return expression</code></pre>
+    return expression</code></pre>
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.LogicalParseExtensions.parseLogicalFactor"><code class="name flex">
 <span>def <span class="ident">parseLogicalFactor</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a logical term</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseLogicalFactor(self) -&gt; Expression:
+    &#34;&#34;&#34;
+    Parse a logical term
+    &#34;&#34;&#34;
     leftTerm = self.parseFinalLogicalExpression()
 
     while self.current_token.type == TokenTypes.AND:
@@ -181,15 +207,21 @@ def addExtensions():
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.LogicalParseExtensions.parseLogicalTerm"><code class="name flex">
-<span>def <span class="ident">parseLogicalTerm</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
+<span>def <span class="ident">parseLogicalTerm</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.LogicalExpression.LogicalExpression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a logical expression</p>
+<p>:returns: LogicalExpression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parseLogicalTerm(self) -&gt; Expression:
+<pre><code class="python">def parseLogicalTerm(self) -&gt; LogicalExpression:
+    &#34;&#34;&#34;
+    Parse a logical expression
+
+    :returns: LogicalExpression
+    &#34;&#34;&#34;
     leftTerm = self.parseLogicalFactor()
 
     while self.current_token.type in (TokenTypes.OR, TokenTypes.AND):

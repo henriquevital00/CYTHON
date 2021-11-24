@@ -27,11 +27,15 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from Parser.Parser import Parser
-from Parser.SyntaxTypes.Expression.Expression import Expression
 from Parser.SyntaxTypes.Expression.IdentifierExpression import IdentifierExpression
 from Tokens.Constants.TokenConstants import TokenTypes
 
-def checkIdentifierExpression(self) -&gt; Expression:
+def checkIdentifierExpression(self) -&gt; IdentifierExpression:
+    &#34;&#34;&#34;
+    Parse an identifier expression
+
+    :returns: IdentifierExpression
+    &#34;&#34;&#34;
     if self.current_token.type == TokenTypes.IDENTIFIER:
         identifierToken = self.current_token
         self.eat(self.current_token.type)
@@ -39,6 +43,11 @@ def checkIdentifierExpression(self) -&gt; Expression:
         return IdentifierExpression(identifierToken)
 
 def addExtensions():
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.checkIdentifierExpression = checkIdentifierExpression</code></pre>
 </details>
 </section>
@@ -53,25 +62,37 @@ def addExtensions():
 <span>def <span class="ident">addExtensions</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def addExtensions():
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.checkIdentifierExpression = checkIdentifierExpression</code></pre>
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.IdentifierExtensions.checkIdentifierExpression"><code class="name flex">
-<span>def <span class="ident">checkIdentifierExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
+<span>def <span class="ident">checkIdentifierExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.IdentifierExpression.IdentifierExpression</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse an identifier expression</p>
+<p>:returns: IdentifierExpression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def checkIdentifierExpression(self) -&gt; Expression:
+<pre><code class="python">def checkIdentifierExpression(self) -&gt; IdentifierExpression:
+    &#34;&#34;&#34;
+    Parse an identifier expression
+
+    :returns: IdentifierExpression
+    &#34;&#34;&#34;
     if self.current_token.type == TokenTypes.IDENTIFIER:
         identifierToken = self.current_token
         self.eat(self.current_token.type)

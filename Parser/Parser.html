@@ -40,9 +40,24 @@ from core import core
 
 class Parser:
     _lexer: Lexer
+    &#34;&#34;&#34;
+    Lexer injected instance
+    &#34;&#34;&#34;
+
     current_token: Token
+    &#34;&#34;&#34;
+    Current reading token
+    &#34;&#34;&#34;
+
     _position: int
+    &#34;&#34;&#34;
+    Cursor to read values of token list
+    &#34;&#34;&#34;
+
     _lineCounter: int
+    &#34;&#34;&#34;
+    File number of lines
+    &#34;&#34;&#34;
 
     def __init__(self):
         self._lexer: Lexer = core.Lexer
@@ -64,10 +79,13 @@ class Parser:
         else:
             raise Exception(f&#34;Token {self.current_token.value} not expected&#34;)
 
-    def transpile(self, syntaxTree: SyntaxTree):
+    def transpile(self, syntaxTree: SyntaxTree) -&gt; None:
+        &#34;&#34;&#34;
+        Generate transpiled python code
+        &#34;&#34;&#34;
         visitor = SyntaxVisitor(syntaxTree.root).getResult()
 
-        with open(&#34;teste.py&#34;, &#34;w&#34;) as file:
+        with open(&#34;test.py&#34;, &#34;w&#34;) as file:
             file.write(visitor)
 
         print(&#34;Build successfully! Check .py generated file.&#34;)
@@ -75,6 +93,11 @@ class Parser:
 #   STATEMENT -&gt; (SIMPLE_STMT | SELECTION_STMT  | STATEMENT) ENDCOMMAND
 
     def parseStatement(self) -&gt; Statement:
+        &#34;&#34;&#34;
+        Parse the global scope (that is a statement node)
+
+        :return: Statement
+        &#34;&#34;&#34;
         statementNode = Statement()
         statementChildren = statementNode.children
 
@@ -89,6 +112,9 @@ class Parser:
                 [SelectionStatement, self.parseSelectionStatement],
             ], self)
 
+            if not result:
+                raise Exception(f&#34;Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}&#34;)
+
             if self.current_token.type == TokenTypes.END_COMMAND:
                 self.eat(TokenTypes.END_COMMAND)
             else:
@@ -99,6 +125,11 @@ class Parser:
         return statementNode
 
     def parse(self) -&gt; SyntaxTree:
+        &#34;&#34;&#34;
+        Parse the entire syntax
+
+        :return: SyntaxTree
+        &#34;&#34;&#34;
         result = self.parseStatement()
         return SyntaxTree(result)</code></pre>
 </details>
@@ -123,9 +154,24 @@ class Parser:
 </summary>
 <pre><code class="python">class Parser:
     _lexer: Lexer
+    &#34;&#34;&#34;
+    Lexer injected instance
+    &#34;&#34;&#34;
+
     current_token: Token
+    &#34;&#34;&#34;
+    Current reading token
+    &#34;&#34;&#34;
+
     _position: int
+    &#34;&#34;&#34;
+    Cursor to read values of token list
+    &#34;&#34;&#34;
+
     _lineCounter: int
+    &#34;&#34;&#34;
+    File number of lines
+    &#34;&#34;&#34;
 
     def __init__(self):
         self._lexer: Lexer = core.Lexer
@@ -147,10 +193,13 @@ class Parser:
         else:
             raise Exception(f&#34;Token {self.current_token.value} not expected&#34;)
 
-    def transpile(self, syntaxTree: SyntaxTree):
+    def transpile(self, syntaxTree: SyntaxTree) -&gt; None:
+        &#34;&#34;&#34;
+        Generate transpiled python code
+        &#34;&#34;&#34;
         visitor = SyntaxVisitor(syntaxTree.root).getResult()
 
-        with open(&#34;teste.py&#34;, &#34;w&#34;) as file:
+        with open(&#34;test.py&#34;, &#34;w&#34;) as file:
             file.write(visitor)
 
         print(&#34;Build successfully! Check .py generated file.&#34;)
@@ -158,6 +207,11 @@ class Parser:
 #   STATEMENT -&gt; (SIMPLE_STMT | SELECTION_STMT  | STATEMENT) ENDCOMMAND
 
     def parseStatement(self) -&gt; Statement:
+        &#34;&#34;&#34;
+        Parse the global scope (that is a statement node)
+
+        :return: Statement
+        &#34;&#34;&#34;
         statementNode = Statement()
         statementChildren = statementNode.children
 
@@ -172,6 +226,9 @@ class Parser:
                 [SelectionStatement, self.parseSelectionStatement],
             ], self)
 
+            if not result:
+                raise Exception(f&#34;Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}&#34;)
+
             if self.current_token.type == TokenTypes.END_COMMAND:
                 self.eat(TokenTypes.END_COMMAND)
             else:
@@ -182,6 +239,11 @@ class Parser:
         return statementNode
 
     def parse(self) -&gt; SyntaxTree:
+        &#34;&#34;&#34;
+        Parse the entire syntax
+
+        :return: SyntaxTree
+        &#34;&#34;&#34;
         result = self.parseStatement()
         return SyntaxTree(result)</code></pre>
 </details>
@@ -189,7 +251,7 @@ class Parser:
 <dl>
 <dt id="cython.Parser.Parser.Parser.current_token"><code class="name">var <span class="ident">current_token</span> : Tokens.Token.Token</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Current reading token</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -225,12 +287,18 @@ otherwise raise an exception.</p></div>
 <span>def <span class="ident">parse</span></span>(<span>self) ‑> Parser.SyntaxTree.SyntaxTree.SyntaxTree</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse the entire syntax</p>
+<p>:return: SyntaxTree</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parse(self) -&gt; SyntaxTree:
+    &#34;&#34;&#34;
+    Parse the entire syntax
+
+    :return: SyntaxTree
+    &#34;&#34;&#34;
     result = self.parseStatement()
     return SyntaxTree(result)</code></pre>
 </details>
@@ -239,12 +307,18 @@ otherwise raise an exception.</p></div>
 <span>def <span class="ident">parseStatement</span></span>(<span>self) ‑> Parser.SyntaxTypes.Statement.Statement.Statement</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse the global scope (that is a statement node)</p>
+<p>:return: Statement</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseStatement(self) -&gt; Statement:
+    &#34;&#34;&#34;
+    Parse the global scope (that is a statement node)
+
+    :return: Statement
+    &#34;&#34;&#34;
     statementNode = Statement()
     statementChildren = statementNode.children
 
@@ -259,6 +333,9 @@ otherwise raise an exception.</p></div>
             [SelectionStatement, self.parseSelectionStatement],
         ], self)
 
+        if not result:
+            raise Exception(f&#34;Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}&#34;)
+
         if self.current_token.type == TokenTypes.END_COMMAND:
             self.eat(TokenTypes.END_COMMAND)
         else:
@@ -270,18 +347,21 @@ otherwise raise an exception.</p></div>
 </details>
 </dd>
 <dt id="cython.Parser.Parser.Parser.transpile"><code class="name flex">
-<span>def <span class="ident">transpile</span></span>(<span>self, syntaxTree: Parser.SyntaxTree.SyntaxTree.SyntaxTree)</span>
+<span>def <span class="ident">transpile</span></span>(<span>self, syntaxTree: Parser.SyntaxTree.SyntaxTree.SyntaxTree) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Generate transpiled python code</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def transpile(self, syntaxTree: SyntaxTree):
+<pre><code class="python">def transpile(self, syntaxTree: SyntaxTree) -&gt; None:
+    &#34;&#34;&#34;
+    Generate transpiled python code
+    &#34;&#34;&#34;
     visitor = SyntaxVisitor(syntaxTree.root).getResult()
 
-    with open(&#34;teste.py&#34;, &#34;w&#34;) as file:
+    with open(&#34;test.py&#34;, &#34;w&#34;) as file:
         file.write(visitor)
 
     print(&#34;Build successfully! Check .py generated file.&#34;)</code></pre>

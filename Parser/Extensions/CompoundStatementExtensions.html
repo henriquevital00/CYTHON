@@ -36,7 +36,12 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # COMPOUND_STMT -&gt; OPEN_SCOPE CLOSE_SCOPE
 #                   | OPEN_SCOPE STATEMENT CLOSE_SCOPE
 
-def parseCompoundStatement(self):
+def parseCompoundStatement(self) -&gt; CompoundStatement:
+    &#34;&#34;&#34;
+    Parse a local scope (that is a Compund Statement node)
+
+    :return: Statement
+    &#34;&#34;&#34;
     scope = CompoundStatement()
 
     if self.current_token.type == TokenTypes.OPEN_SCOPE:
@@ -57,6 +62,9 @@ def parseCompoundStatement(self):
                 [SimpleStatement, self.parseSimpleStatement],
                 [SelectionStatement, self.parseSelectionStatement],
             ], self)
+
+            if not result:
+                raise Exception(f&#34;Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}&#34;)
 
             scope.children.append(result)
 
@@ -70,7 +78,12 @@ def parseCompoundStatement(self):
 
         return scope
 
-def addExtensions():
+def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseCompoundStatement = parseCompoundStatement</code></pre>
 </details>
 </section>
@@ -82,28 +95,40 @@ def addExtensions():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cython.Parser.Extensions.CompoundStatementExtensions.addExtensions"><code class="name flex">
-<span>def <span class="ident">addExtensions</span></span>(<span>)</span>
+<span>def <span class="ident">addExtensions</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addExtensions():
+<pre><code class="python">def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseCompoundStatement = parseCompoundStatement</code></pre>
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.CompoundStatementExtensions.parseCompoundStatement"><code class="name flex">
-<span>def <span class="ident">parseCompoundStatement</span></span>(<span>self)</span>
+<span>def <span class="ident">parseCompoundStatement</span></span>(<span>self) ‑> Parser.SyntaxTypes.Statement.CompoundStatement.CompoundStatement.CompoundStatement</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a local scope (that is a Compund Statement node)</p>
+<p>:return: Statement</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parseCompoundStatement(self):
+<pre><code class="python">def parseCompoundStatement(self) -&gt; CompoundStatement:
+    &#34;&#34;&#34;
+    Parse a local scope (that is a Compund Statement node)
+
+    :return: Statement
+    &#34;&#34;&#34;
     scope = CompoundStatement()
 
     if self.current_token.type == TokenTypes.OPEN_SCOPE:
@@ -124,6 +149,9 @@ def addExtensions():
                 [SimpleStatement, self.parseSimpleStatement],
                 [SelectionStatement, self.parseSelectionStatement],
             ], self)
+
+            if not result:
+                raise Exception(f&#34;Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}&#34;)
 
             scope.children.append(result)
 

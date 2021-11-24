@@ -26,18 +26,34 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SyntaxMatcher:
+<pre><code class="python">from Parser.SyntaxNode.SyntaxNode import SyntaxNode
+
+
+class SyntaxMatcher:
 
     @staticmethod
-    def restoreTokenCursor(parser, oldPosition):
+    def restoreTokenCursor(parser, oldPosition) -&gt; None:
+        &#34;&#34;&#34;
+        Restore the original cursor position
+
+        :param oldPosition: original cursor position
+        &#34;&#34;&#34;
         parser.current_token = parser._lexer.getNextToken(oldPosition)
         parser._position = oldPosition
 
     @staticmethod
-    def checkSyntax(syntaxValidators, parser):
+    def checkSyntax(syntaxValidators, parser) -&gt; SyntaxNode or None:
+        &#34;&#34;&#34;
+        Try parse some syntax node based in the passed validators.
+
+        :param syntaxValidators: tuple with the syntax node type and its corresponding parse function
+        :param parser: Parser instance
+
+        :returns: SyntaxNode or None
+        &#34;&#34;&#34;
+        oldPosition = parser._position
 
         for syntaxType, syntaxParse in syntaxValidators:
-            oldPosition = parser._position
             expression = syntaxParse()
 
             if isinstance(expression, syntaxType):
@@ -67,15 +83,28 @@
 <pre><code class="python">class SyntaxMatcher:
 
     @staticmethod
-    def restoreTokenCursor(parser, oldPosition):
+    def restoreTokenCursor(parser, oldPosition) -&gt; None:
+        &#34;&#34;&#34;
+        Restore the original cursor position
+
+        :param oldPosition: original cursor position
+        &#34;&#34;&#34;
         parser.current_token = parser._lexer.getNextToken(oldPosition)
         parser._position = oldPosition
 
     @staticmethod
-    def checkSyntax(syntaxValidators, parser):
+    def checkSyntax(syntaxValidators, parser) -&gt; SyntaxNode or None:
+        &#34;&#34;&#34;
+        Try parse some syntax node based in the passed validators.
+
+        :param syntaxValidators: tuple with the syntax node type and its corresponding parse function
+        :param parser: Parser instance
+
+        :returns: SyntaxNode or None
+        &#34;&#34;&#34;
+        oldPosition = parser._position
 
         for syntaxType, syntaxParse in syntaxValidators:
-            oldPosition = parser._position
             expression = syntaxParse()
 
             if isinstance(expression, syntaxType):
@@ -86,19 +115,30 @@
 <h3>Static methods</h3>
 <dl>
 <dt id="cython.Parser.SyntaxMatcher.SyntaxMatcher.SyntaxMatcher.checkSyntax"><code class="name flex">
-<span>def <span class="ident">checkSyntax</span></span>(<span>syntaxValidators, parser)</span>
+<span>def <span class="ident">checkSyntax</span></span>(<span>syntaxValidators, parser) ‑> Parser.SyntaxNode.SyntaxNode.SyntaxNode</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Try parse some syntax node based in the passed validators.</p>
+<p>:param syntaxValidators: tuple with the syntax node type and its corresponding parse function
+:param parser: Parser instance</p>
+<p>:returns: SyntaxNode or None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def checkSyntax(syntaxValidators, parser):
+def checkSyntax(syntaxValidators, parser) -&gt; SyntaxNode or None:
+    &#34;&#34;&#34;
+    Try parse some syntax node based in the passed validators.
+
+    :param syntaxValidators: tuple with the syntax node type and its corresponding parse function
+    :param parser: Parser instance
+
+    :returns: SyntaxNode or None
+    &#34;&#34;&#34;
+    oldPosition = parser._position
 
     for syntaxType, syntaxParse in syntaxValidators:
-        oldPosition = parser._position
         expression = syntaxParse()
 
         if isinstance(expression, syntaxType):
@@ -108,16 +148,22 @@ def checkSyntax(syntaxValidators, parser):
 </details>
 </dd>
 <dt id="cython.Parser.SyntaxMatcher.SyntaxMatcher.SyntaxMatcher.restoreTokenCursor"><code class="name flex">
-<span>def <span class="ident">restoreTokenCursor</span></span>(<span>parser, oldPosition)</span>
+<span>def <span class="ident">restoreTokenCursor</span></span>(<span>parser, oldPosition) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Restore the original cursor position</p>
+<p>:param oldPosition: original cursor position</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def restoreTokenCursor(parser, oldPosition):
+def restoreTokenCursor(parser, oldPosition) -&gt; None:
+    &#34;&#34;&#34;
+    Restore the original cursor position
+
+    :param oldPosition: original cursor position
+    &#34;&#34;&#34;
     parser.current_token = parser._lexer.getNextToken(oldPosition)
     parser._position = oldPosition</code></pre>
 </details>

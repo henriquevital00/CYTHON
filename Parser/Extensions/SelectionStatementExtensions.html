@@ -32,6 +32,7 @@ from Parser.SyntaxTypes.Expression.Expression import Expression
 from Parser.SyntaxTypes.Statement.SelectionStatement.ElifStatement import ElifStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.ElseStatement import ElseStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.IfStatement import IfStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.WhileStatement import WhileStatement
 from Tokens.Constants.TokenConstants import TokenTypes
 
@@ -46,8 +47,13 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # ELSE_STMT -&gt; ELSE COMPOUND_STMT
 
 
-def parseSelectionStatement(self):
-    keyword = conditionalExpression = None
+def parseSelectionStatement(self) -&gt; SelectionStatement:
+    &#34;&#34;&#34;
+    Parse a selection statement
+
+    :returns: SelectionStatement
+    &#34;&#34;&#34;
+    keyword = None
 
     if self.current_token.type in (
             TokenTypes.IF,
@@ -77,7 +83,12 @@ def parseSelectionStatement(self):
 
             return WhileStatement(keyword, conditionalExpression, scope)
 
-def addExtensions():
+def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseSelectionStatement = parseSelectionStatement</code></pre>
 </details>
 </section>
@@ -89,29 +100,41 @@ def addExtensions():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cython.Parser.Extensions.SelectionStatementExtensions.addExtensions"><code class="name flex">
-<span>def <span class="ident">addExtensions</span></span>(<span>)</span>
+<span>def <span class="ident">addExtensions</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add the extensions</p>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addExtensions():
+<pre><code class="python">def addExtensions() -&gt; None:
+    &#34;&#34;&#34;
+        Add the extensions
+
+        :returns: None
+    &#34;&#34;&#34;
     Parser.parseSelectionStatement = parseSelectionStatement</code></pre>
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.SelectionStatementExtensions.parseSelectionStatement"><code class="name flex">
-<span>def <span class="ident">parseSelectionStatement</span></span>(<span>self)</span>
+<span>def <span class="ident">parseSelectionStatement</span></span>(<span>self) ‑> Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement.SelectionStatement</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse a selection statement</p>
+<p>:returns: SelectionStatement</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parseSelectionStatement(self):
-    keyword = conditionalExpression = None
+<pre><code class="python">def parseSelectionStatement(self) -&gt; SelectionStatement:
+    &#34;&#34;&#34;
+    Parse a selection statement
+
+    :returns: SelectionStatement
+    &#34;&#34;&#34;
+    keyword = None
 
     if self.current_token.type in (
             TokenTypes.IF,

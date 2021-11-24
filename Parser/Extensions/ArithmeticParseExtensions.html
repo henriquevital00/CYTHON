@@ -48,9 +48,9 @@ from Tokens.Constants.TokenConstants import TokenTypes
 #                   | L_PAREN ARITHMETIC_EXPR R_PAREN
 # endregion
 
-def parseArithmeticTerm(self) -&gt; Expression:
+def parseArithmeticTerm(self) -&gt; ArithmeticExpression:
     &#34;&#34;&#34;
-        Parse the arithmetic term
+        Parse the arithmetic expression
 
         :return leftTerm expression
     &#34;&#34;&#34;
@@ -66,9 +66,9 @@ def parseArithmeticTerm(self) -&gt; Expression:
 
 def parseArithmeticFactor(self) -&gt; Expression:
     &#34;&#34;&#34;
-        Parse the arithmetic factor
+        Parse the arithmetic term
 
-        :return leftTerm expression
+        :returns: leftTerm expression
     &#34;&#34;&#34;
     leftTerm = self.parseFinalArithmeticExpression()
 
@@ -83,9 +83,9 @@ def parseArithmeticFactor(self) -&gt; Expression:
 
 def parseFinalArithmeticExpression(self) -&gt; Expression:
     &#34;&#34;&#34;
-        Parse the final arithmetic expression
+        Parse the arithmetic factor leaft
 
-        :return returns an expression depending on the current token type
+        :return: returns an expression depending on the current token type
     &#34;&#34;&#34;
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -108,11 +108,11 @@ def parseFinalArithmeticExpression(self) -&gt; Expression:
         self.eat(TokenTypes.IDENTIFIER)
         return IdentifierExpression(identifierToken)
 
-def addExtensions():
+def addExtensions() -&gt; None:
     &#34;&#34;&#34;
         Add the extensions
 
-        :return None
+        :returns: None
     &#34;&#34;&#34;
     Parser.parseArithmeticTerm = parseArithmeticTerm
     Parser.parseArithmeticFactor = parseArithmeticFactor
@@ -127,20 +127,20 @@ def addExtensions():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cython.Parser.Extensions.ArithmeticParseExtensions.addExtensions"><code class="name flex">
-<span>def <span class="ident">addExtensions</span></span>(<span>)</span>
+<span>def <span class="ident">addExtensions</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Add the extensions</p>
-<p>:return None</p></div>
+<p>:returns: None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addExtensions():
+<pre><code class="python">def addExtensions() -&gt; None:
     &#34;&#34;&#34;
         Add the extensions
 
-        :return None
+        :returns: None
     &#34;&#34;&#34;
     Parser.parseArithmeticTerm = parseArithmeticTerm
     Parser.parseArithmeticFactor = parseArithmeticFactor
@@ -151,17 +151,17 @@ def addExtensions():
 <span>def <span class="ident">parseArithmeticFactor</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Parse the arithmetic factor</p>
-<p>:return leftTerm expression</p></div>
+<div class="desc"><p>Parse the arithmetic term</p>
+<p>:returns: leftTerm expression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseArithmeticFactor(self) -&gt; Expression:
     &#34;&#34;&#34;
-        Parse the arithmetic factor
+        Parse the arithmetic term
 
-        :return leftTerm expression
+        :returns: leftTerm expression
     &#34;&#34;&#34;
     leftTerm = self.parseFinalArithmeticExpression()
 
@@ -176,18 +176,18 @@ def addExtensions():
 </details>
 </dd>
 <dt id="cython.Parser.Extensions.ArithmeticParseExtensions.parseArithmeticTerm"><code class="name flex">
-<span>def <span class="ident">parseArithmeticTerm</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
+<span>def <span class="ident">parseArithmeticTerm</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.ArithmeticExpression.ArithmeticExpression</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Parse the arithmetic term</p>
+<div class="desc"><p>Parse the arithmetic expression</p>
 <p>:return leftTerm expression</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parseArithmeticTerm(self) -&gt; Expression:
+<pre><code class="python">def parseArithmeticTerm(self) -&gt; ArithmeticExpression:
     &#34;&#34;&#34;
-        Parse the arithmetic term
+        Parse the arithmetic expression
 
         :return leftTerm expression
     &#34;&#34;&#34;
@@ -206,17 +206,17 @@ def addExtensions():
 <span>def <span class="ident">parseFinalArithmeticExpression</span></span>(<span>self) ‑> Parser.SyntaxTypes.Expression.Expression.Expression</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Parse the final arithmetic expression</p>
-<p>:return returns an expression depending on the current token type</p></div>
+<div class="desc"><p>Parse the arithmetic factor leaft</p>
+<p>:return: returns an expression depending on the current token type</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parseFinalArithmeticExpression(self) -&gt; Expression:
     &#34;&#34;&#34;
-        Parse the final arithmetic expression
+        Parse the arithmetic factor leaft
 
-        :return returns an expression depending on the current token type
+        :return: returns an expression depending on the current token type
     &#34;&#34;&#34;
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
