@@ -4,6 +4,7 @@ from Parser.SyntaxTypes.Expression.Expression import Expression
 from Parser.SyntaxTypes.Statement.SelectionStatement.ElifStatement import ElifStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.ElseStatement import ElseStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.IfStatement import IfStatement
+from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 from Parser.SyntaxTypes.Statement.SelectionStatement.WhileStatement import WhileStatement
 from Tokens.Constants.TokenConstants import TokenTypes
 
@@ -18,8 +19,13 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # ELSE_STMT -> ELSE COMPOUND_STMT
 
 
-def parseSelectionStatement(self):
-    keyword = conditionalExpression = None
+def parseSelectionStatement(self) -> SelectionStatement:
+    """
+    Parse a selection statement
+
+    :returns: SelectionStatement
+    """
+    keyword = None
 
     if self.current_token.type in (
             TokenTypes.IF,
@@ -49,5 +55,10 @@ def parseSelectionStatement(self):
 
             return WhileStatement(keyword, conditionalExpression, scope)
 
-def addExtensions():
+def addExtensions() -> None:
+    """
+        Add the extensions
+
+        :returns: None
+    """
     Parser.parseSelectionStatement = parseSelectionStatement

@@ -124,7 +124,7 @@ class SyntaxVisitor:
 
     def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
         """
-        This method is responsible for translate cython simple statements (variable assign and declare, inputf) and printf to python code
+        This method is responsible for translate cython simple statements (variable assign and declare, inputf and printf) to python code
         """
         if isinstance(simpleStmt, VarAssignSyntax):
             varName = simpleStmt.identifier.value

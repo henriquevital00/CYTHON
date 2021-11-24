@@ -12,9 +12,24 @@ from core import core
 
 class Parser:
     _lexer: Lexer
+    """
+    Lexer injected instance
+    """
+
     current_token: Token
+    """
+    Current reading token
+    """
+
     _position: int
+    """
+    Cursor to read values of token list
+    """
+
     _lineCounter: int
+    """
+    File number of lines
+    """
 
     def __init__(self):
         self._lexer: Lexer = core.Lexer
@@ -36,10 +51,13 @@ class Parser:
         else:
             raise Exception(f"Token {self.current_token.value} not expected")
 
-    def transpile(self, syntaxTree: SyntaxTree):
+    def transpile(self, syntaxTree: SyntaxTree) -> None:
+        """
+        Generate transpiled python code
+        """
         visitor = SyntaxVisitor(syntaxTree.root).getResult()
 
-        with open("teste.py", "w") as file:
+        with open("test.py", "w") as file:
             file.write(visitor)
 
         print("Build successfully! Check .py generated file.")
@@ -47,6 +65,11 @@ class Parser:
 #   STATEMENT -> (SIMPLE_STMT | SELECTION_STMT  | STATEMENT) ENDCOMMAND
 
     def parseStatement(self) -> Statement:
+        """
+        Parse the global scope (that is a statement node)
+
+        :return: Statement
+        """
         statementNode = Statement()
         statementChildren = statementNode.children
 
@@ -61,6 +84,9 @@ class Parser:
                 [SelectionStatement, self.parseSelectionStatement],
             ], self)
 
+            if not result:
+                raise Exception(f"Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}")
+
             if self.current_token.type == TokenTypes.END_COMMAND:
                 self.eat(TokenTypes.END_COMMAND)
             else:
@@ -71,6 +97,11 @@ class Parser:
         return statementNode
 
     def parse(self) -> SyntaxTree:
+        """
+        Parse the entire syntax
+
+        :return: SyntaxTree
+        """
         result = self.parseStatement()
         return SyntaxTree(result)
 

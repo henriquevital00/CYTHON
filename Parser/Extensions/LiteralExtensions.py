@@ -8,6 +8,11 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # LITERAL_EXPR -> BOOLEAN_LITERAL | NUMBER_LITERAL | STRING_LITERAL
 
 def checkLiteralExpression(self) -> Expression:
+    """
+    Parse an literal expression
+
+    :returns: LiteralExpression
+    """
     if self.current_token.type in (
             TokenTypes.NUMBER_LITERAL,
             TokenTypes.BOOLEAN_LITERAL,
@@ -25,5 +30,10 @@ def checkLiteralExpression(self) -> Expression:
         else:
             return NumberExpression(literalToken)
 
-def addExtensions():
+def addExtensions() -> None:
+    """
+        Add the extensions
+
+        :returns: None
+    """
     Parser.checkLiteralExpression = checkLiteralExpression

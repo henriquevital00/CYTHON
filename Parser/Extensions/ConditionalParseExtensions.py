@@ -9,6 +9,12 @@ from Parser.SyntaxTypes.Expression.LogicalExpression import LogicalExpression
 # CONDITIONAL_EXPR -> EXPR | LITERAL | IDENTIFIER
 
 def parseConditionalExpression(self) -> Expression:
+    """
+    Parse a conditional expression
+
+    :returns: Expression
+    """
+
     expression = SyntaxMatcher.checkSyntax([
         [LogicalExpression, self.parseLogicalTerm],
         [ComparisonExpression, self.parseComparisonExpression],
@@ -16,8 +22,12 @@ def parseConditionalExpression(self) -> Expression:
         [LiteralExpression, self.checkLiteralExpression]
     ], self)
 
-    if expression:
-        return expression
+    return expression
 
 def addExtensions():
+    """
+        Add the extensions
+
+        :returns: None
+    """
     Parser.parseConditionalExpression = parseConditionalExpression

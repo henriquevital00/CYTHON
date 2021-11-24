@@ -25,9 +25,17 @@ from Tokens.Constants.TokenConstants import TokenTypes
 
 
 def parseSimpleStatement(self) -> SimpleStatement:
+    """
+    Parse a simple statement
+
+    :returns: SimpleStatement
+    """
     return self.parseInputOrPrint() or self.parseAssignOrDeclaration()
 
 def parseInputOrPrint(self):
+    """
+    Parse input and print functions
+    """
 
     # PRINT
     if self.current_token.type == TokenTypes.PRINT:
@@ -62,6 +70,9 @@ def parseInputOrPrint(self):
                 return InputStatement(inputKeywordToken)
 
 def parseAssignOrDeclaration(self):
+    """
+    Parse var assign and declaration statements
+    """
     var_type = None
 
     if self.current_token.type in (
@@ -101,6 +112,11 @@ def parseAssignOrDeclaration(self):
             return VarAssignSyntax(var_type, identifier, operator, value)
 
 def addExtensions():
+    """
+        Add the extensions
+
+        :returns: None
+    """
     Parser.parseSimpleStatement = parseSimpleStatement
     Parser.parseAssignOrDeclaration = parseAssignOrDeclaration
     Parser.parseInputOrPrint = parseInputOrPrint

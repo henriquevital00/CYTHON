@@ -15,7 +15,12 @@ from Tokens.Constants.TokenConstants import TokenTypes
 #                    | ARITHMETIC_EXPR
 #                    | L_PAREN COMPARISON_TERM R_PAREN
 
-def parseComparisonExpression(self) -> Expression:
+def parseComparisonExpression(self) -> ComparisonExpression:
+    """
+        Parse a comparison expression
+
+        :return: ComparisonExpression
+    """
     leftTerm = self.parseFinalComparisonExpression()
 
     if self.current_token.type in (
@@ -34,6 +39,11 @@ def parseComparisonExpression(self) -> Expression:
 
 
 def parseFinalComparisonExpression(self) -> Expression:
+    """
+        Parse the comparison term leaf
+
+        :return: ComparisonExpression
+    """
     # IS COMPARISON EXPR PARENTHESIZED
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -53,9 +63,13 @@ def parseFinalComparisonExpression(self) -> Expression:
         [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
-    if expression:
-        return expression
+    return expression
 
-def addExtensions():
+def addExtensions() -> None:
+    """
+        Add the extensions
+
+        :return None
+    """
     Parser.parseComparisonExpression = parseComparisonExpression
     Parser.parseFinalComparisonExpression = parseFinalComparisonExpression

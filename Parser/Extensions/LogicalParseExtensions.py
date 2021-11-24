@@ -19,7 +19,12 @@ from Tokens.Constants.TokenConstants import TokenTypes
 #                   | L_PAREN EXPR R_PAREN
 
 
-def parseLogicalTerm(self) -> Expression:
+def parseLogicalTerm(self) -> LogicalExpression:
+    """
+    Parse a logical expression
+
+    :returns: LogicalExpression
+    """
     leftTerm = self.parseLogicalFactor()
 
     while self.current_token.type in (TokenTypes.OR, TokenTypes.AND):
@@ -32,6 +37,9 @@ def parseLogicalTerm(self) -> Expression:
 
 
 def parseLogicalFactor(self) -> Expression:
+    """
+    Parse a logical term
+    """
     leftTerm = self.parseFinalLogicalExpression()
 
     while self.current_token.type == TokenTypes.AND:
@@ -45,6 +53,9 @@ def parseLogicalFactor(self) -> Expression:
 
 
 def parseFinalLogicalExpression(self) -> Expression:
+    """
+    Parse a logical factor
+    """
     # IS LOGICAL EXPR PARENTHESIZED
     if self.current_token.type == TokenTypes.L_PAREN:
         left_parenthesis = self.current_token
@@ -65,10 +76,14 @@ def parseFinalLogicalExpression(self) -> Expression:
         [IdentifierExpression, self.checkIdentifierExpression]
     ], self)
 
-    if expression:
-        return expression
+    return expression
 
-def addExtensions():
+def addExtensions() -> None:
+    """
+        Add the extensions
+
+        :returns: None
+    """
     Parser.parseLogicalTerm = parseLogicalTerm
     Parser.parseLogicalFactor = parseLogicalFactor
     Parser.parseFinalLogicalExpression = parseFinalLogicalExpression

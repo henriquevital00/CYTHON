@@ -8,7 +8,12 @@ from Tokens.Constants.TokenConstants import TokenTypes
 # COMPOUND_STMT -> OPEN_SCOPE CLOSE_SCOPE
 #                   | OPEN_SCOPE STATEMENT CLOSE_SCOPE
 
-def parseCompoundStatement(self):
+def parseCompoundStatement(self) -> CompoundStatement:
+    """
+    Parse a local scope (that is a Compund Statement node)
+
+    :return: Statement
+    """
     scope = CompoundStatement()
 
     if self.current_token.type == TokenTypes.OPEN_SCOPE:
@@ -30,6 +35,9 @@ def parseCompoundStatement(self):
                 [SelectionStatement, self.parseSelectionStatement],
             ], self)
 
+            if not result:
+                raise Exception(f"Invalid Syntax near to token {self.current_token.toString()} at line {self._lineCounter}")
+
             scope.children.append(result)
 
             if self.current_token.type == TokenTypes.END_COMMAND:
@@ -42,5 +50,10 @@ def parseCompoundStatement(self):
 
         return scope
 
-def addExtensions():
+def addExtensions() -> None:
+    """
+        Add the extensions
+
+        :returns: None
+    """
     Parser.parseCompoundStatement = parseCompoundStatement

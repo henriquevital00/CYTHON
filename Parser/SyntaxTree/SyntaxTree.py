@@ -3,9 +3,13 @@ from Tokens.Token import Token
 
 class SyntaxTree:
     """
-        Class responsible for printing the syntax tree and it's nodes
+        Class that represents the syntax tree generated
     """
+
     root: SyntaxNode
+    """
+    Syntax tree root node
+    """
 
     def __init__(self, root: SyntaxNode):
         self.root = root
@@ -24,7 +28,7 @@ class SyntaxTree:
             :param tab: space between the nodes when printing the tree
             :param isLast: verifies if it is the last node
 
-            :return None
+            :returns: None
         """
 
         branch = "└──" if isLast else "├──"
