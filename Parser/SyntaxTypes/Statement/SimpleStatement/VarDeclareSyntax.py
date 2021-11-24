@@ -2,8 +2,20 @@ from Parser.SyntaxTypes.Statement.SimpleStatement.SimpleStatement import SimpleS
 from Tokens.Token import Token
 
 class VarDeclareSyntax(SimpleStatement):
+
+    """
+    Class that represents a var declare syntax
+    """
+
     varType: Token
+    """
+        VarType keyword token
+    """
+
     identifier: Token
+    """
+        Identifier token
+    """
 
     def __init__(self, varType, identifier):
         super().__init__()

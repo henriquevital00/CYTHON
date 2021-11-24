@@ -7,6 +7,6 @@ class SyntaxNode(ABC):
         """
             Get the children of a specific node
 
-            :return None
+            :return list
         """
         pass

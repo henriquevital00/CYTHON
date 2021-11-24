@@ -3,8 +3,21 @@ from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import S
 from Tokens import Token
 
 class ElifStatement(SelectionStatement):
+    """
+        Class that represents a elif statement
+    """
+
     ElifKeyword: Token
+    """
+        Elif keyword token
+    """
+
+
     conditions: ConditionalExpression
+    """
+        Conditional expression
+    """
+
 
     def __init__(self, keyword, conditions, scope):
         super().__init__(scope)

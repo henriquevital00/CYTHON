@@ -3,8 +3,19 @@ from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import S
 from Tokens import Token
 
 class IfStatement(SelectionStatement):
+    """
+        Class that represents an if statement
+    """
+
     IfKeyword: Token
+    """
+        If keyword token
+    """
+
     conditions: ConditionalExpression
+    """
+       Conditional expression
+    """
 
     def __init__(self, keyword, conditions, scope):
         super().__init__(scope)
