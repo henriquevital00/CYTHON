@@ -17,7 +17,7 @@ class SyntaxTree:
 
     def prettyPrint(self, node, result: list, tab: str = '', isLast: bool = True):
         """
-            Prints the syntax tree
+            Prints the syntax tree 
 
             :param node: specific tree node
             :param result: list of nodes

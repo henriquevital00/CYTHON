@@ -3,8 +3,19 @@ from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import S
 from Tokens import Token
 
 class WhileStatement(SelectionStatement):
+    """
+        Class that represents a while statement
+    """
+
     WhileKeyword: Token
+    """
+        While keyword token
+    """
+
     conditions: ConditionalExpression
+    """
+        Conditional expression
+    """
 
     def __init__(self, keyword, conditions, scope):
         super().__init__(scope)

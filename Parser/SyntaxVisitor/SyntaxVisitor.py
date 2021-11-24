@@ -23,17 +23,31 @@ from Parser.SyntaxTypes.Statement.CompoundStatement.CompoundStatement import Com
 from Parser.SyntaxTypes.Statement.SelectionStatement.SelectionStatement import SelectionStatement
 
 class SyntaxVisitor:
+    """
+    This class is responsible for convert the code from cython to python
+    """
 
     def __init__(self, root: SyntaxNode):
         self.root = root
 
     def getResult(self):
+        """
+        This method is responsible to convert the traversed tree to python code string
+
+        :return : string
+        """
         result = []
         self.visitStatement(self.root, result)
         return ''.join(result)
 
 
     def visitExpression(self, node: SyntaxNode):
+        """
+        This method is responsible for translate cython expression nodes (arithmetic, logical, comparison and literal)
+        recursively to python code
+
+        :return : string
+        """
 
         # IS LITERAL LEAF
         if isinstance(node, NumberExpression):
@@ -93,7 +107,14 @@ class SyntaxVisitor:
             elif operator.type == TokenTypes.OR:
                 return f"{leftTerm} or {rightTerm}"
 
+
     def visitVarValue(self, varValue, varType):
+        """
+        This method is responsible for return the convertion of a cython code  to python code
+
+        :return: string
+        """
+
         if isinstance(varValue, InputStatement):
             if varType == "number":
                 return f"float(input())"
@@ -102,6 +123,9 @@ class SyntaxVisitor:
             return self.visitExpression(varValue)
 
     def visitSimpleStatement(self, simpleStmt: SimpleStatement, result):
+        """
+        This method is responsible for translate cython simple statements (variable assign and declare, inputf) and printf to python code
+        """
         if isinstance(simpleStmt, VarAssignSyntax):
             varName = simpleStmt.identifier.value
             varType = simpleStmt.varType.value if simpleStmt.varType else None
@@ -121,6 +145,11 @@ class SyntaxVisitor:
             result.append(f"print({valueToPrint})")
 
     def visitSelectionStatement(self, selectionNode, result, indent):
+        """
+        This method is responsible for translate cython selection statements (if, elif, else and while) to python code
+
+        :return: None
+        """
         keyWord = None
         compoundStmt = selectionNode.scope
 
@@ -143,6 +172,12 @@ class SyntaxVisitor:
 
 
     def visitStatement(self, statement: Statement or CompoundStatement, result: list, indent: int = 0):
+
+        """
+        This method is responsible for walk global scope tree, translating all nodes to python code
+
+        :return : list
+        """
         if not len(statement.getChildren()):
             return result.append('\n' + '\t'*indent + "pass")
 
