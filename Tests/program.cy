@@ -4,39 +4,39 @@ number i = 1;
 str help = "prof, da 10 ai";
 
 print("Ate qual numero voce quer a tabuada?");
-number limit = input();
+number limit = inputf();
 
 
 while limit == 0 {
-    print("Digite um numero maior que zero");
-    limit = input();
+    printf("Digite um numero maior que zero");
+    limit = inputf();
 
     if limit == 0 {
-        print("");
-        print("para de digitar zero, amigao");
+        printf("");
+        printf("para de digitar zero, amigao");
     };
      else {
-        print("Calculando a tabuada...");
+        printf("Calculando a tabuada...");
     };
 };
 
 while i <= limit {
     j = 0;
 
-    print("");
-    print("TABUADA");
-    print(i);
-    print("");
+    printf("");
+    printf("TABUADA");
+    printf(i);
+    printf("");
 
     while j <= 10 {
         resultado = j * i;
-        print(resultado);
+        printf(resultado);
         j = j + 1;
     };
 
     i = i + 1;
 
     if i > limit {
-        print(help);
+        printf(help);
     };
 };
