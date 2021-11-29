@@ -15,9 +15,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## 💻 About The Project
-This project is the implementation of a compiler that will transpile its code to python.
+Cython is an implementation of a small compiler developed in Python.
 
 Cython grammar is based in C and Python (mixed) grammars, including strong variable typing, no required parenthesis in expressions and others.
+
+Cython transpile its code to python code.
 
 Currently the project includes lexical and parsing functions.
 
