@@ -1,12 +1,11 @@
-number first;
-number second;
+
 number result;
 
-print("Digite o 1 numero:");
-first = input();
-print("Digite o 2 numero:");
-second = input();
+printf("Digite o 1 numero:");
+number first = inputf();
+printf("Digite o 2 numero:");
+number second = inputf();
 
 first = True;
 result = first + second;
-print(result);
+printf(result);
