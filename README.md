@@ -34,7 +34,7 @@ You can read the documentation here:
 <!-- HOW TO RUN -->
 ## 🚀 How To Run
 
-![gif_cython](https://user-images.githubusercontent.com/56837996/146955901-a6356224-cd99-40a5-86fb-a98cf801dbda.gif)
+![gif_cython](https://user-images.githubusercontent.com/56837996/146956131-fa951483-6a48-4540-a567-a1486b66d87e.gif)
 
 In order to run the main script, follow the steps below:
 
