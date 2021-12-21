@@ -19,7 +19,7 @@ Cython is an implementation of a small compiler developed in Python.
 
 Cython grammar is based in C and Python (mixed) grammars, including strong variable typing, no required parenthesis in expressions and others.
 
-Cython transpile its code to python code.
+Cython transpiles its code to python code.
 
 Currently the project includes lexical and parsing functions.
 
@@ -34,7 +34,9 @@ You can read the documentation here:
 <!-- HOW TO RUN -->
 ## 🚀 How To Run
 
-In order to run the project, follow the steps below:
+![gif_cython](https://user-images.githubusercontent.com/56837996/146955901-a6356224-cd99-40a5-86fb-a98cf801dbda.gif)
+
+In order to run the main script, follow the steps below:
 
 ```bash
 
@@ -45,7 +47,6 @@ $ git clone https://github.com/henriquevital00/cython.git
 $ cd cython
 
 # In both Windows and Linux, the execution is done by executing the following lines in the terminal, or using an IDE of your choice.
-
 $ python3 main.py
 ```
 
