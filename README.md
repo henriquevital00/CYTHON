@@ -36,7 +36,7 @@ You can read the documentation here:
 
 ![gif_cython](https://user-images.githubusercontent.com/56837996/146956131-fa951483-6a48-4540-a567-a1486b66d87e.gif)
 
-In order to run the main script, follow the steps below:
+To run the main script, follow the steps below:
 
 ```bash
 
